@@ -32,6 +32,7 @@ const waiterController = {
                 phone: body.phone,
                 email: body.email,
                 address: body.age,
+                hotelId: body.hotelId
             };
 
             let waiter = new WaiterModel(waiterObj);
@@ -42,6 +43,31 @@ const waiterController = {
                 .json({
                     waiter,
                     msg: "Waiter is successfully added."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({errors: {msg: err}});
+        }
+    },
+
+    getWaitersByHotelId: async (request, response) => {
+
+        console.log("====== Waiter Get All API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try {
+            // get all waiters of hotel
+            let waiters = await WaiterModel.find({hotelId: body.hotelId});
+
+            response
+                .status(200)
+                .json({
+                    waiters,
+                    msg: "Waiters found successfully."
                 });
         } catch (err) {
             console.log(err);

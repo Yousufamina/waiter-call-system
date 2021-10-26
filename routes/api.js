@@ -8,8 +8,10 @@ const waiterController = require("../controllers/WaiterController");
 Hotels API
 */
 router.post('/createHotel',hotelController.createHotel);
+router.get('/getAllHotels',hotelController.getAllHotels);
 router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
 router.post('/createWaiter',waiterController.addWaiter);
+router.post('/getWaitersByHotelId',waiterController.getWaitersByHotelId);
 // router.get('/getallHotelTables',hotelController.getallHotelTables);
 // router.post('/searchPatient' ,auth,patientController.searchPatient);
 // router.post('/searchPatientByLandingPage' ,patientController.searchPatientByLandingPage);

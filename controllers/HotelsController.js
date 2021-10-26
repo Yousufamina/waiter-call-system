@@ -5,7 +5,7 @@ const QRCode = require('qrcode')
 
 const opts = {
     errorCorrectionLevel: 'H',
-    type: 'terminal',
+    type: 'png',
     quality: 0.95,
     margin: 1,
     color: {
@@ -63,6 +63,31 @@ const hotelController = {
                 .json({errors: {msg: err}});
         }
     },
+
+    getAllHotels: async (request, response) =>{
+
+        console.log("====== Hotel Get All API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try {
+                // get all hotels
+            let hotels = await HotelModel.find();
+            response
+                .status(200)
+                .json({
+                    hotels,
+                    msg: "Hotels found successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({errors: {msg: err}});
+        }
+    },
+
     assignWaiterToTables : async (request,response ) => {
 
         console.log("====== Generate QR Code To Tables =======");
@@ -74,6 +99,7 @@ const hotelController = {
               let noOfTables = body.tables;
               let hotelId = body.hotelId;
               let waitersArr = body.waiters;
+              let parts = waitersArr.length;
               let tables= [];
 
               // devide number into equal parts
@@ -81,15 +107,15 @@ const hotelController = {
                 [...Array(parts)].map((_,i) =>
                     0|num/parts+(i < num%parts))
 
-            let noOfAssignedTables = (breakIntoParts(10, 3));
+            let noOfAssignedTables = (breakIntoParts(noOfTables, parts));
             console.log(`equal Parts Array `+JSON.stringify(breakIntoParts(10, 3)));
 
             for(let i=0;i<noOfAssignedTables.length ; i++){
                 let value = noOfAssignedTables[i];
                 let waiterId = waitersArr[i];
 
-                let waiterDetail = await WaiterModel.findOne({id:waiterId});
-                let hotelDetail = await HotelModel.findOne({id:hotelId});
+                let waiterDetail = await WaiterModel.findOne({_id:waiterId});
+                let hotelDetail = await HotelModel.findOne({_id:hotelId});
 
                  // generate QR Code for each table
                 let qrCodeObj = {
@@ -97,14 +123,16 @@ const hotelController = {
                     waiterName  : waiterDetail.name,
                     waiterPhone : waiterDetail.phone,
                 };
+                qrCodeObj = JSON.stringify(qrCodeObj);
+                console.log(JSON.parse(qrCodeObj));
 
                 //                    hotelLogo   : hotelDetail.logo,
+                let src = 'barCodes/'+`${Date.now()}.png`;
+                await QRCode.toFile('./public/'+`${src}`,qrCodeObj, opts).then(qrImage => {
+                    // console.log("File",qrImage);
+                    // console.log(qrImage);
 
-                QRCode.toFile('qrCode.png',qrCodeObj, opts).then(qrImage => {
-                    console.log("File",qrImage);
-                    console.log(qrImage);
-
-                    let tableObj = { qrCode:qrImage , waiterId :  waiterId };
+                    let tableObj = { qrCode:qrCodeObj , waiterId :  waiterId , qrCodeImage: src };
                     tables = [...tables, tableObj] ;
 
                 }).catch(err => {
@@ -112,11 +140,12 @@ const hotelController = {
                 });
             }
 
+            console.log(tables);
             let updatedHotelObj =  await HotelModel.findOneAndUpdate({_id: hotelId},
                 {   $push: { tables: tables } },  {new: true});
 
-            console.log("New Hotel Obj");
-            console.log(updatedHotelObj);
+            // console.log("New Hotel Obj");
+            // console.log(updatedHotelObj);
 
             response
                 .status(200)

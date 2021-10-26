@@ -16,6 +16,7 @@ const WaitersSchema = new mongoose.Schema({
         hotelId: {
             type: Schema.Types.ObjectId,
             ref: "hotels",
+            required: true
         },
         createdDate: {
             type: Date,

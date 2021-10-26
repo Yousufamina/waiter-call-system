@@ -10,6 +10,9 @@ const HotelsSchema = new mongoose.Schema({
         phone: {
             type: String
         },
+        logo:{
+            type:String
+        },
         email: {
             type: String,
             unique: true
@@ -23,7 +26,8 @@ const HotelsSchema = new mongoose.Schema({
                 waiterId: {
                     type: Schema.Types.ObjectId,
                     ref: "waiters",
-                }
+                },
+                qrCodeImage:String
             }
             ],
         createdDate: {
