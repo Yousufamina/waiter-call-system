@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/constants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635091744046</updated>
-      <workItem from="1635091747227" duration="32115000" />
+      <workItem from="1635091747227" duration="32856000" />
     </task>
     <servers />
   </component>
