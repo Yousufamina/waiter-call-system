@@ -1,5 +1,7 @@
 const HotelModel = require("../models/Hotels");
 const WaiterModel = require("../models/Waiters");
+const CONSTANT = require("../config/constants");
+const domainUrl = CONSTANT.domainUrl;
 const { check, validationResult } = require("express-validator");
 const QRCode = require('qrcode')
 
@@ -80,6 +82,103 @@ const hotelController = {
                     hotels,
                     msg: "Hotels found successfully."
                 });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({errors: {msg: err}});
+        }
+    },
+
+    getAllQrCodeImages: async (request, response) =>{
+
+        console.log("====== QrCode Get All API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try {
+                // get all hotels
+            let hotels = await HotelModel.find();
+            let newHotelArr = [];
+            for(let i=0;i<hotels.length;i++)
+            {
+                let hotel = hotels[i];
+                let tables = hotel.tables;
+                if(tables.length > 0){
+                    for(let k=0;k<tables.length;k++){
+                        let table= tables[k];
+                        let waiterDetail = await WaiterModel.findOne({_id:table.waiterId});
+                        let qrCode = JSON.parse(table.qrCode);
+                        let obj = {
+                            hotelName : hotel.name,
+                            hotelLogo :`${domainUrl}${hotel.logo}`,
+                            waiterName : waiterDetail.name,
+                            waiterPhone : waiterDetail.phone,
+                            qrCodeImage : `${domainUrl}${table.qrCodeImage}`,
+                            qrCode : qrCode
+                        }
+                        newHotelArr = [...newHotelArr, obj] ;
+                    }
+                }
+            }
+            response
+                .status(200)
+                .json({
+                    newHotelArr,
+                    msg: "Qr Codes found successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({errors: {msg: err}});
+        }
+    },
+
+    getQrCodeImagesOfHotel: async (request, response) =>{
+
+        console.log("====== Get QrCode Of Hotel API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try {
+
+            let hotel = await HotelModel.findOne({_id:body.hotelId});
+            let newHotelArr = [];
+            let tables = hotel.tables;
+            if(tables.length > 0){
+                for(let k=0;k<tables.length;k++){
+                    let table= tables[k];
+                    let waiterDetail = await WaiterModel.findOne({_id:table.waiterId});
+
+                    let qrCode = JSON.parse(table.qrCode);
+                    let obj = {
+                        hotelName : hotel.name,
+                        hotelLogo :`${domainUrl}${hotel.logo}`,
+                        waiterName : waiterDetail.name,
+                        waiterPhone : waiterDetail.phone,
+                        qrCodeImage : `${domainUrl}${table.qrCodeImage}`,
+                        qrCode : qrCode
+                    }
+                    newHotelArr = [...newHotelArr, obj] ;
+                }
+                response
+                    .status(200)
+                    .json({
+                        newHotelArr,
+                        msg: "Qr Codes found successfully."
+                    });
+            }
+            else{
+                response
+                    .status(200)
+                    .json({
+                        newHotelArr,
+                        msg: "No Tables Added."
+                    });
+            }
         } catch (err) {
             console.log(err);
             response

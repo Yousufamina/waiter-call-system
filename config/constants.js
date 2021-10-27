@@ -1,6 +1,6 @@
 const CONSTANT = {
   "mongoURI": "mongodb+srv://dbUser:dbUser@cluster0.arvjl.mongodb.net/waitercallsystem?retryWrites=true&w=majority",
-  "domainUrl": ""
+  "domainUrl": "http://localhost:4000/"
 };
 
 module.exports = CONSTANT;
