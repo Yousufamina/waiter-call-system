@@ -12,13 +12,6 @@ const waiterController = {
 
         const body = JSON.parse(JSON.stringify(request.body));
 
-        // const errors = validationResult(request);
-        //
-        // if (!errors.isEmpty()) {
-        //     return response
-        //         .status(422)
-        //         .json({errors: errors.array()});
-        // }
         try {
             // check if there is any record with same hotel name
             const waiterByPhone = await WaiterModel.findOne({phone: body.phone});
@@ -49,7 +42,7 @@ const waiterController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 
@@ -57,6 +50,7 @@ const waiterController = {
 
         console.log("====== Waiter Get All API =======");
         console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -67,6 +61,29 @@ const waiterController = {
             response
                 .status(200)
                 .json({
+                    waiters,
+                    msg: "Waiters found successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({errors: {msg: err}});
+        }
+    },
+
+    getWaitersByHotel: async (request, response) => {
+
+        console.log("====== Waiter Get By Hotel API =======");
+        console.log(request.query.hotelId)
+        try {
+            // get all waiters of hotel
+            let waiters = await WaiterModel.find({hotelId:request.query.hotelId});
+
+            response
+                .status(200)
+                .json({
+                    status:true,
                     waiters,
                     msg: "Waiters found successfully."
                 });

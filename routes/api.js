@@ -15,6 +15,7 @@ router.get('/getAllQrCodeImages',hotelController.getAllQrCodeImages);
 router.post('/getQrCodeImagesOfHotel',hotelController.getQrCodeImagesOfHotel);
 router.post('/createWaiter',waiterController.addWaiter);
 router.post('/getWaitersByHotelId',waiterController.getWaitersByHotelId);
+router.get('/getWaitersByHotel',waiterController.getWaitersByHotel);
 router.get('/getAllWaiters',waiterController.getAllWaiters);
 // router.get('/getallHotelTables',hotelController.getallHotelTables);
 // router.post('/searchPatient' ,auth,patientController.searchPatient);
