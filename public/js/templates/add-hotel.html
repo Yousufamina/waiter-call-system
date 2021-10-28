@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="col-lg-12">
+        <h3>{{heading}}</h3>
+        <br/>
+        <br/>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-7">
+            <form ng-submit="save()" class="form-horizontal">
+                <div class="form-group">
+                    <label class="" for="name">Name: </label>
+                    <input type="text" class="form-control"  ng-model="hotel.name" id="name" placeholder="Enter Hotel Name">
+                </div>
+                <div class="form-group">
+                    <label class="" for="email">Email: </label>
+                    <input type="text" class="form-control"  ng-model="hotel.email" id="email" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label class="" for="address">Address: </label>
+                    <input type="text" class="form-control"  ng-model="hotel.address" id="address" placeholder="Enter Address">
+                </div>
+
+                <div class="form-group">
+                    <label class="" for="image_active">Upload Logo: </label>
+                    <input accept="image/*" type="file"  placeholder="Logo"  class=" form-control" ng-model="league.logo"  file-model="hotel.logo" id="logo" >
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <button type="submit" class="btn btn-default">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

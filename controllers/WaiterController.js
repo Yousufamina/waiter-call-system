@@ -1,4 +1,5 @@
 const WaiterModel = require("../models/Waiters");
+const HotelModel = require("../models/Hotels");
 const { check, validationResult } = require("express-validator");
 const qr = require("qrcode");
 
@@ -31,7 +32,7 @@ const waiterController = {
                 name: body.name,
                 phone: body.phone,
                 email: body.email,
-                address: body.age,
+                age: body.age,
                 hotelId: body.hotelId
             };
 
@@ -75,7 +76,33 @@ const waiterController = {
                 .status(500)
                 .json({errors: {msg: err}});
         }
-    }
+    },
+
+    getAllWaiters: async (request, response) => {
+
+        console.log("====== Waiter Get All API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try {
+            // get all waiters of hotel
+            let waiters = await WaiterModel.find().populate('hotelId').exec();
+console.log(waiters);
+            response
+                .status(200)
+                .json({
+                    status:true,
+                    waiters,
+                    msg: "Waiters found successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({errors: {msg: err}});
+        }
+    },
 }
 
 module.exports = waiterController;

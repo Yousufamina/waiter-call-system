@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="col-lg-12">
+        <h3>{{league.title}} teams</h3>
+        <br/>
+        <br/>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-7">
+            <form ng-submit="save()" class="form-horizontal">
+                <div  ng-repeat="t in teams" class="col-sm-4">
+                    <label class="" for="appName_{{t.id}}">{{t.name}}: </label>
+                    <input type="checkbox" ng-checked="t.selected" ng-model="t.selected" id="appName_{{t.id}}" >
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <button type="submit" class="btn btn-default">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

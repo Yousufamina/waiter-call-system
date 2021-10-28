@@ -4,6 +4,7 @@ const CONSTANT = require("../config/constants");
 const domainUrl = CONSTANT.domainUrl;
 const { check, validationResult } = require("express-validator");
 const QRCode = require('qrcode')
+const fs = require('fs');
 
 const opts = {
     errorCorrectionLevel: 'H',
@@ -21,17 +22,11 @@ const hotelController = {
     createHotel: async (request, response) => {
 
         console.log("====== Hotel Create API =======");
+        console.log(request.body);
         console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
-        // const errors = validationResult(request);
-        //
-        // if (!errors.isEmpty()) {
-        //     return response
-        //         .status(422)
-        //         .json({errors: errors.array()});
-        // }
         try {
             // check if there is any record with same hotel name
             const hotelByName = await HotelModel.findOne({name: body.name});
@@ -40,13 +35,39 @@ const hotelController = {
                     .status(422)
                     .json({errors: [{msg: "Hotel with this Name already exists"}]});
             }
+            let logo ='';
+            if(request.files) {
+                var image = false;
+                var file = request.files;
+                for (var k in file) {
+                    if (file[k].fieldname == 'logo') {
+                        image = file[k];
+                        break;
+                    }
+                }
+                if (image) {
+                    let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
+                    logo = '/images/' + image.filename +fileName;
+                    console.log(image.path+fileName);
+                    console.log("logo");
+                    console.log(logo);
+                    fs.rename(image.path, image.path + fileName, function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
 
+                        }
+                    });
+                }
+            }
             let hotelObj;
             hotelObj = {
                 name: body.name,
                 phone: body.phone,
                 email: body.email,
                 address: body.address,
+                logo:logo
             };
 
             let hotel = new HotelModel(hotelObj);
@@ -69,9 +90,6 @@ const hotelController = {
     getAllHotels: async (request, response) =>{
 
         console.log("====== Hotel Get All API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
-
-        const body = JSON.parse(JSON.stringify(request.body));
 
         try {
                 // get all hotels
@@ -79,8 +97,32 @@ const hotelController = {
             response
                 .status(200)
                 .json({
+                    status:true,
                     hotels,
                     msg: "Hotels found successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({errors: {msg: err}});
+        }
+    },
+
+    deleteHotel: async (request, response) =>{
+
+        console.log("====== Hotel Delete API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+        try {
+                // get all hotels
+            let hotel = await HotelModel.deleteOne({_id:body.id});
+            response
+                .status(200)
+                .json({
+                    status:true,
+                    msg: "Hotel delete successfully."
                 });
         } catch (err) {
             console.log(err);

@@ -1,0 +1,67 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Fixtures</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+            <tr >
+                <th>Sr#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="{{fixture.id}}" ng-repeat="fixture in data" >
+                <td>{{$index+1}}</td>
+                <td>{{fixture.title}}
+                </td>
+                <td>{{fixture.desc}}</td>
+                <td><img class="imagePreviewModal" src="{{fixture.image}}" width="200" alt="{{fixture.title}}"/></td>
+                <td  class="text-center">
+                    <span ng-if="fixture.active==0" class="text-danger "><i class="fa fa-lock"></i> </span>
+                    <span ng-if="fixture.active==1" class="text-success"><i class="fa fa-check"></i> </span>
+                </td>
+                <td>
+                    <a ng-click="removeData(fixture.id)" ><i class="fa fa-trash"></i> </a><br/>
+                    <a href="#fixture/{{fixture.id}}" ><i class="fa fa-pencil"></i> </a><br/>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="confirmation" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <label style="color:#3c3c3c" >Are you sure ! you want to delete?</label>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="removeConfirmed()" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    setTimeout(function(){
+        var h =  $('.wrapper').height()
+        h = h-100;
+        $('.content-wrapper').css("height",h)
+    },500)
+
+
+</script>

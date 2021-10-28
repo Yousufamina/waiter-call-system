@@ -1,0 +1,316 @@
+
+<div class="    ">
+    <div class="col-lg-12">
+        <h3>{{heading}}</h3>
+        <br/>
+        <br/>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-7"></div>
+        <div class="col-sm-5"><img width="200" ng-src="{{image}}" id="imagePreview" class="imagePreviewModal"></div>
+
+        <div class="col-sm-2"></div>
+        <div class="col-sm-7">
+            <div ng-if="error.warning==true" style="margin:20px;line-height:40px;background-color: #a94442; color: #eee; font-size:14px;" class="col-sm-12">
+                <div class="col-sm-11">
+                    <i  style="font-size: 20px" class="fa fa-warning"></i>&nbsp;{{error.warningText}}
+                </div>
+                <div class="col-sm-1" ng-click="closeWarning()">
+                    <i style="font-size: 20px" class="fa fa-times"></i>
+                </div>
+
+            </div>
+            <form ng-submit="save()" class="form-horizontal">
+
+
+
+                <div class="form-group">
+                    <label class="control-label" for="title">Title <i style="color:maroon">*&nbsp;</i>:</label>
+                    <input type="text" class="form-control"  ng-model="product.title" id="title" placeholder="Enter Title">
+                    <span ng-if="error.title==true" class="text-danger">Please provide title</span>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label" for="desc">Description <i style="color:maroon">*&nbsp;</i>:</label>
+
+                    <textarea id="desc" maxlength="250" class="form-control" ng-model="product.desc" placeholder="Description"></textarea>
+                    <span ng-if="error.desc" class="text-danger">Please provide description</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="price_min">Min Price<i style="color:maroon">*&nbsp;</i>:</label>
+                    <input  maxlength="20"  only-prize type="text" class="form-control"  ng-model="product.price_min" id="price_min" placeholder="Minimum Price">
+                    <span ng-if="error.price_min" class="text-danger">Please provide minimum price</span>
+                </div>
+                <div  class="form-group">
+                    <label class="control-label" for="price_max">Max Price <i style="color:maroon">*&nbsp;</i>:</label>
+                    <input  maxlength="20" only-prize type="text" class="form-control"  ng-model="product.price_max" id="price_max" placeholder="Maximum">
+                    <span ng-if="error.price_max" class="text-danger">Please provide maximum price</span>
+                </div>
+
+
+
+
+                <div   class="form-group">
+                    <div class="col-md-3">
+                        <label class="control-label" >Minimum Size:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="col-md-6">
+                        <label class="control-label" for="width_min">Minimum Width:</label>
+                        <input   maxlength="20" only-digits type="text" class="form-control"  ng-model="product.width_min" id="width_min" placeholder="Minimum Width">
+                        <span ng-if="error.width_min" class="text-danger">Please provide minimum width</span>
+                        </div>
+                        <div class="col-md-6">
+                        <label class="control-label" for="height_min">Minimum Height:</label>
+                        <input   maxlength="20" only-digits type="text" class="form-control"  ng-model="product.height_min" id="height_min" placeholder="Minimum Height">
+                        <span ng-if="error.height_min" class="text-danger">Please provide minimum height</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div   class="form-group">
+                    <div class="col-md-3">
+                        <label class="control-label" >Maximum Size:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="col-md-6">
+                        <label class="control-label" for="width_max">Maximum Width:</label>
+                        <input   maxlength="20" only-digits type="text" class="form-control"  ng-model="product.width_max" id="width_max" placeholder="Maximum Width">
+                        <span ng-if="error.width_max" class="text-danger">Please provide maximum width</span>
+                        </div>
+                        <div class="col-md-6">
+                        <label class="control-label" for="height_max">Maximum Height:</label>
+                        <input   maxlength="20" only-digits type="text" class="form-control"  ng-model="product.height_max" id="height_max" placeholder="Maximum Height">
+                        <span ng-if="error.height_max" class="text-danger">Please provide maximum height</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label"  for="unit">Unit<i style="color:maroon">*&nbsp;</i>:</label>
+
+                    <select id="unit" class="form-control" ng-model="product.unit">
+                        <option value="mm">Milimeter</option>
+                        <option  value="cm">Centimeter</option>
+
+                    </select>
+                    <span ng-if="error.unit" class="text-danger">Please Select Unit</span>
+
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <label for="image">Upload Image: </label>
+
+
+                    <input type="file"  placeholder="Image File"  class=" form-control" ng-model="product.image"  file-model="product.image" id="image" >
+                    <span ng-if="error.image" class="text-danger">Please upload image</span>
+                </div>
+                <div ng-if="product.id" class="form-group">
+                    <label class="control-label  "  for="active">Active <i style="color:maroon">*&nbsp;</i>:</label>
+
+                    <select id="active" class="form-control" ng-model="product.active">
+                        <option style="color: forestgreen" value="1">Active</option>
+                        <option style="color: #b92c28" value="0">Deactive</option>
+
+                    </select>
+                    <span class="text-danger">{{error.isActive}}</span>
+
+                </div>
+
+
+<!--
+                <div  class="form-group">
+                    <label for="img">Upload Other Images: </label>
+
+
+
+                    <br/>
+                    <input accept="image/*" id="img" onchange="uploadImg(this)" type="file">
+                    <input type="text" ng-model="deal.uploadFiles" id="uploadFiles" style="display: none">
+
+                    <div id="display_pics" class="form-group">
+                        <div ng-if="im!=''"  ng-repeat="im in images"  id="dp_{{$index}}" class="col-sm-1  display_pic">
+                            <i style="font-size:40px" class=""></i><br><span style="font-size:10px">
+                            <img height="100" src="{{im}}"/></span>
+
+                            <span data-file="{{im}}" class="crossButton btn-default  remPortfolio"><i class="fa fa-times"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+-->
+
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var  file = input.files && input.files[0];
+            var reader = new FileReader();
+            var img = new Image();
+
+            img.src = window.URL.createObjectURL( file );
+            img.onload = function() {
+                var width = img.naturalWidth,
+                    height = img.naturalHeight;
+
+                if (width <= 1209 && height <= 756) {
+
+                    reader.onload = function (e) {
+                        $('#imagePreview').attr('src', e.target.result);
+                        console.log("-")
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    window.toastr.warning("Image Width/Height is high, required 1200x756")
+                }
+            }
+        }else{
+            setTimeout(function() {
+                $('#imagePreview').attr('src', window.image);
+            },100)
+        }
+    }
+
+    $("#banner").change(function(){
+
+        $('#imagePreview').attr('src',window.image);
+        readURL(this);
+    });
+
+
+
+
+    $(document).off('.datepicker.data-api');
+
+
+    function uploadImg(input) {
+
+        if (input.files && input.files[0] ) {
+            var  file = input.files && input.files[0];
+            var reader = new FileReader();
+            var img = new Image();
+
+            img.src = window.URL.createObjectURL( file );
+            img.onload = function() {
+                var width = img.naturalWidth,
+                    height = img.naturalHeight;
+
+                if (width <= 1209 && height <= 756) {
+                    for(var i = 0;i<input.files.length;i++){
+                        chkFile(input.files[i],i)
+                        var filename = input.files[i].name;
+                        var extension = filename.replace(/^.*\./, '');
+                        var name = filename ;
+
+                        if(filename.indexOf('.')!=-1){
+                            name = filename.split('.');
+                            name = name[0]
+
+                            if(name.length>10){
+                                name = name.substr(0,10)
+                            }
+                        }
+                        appendFile(input.files[i],filename,i)
+
+
+                    }
+                    $(input).val('')
+                    var counter = 0;
+                } else {
+                    window.toastr.warning("Image Width/Height is high, required 1200x756")
+                }
+            }
+
+        }
+    }
+
+    function appendFile(file,filename,i){
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = '<div   id="dp_'+i+'" class="col-sm-1  display_pic"> <i style="font-size:40px" class=""></i><br><span style="font-size:10px"><img height="100" src="'+ e.target.result+'"> </div>';
+                $('#display_pics' ).prepend(img)
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    $(document).on("click",'.remPortfolio',function(){
+        var img = $(this).attr('data-file')
+        console.log(img)
+        $(this).parents('.display_pic').remove()
+        var uploadImage =   $('#uploadFiles').val()
+        uploadImage = uploadImage.replace(img,'');
+        uploadImage = uploadImage.replace(',,',',');
+        $('#uploadFiles').val(uploadImage);
+        $("#uploadFiles").trigger('input');
+
+    })
+    function chkFile(file1,index) {
+
+        var formData = new FormData();
+        formData.append('image', file1);
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/projFile",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                if(data.status){
+                    var cross = '<span data-file="'+data.file+'" class="crossButton btn-default  remPortfolio"><i class="fa fa-times"></i></span>';
+                    console.log(index)
+                    $('#dp_' + index).append(cross)
+                    var uploadImage =   $('#uploadFiles').val()
+                    $('#uploadFiles').val(uploadImage+""+data.file +",")
+                    $("#uploadFiles").trigger('input');
+                    $(".error").html("")
+                }else{
+                    $(".error").html(data.message)
+                }
+            },
+            error:function(e){
+                console.log(e)
+                $(".error").html("Connection Time Out")
+            }
+        });
+    }
+
+
+
+setTimeout(function(){
+   var h =  $('.wrapper').height()
+    h = h-100;
+    $('.content-wrapper').css("height",h)
+},500)
+
+
+</script>

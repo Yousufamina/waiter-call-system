@@ -9,11 +9,13 @@ Hotels API
 */
 router.post('/createHotel',hotelController.createHotel);
 router.get('/getAllHotels',hotelController.getAllHotels);
+router.post('/delete/hotel',hotelController.deleteHotel);
 router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
 router.get('/getAllQrCodeImages',hotelController.getAllQrCodeImages);
 router.post('/getQrCodeImagesOfHotel',hotelController.getQrCodeImagesOfHotel);
 router.post('/createWaiter',waiterController.addWaiter);
 router.post('/getWaitersByHotelId',waiterController.getWaitersByHotelId);
+router.get('/getAllWaiters',waiterController.getAllWaiters);
 // router.get('/getallHotelTables',hotelController.getallHotelTables);
 // router.post('/searchPatient' ,auth,patientController.searchPatient);
 // router.post('/searchPatientByLandingPage' ,patientController.searchPatientByLandingPage);
