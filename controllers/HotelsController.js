@@ -6,6 +6,10 @@ const { check, validationResult } = require("express-validator");
 const QRCode = require('qrcode')
 const fs = require('fs');
 
+const { Dropbox } = require('dropbox'); // eslint-disable-line import/no-unresolved
+var dbx = new Dropbox({ accessToken: "RpsR1d1X1B4AAAAAAAAAAQJkKuFNRF2SQZj9wcvado75Dk3N3wfopY72zkkldfRz" });
+
+
 const opts = {
     errorCorrectionLevel: 'H',
     type: 'png',
@@ -35,6 +39,12 @@ const hotelController = {
                     .status(422)
                     .json({msg: "Hotel with this Name already exists"});
             }
+            const hotelByEmail = await HotelModel.findOne({email: body.email});
+            if (hotelByEmail) {
+                return response
+                    .status(422)
+                    .json({msg: "Hotel with this Email already exists"});
+            }
             let logo ='';
             if(request.files) {
                 var image = false;
@@ -51,14 +61,43 @@ const hotelController = {
                     console.log(image.path+fileName);
                     console.log("logo");
                     console.log(logo);
-                    fs.rename(image.path, image.path + fileName, function (err) {
+
+                    await fs.readFile(image.path, function read(err, data) {
                         if (err) {
                             console.log(err);
                         }
-                        else {
+                        let content = data;
+                        // console.log("ceon",content);
 
+                        if (!err && image.filename != undefined && content) {
+                            let file = dbx.filesUpload({ path: '/' + fileName, contents: content })
+                                .then(function (response) {
+                                    // console.log(response.result);
+                                    dbx.sharingCreateSharedLinkWithSettings({
+                                        path: response.result.path_display,
+                                        "settings": {
+                                            "requested_visibility": "public",
+                                            "audience": "public",
+                                            "access": "viewer",
+                                        }
+                                    }).then((e)=>{
+                                        console.log(e);
+                                        logo = e;
+                                        return e;
+                                    }).catch((err)=>{
+                                        console.log(err);
+                                        return response.send("error").end()
+                                    })
+                                })
+                                .catch(function (error) {
+                                    console.error(error);
+                                });
+                             console.log(file);
+                        } else {
+                            console.log("error")
                         }
                     });
+
                 }
             }
             let hotelObj;
@@ -133,9 +172,9 @@ const hotelController = {
         }
     },
 
-    getAllQrCodeImages: async (request, response) =>{
+    getAllQrCodeImagesDetail: async (request, response) =>{
 
-        console.log("====== QrCode Get All API =======");
+        console.log("====== QrCode Get All Detail API =======");
         console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
@@ -160,6 +199,45 @@ const hotelController = {
                             waiterPhone : waiterDetail.phone,
                             qrCodeImage : `${domainUrl}${table.qrCodeImage}`,
                             qrCode : qrCode
+                        }
+                        newHotelArr = [...newHotelArr, obj] ;
+                    }
+                }
+            }
+            response
+                .status(200)
+                .json({
+                    newHotelArr,
+                    msg: "Qr Codes found successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+    },
+
+    getAllQrCodeImages: async (request, response) =>{
+
+        console.log("====== QrCode Get All API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try {
+                // get all hotels
+            let hotels = await HotelModel.find();
+            let newHotelArr = [];
+            for(let i=0;i<hotels.length;i++)
+            {
+                let hotel = hotels[i];
+                let tables = hotel.tables;
+                if(tables.length > 0){
+                    for(let k=0;k<tables.length;k++){
+                        let table= tables[k];
+                        let obj = {
+                            qrCodeImage : `${domainUrl}${table.qrCodeImage}`,
                         }
                         newHotelArr = [...newHotelArr, obj] ;
                     }
