@@ -33,7 +33,7 @@ const hotelController = {
             if (hotelByName) {
                 return response
                     .status(422)
-                    .json({errors: [{msg: "Hotel with this Name already exists"}]});
+                    .json({msg: "Hotel with this Name already exists"});
             }
             let logo ='';
             if(request.files) {
@@ -118,6 +118,7 @@ const hotelController = {
         try {
                 // get all hotels
             let hotel = await HotelModel.deleteOne({_id:body.id});
+            let waiter = await WaiterModel.deleteMany({hotelId:body.id});
             response
                 .status(200)
                 .json({
@@ -238,6 +239,7 @@ const hotelController = {
         const body = JSON.parse(JSON.stringify(request.body));
 
         try{
+
               let noOfTables = body.tables;
               let hotelId = body.hotelId;
               let waitersArr = body.waiters;
@@ -306,7 +308,7 @@ const hotelController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
 
     }
