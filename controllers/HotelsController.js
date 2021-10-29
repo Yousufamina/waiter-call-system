@@ -62,6 +62,15 @@ const hotelController = {
                     console.log("logo");
                     console.log(logo);
 
+                    fs.rename(image.path, image.path + fileName, function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+
+                        }
+                    });
+
                     await fs.readFile(image.path, function read(err, data) {
                         if (err) {
                             console.log(err);
@@ -71,22 +80,41 @@ const hotelController = {
 
                         if (!err && image.filename != undefined && content) {
                             let file = dbx.filesUpload({ path: '/' + fileName, contents: content })
-                                .then(function (response) {
+                                .then(function (resp) {
                                     // console.log(response.result);
                                     dbx.sharingCreateSharedLinkWithSettings({
-                                        path: response.result.path_display,
+                                        path: resp.result.path_display,
                                         "settings": {
                                             "requested_visibility": "public",
                                             "audience": "public",
                                             "access": "viewer",
                                         }
                                     }).then((e)=>{
-                                        console.log(e);
-                                        logo = e;
-                                        return e;
+                                        // console.log(e.result);
+                                        console.log(e.result);
+                                        console.log(e.result.url);
+                                        logo = e.result.url;
+                                        logo = logo.replace("dl=0","raw=1");
+                                        let hotelObj;
+                                        hotelObj = {
+                                            name: body.name,
+                                            phone: body.phone,
+                                            email: body.email,
+                                            address: body.address,
+                                            logo:logo
+                                        };
+
+                                        let hotel = new HotelModel(hotelObj);
+                                        hotel.save();
+                                        response
+                                            .status(200)
+                                            .json({
+                                                msg: "Hotel is successfully created."
+                                            });
+
                                     }).catch((err)=>{
                                         console.log(err);
-                                        return response.send("error").end()
+                                        return resp.send("error").end()
                                     })
                                 })
                                 .catch(function (error) {
@@ -100,24 +128,6 @@ const hotelController = {
 
                 }
             }
-            let hotelObj;
-            hotelObj = {
-                name: body.name,
-                phone: body.phone,
-                email: body.email,
-                address: body.address,
-                logo:logo
-            };
-
-            let hotel = new HotelModel(hotelObj);
-            await hotel.save();
-
-            response
-                .status(200)
-                .json({
-                    hotel,
-                    msg: "Hotel is successfully created."
-                });
         } catch (err) {
             console.log(err);
             response

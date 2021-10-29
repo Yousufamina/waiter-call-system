@@ -25,7 +25,7 @@
                 <td>{{hotel.address}}</td>
                 <td>{{hotel.tables.length}}</td>
                 <td>{{dated(hotel.createdDate)}}</td>
-                <td><img class="imagePreviewModal" src="https://waiter-call-system.herokuapp.com{{hotel.logo}}" width="100" alt="{{hotel.name}}"/></td>
+                <td><img class="imagePreviewModal" src="{{hotel.logo}}" width="100" alt="{{hotel.name}}"/></td>
                 <td>
                     <a ng-click="removeData(hotel._id)" ><i class="fa fa-trash"></i> </a><br/>
 <!--                    <a href="#hotels/{{hotel.id}}" ><i class="fa fa-pencil"></i> </a><br/>-->
