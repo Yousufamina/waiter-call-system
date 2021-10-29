@@ -187,7 +187,7 @@ app.controller("assignTablesToWaiters",function($scope,$http,$location,$localSto
     $scope.obj = {
         hotelId:'',
         tables:'',
-        waiters:[""]
+        waiters:[]
     }
     $scope.getData = function(){
     $http({
@@ -240,8 +240,8 @@ app.controller("assignTablesToWaiters",function($scope,$http,$location,$localSto
             data: $scope.obj
         }).success(function(result){
             console.log(result);
-                $location.path('assignTablesToWaiters')
-                window.toastr.success(result.msg)
+                $location.path('hotels')
+                window.toastr.success(result.msg);
             })
             .error(function(result){
                 window.toastr.warning(result.msg)
