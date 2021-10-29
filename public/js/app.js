@@ -57,19 +57,6 @@ app.directive('fileModel', ['$parse', function ($parse) {
         }
     };
 }]);
-app.directive('myEnter', function () {
-    return function (scope, element, attrs) {
-        element.bind("keydown keypress", function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
-                    scope.$eval(attrs.myEnter);
-                });
-
-                event.preventDefault();
-            }
-        });
-    };
-});
 app.controller("hotels",function($scope,$http,$location,$localStorage){
 
         $scope.dated = dateAndTimeFormat;
