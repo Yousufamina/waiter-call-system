@@ -62,16 +62,7 @@ const hotelController = {
                     console.log("logo");
                     console.log(logo);
 
-                    fs.rename(image.path, image.path + fileName, function (err) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-
-                        }
-                    });
-
-                    await fs.readFile(image.path, function read(err, data) {
+                    fs.readFile(image.path, function read(err, data) {
                         if (err) {
                             console.log(err);
                         }
