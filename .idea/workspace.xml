@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/js/templates/assignTablesToWaiters.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/WaiterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/WaiterController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/includes/sidebar.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/includes/sidebar.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1635091744046</updated>
       <workItem from="1635091747227" duration="65302000" />
-      <workItem from="1635459537070" duration="5693000" />
+      <workItem from="1635459537070" duration="5952000" />
     </task>
     <servers />
   </component>
