@@ -105,7 +105,7 @@ const hotelController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 
@@ -129,7 +129,7 @@ const hotelController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 
@@ -175,7 +175,7 @@ const hotelController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 
@@ -226,7 +226,7 @@ const hotelController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 
