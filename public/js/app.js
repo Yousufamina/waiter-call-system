@@ -10,6 +10,11 @@ app.config(["$stateProvider","$urlRouterProvider","$httpProvider",function(t,e)
             templateUrl:"/js/templates/hotels.html",
             controller:'hotels'
             })
+            .state("qrCodes",{
+                url:"/qrCodes",
+                templateUrl:"/js/templates/qrCodes.html",
+                controller:'qrCodes'
+            })
             .state("waiters",{
             url:"/waiters",
             templateUrl:"/js/templates/waiters.html",
@@ -71,6 +76,63 @@ app.controller("hotels",function($scope,$http,$location,$localStorage){
                 console.log(result.status== true);
                 if (result.status == true) {
                     $scope.data=result.hotels;
+
+                } else {
+                    window.location.href = '/';
+                }
+            })
+
+        }
+
+    $scope.getData();
+    $scope.removingId = '';
+    $scope.removeData = function(id){
+        $scope.removingId = id;
+        $("#confirmation").modal("show")
+    }
+
+    $scope.removeConfirmed  = function(){
+        if($scope.removingId!="") {
+
+            var fd = new FormData();
+                fd.append('id',$scope.removingId);
+
+            $http.post('/delete/hotel', fd,{
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).success(function(data){
+                if (data.status) {
+                    $("#"+$scope.removingId).remove();
+                    $("#confirmation").modal("hide");
+                    window.toastr.success(data.msg);
+                    $scope.getData();
+
+                }
+                else {
+                    $("#confirmation").modal("hide")
+
+                }
+            })
+        }
+
+    }
+
+
+});
+app.controller("qrCodes",function($scope,$http,$location,$localStorage){
+
+        $scope.dated = dateAndTimeFormat;
+        $scope.getData = function(){
+
+            $http({
+                method: "GET",
+                url: "/getAllQrCodeImagesDetail",
+            }).success(function (result) {
+                console.log(result);
+                console.log(result.status);
+                console.log(result.status== true);
+                if (result.status == true) {
+                    $scope.data=result.newHotelArr;
 
                 } else {
                     window.location.href = '/';

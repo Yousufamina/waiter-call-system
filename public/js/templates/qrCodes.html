@@ -1,0 +1,60 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">QR Codes</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+            <tr >
+                <th>Sr#</th>
+                <th>Hotel Name</th>
+                <th>Hotel Logo</th>
+                <th>Waiter</th>
+                <th>Waiter Contact No.</th>
+                <th>qrCodeImage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="{{qr._id}}" ng-repeat="qr in data" >
+                <td>{{$index+1}}</td>
+                <td>{{qr.hotelName}}</td>
+                <td><img class="imagePreviewModal" src={{qr.hotelLogo}} width="100" alt="{{qr.hotelName}}"/></td>
+                <td>{{qr.waiterName}}</td>
+                <td>{{qr.waiterPhone}}</td>
+                <td><img class="imagePreviewModal" src={{qr.qrCodeImage}} width="100" alt="{{qr.hotelName}}"/></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="confirmation" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <label style="color:#3c3c3c" >Are you sure ! you want to delete?</label>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="removeConfirmed()" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    setTimeout(function(){
+        var h =  $('.wrapper').height()
+        h = h-100;
+        $('.content-wrapper').css("height",h)
+    },500)
+
+
+</script>

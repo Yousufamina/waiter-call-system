@@ -7,6 +7,10 @@ const key = 'RpsR1d1X1B4AAAAAAAAAAQJkKuFNRF2SQZj9wcvado75Dk3N3wfopY72zkkldfRz';
 const appkey = '0yy4ednciwl4ohk';
 const appSec = 'viyxtt30n9t6fbk';
 
+const AccessKeyID = 'AKIAUTEYSXV7EUTV3YVN';
+const SecretAccessKey =  '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';
+
+
 /*
 Hotels API
 */

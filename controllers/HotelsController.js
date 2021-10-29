@@ -177,8 +177,6 @@ const hotelController = {
         console.log("====== QrCode Get All Detail API =======");
         console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
 
-        const body = JSON.parse(JSON.stringify(request.body));
-
         try {
                 // get all hotels
             let hotels = await HotelModel.find();
@@ -207,6 +205,7 @@ const hotelController = {
             response
                 .status(200)
                 .json({
+                    status:true,
                     newHotelArr,
                     msg: "Qr Codes found successfully."
                 });
