@@ -18,7 +18,7 @@ const waiterController = {
             if (waiterByPhone) {
                 return response
                     .status(422)
-                    .json({errors: [{msg: "Waiter with this phone number already exists"}]});
+                    .json({msg:"Waiter with this phone number already exists"});
             }
 
             let waiterObj = {
@@ -68,7 +68,7 @@ const waiterController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 
@@ -91,7 +91,7 @@ const waiterController = {
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 
@@ -117,7 +117,7 @@ console.log(waiters);
             console.log(err);
             response
                 .status(500)
-                .json({errors: {msg: err}});
+                .json({msg: err});
         }
     },
 }
