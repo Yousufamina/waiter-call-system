@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,15 +40,15 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system" />
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\routes" />
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\controllers" />
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public" />
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public\barCodes" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -58,14 +62,79 @@
       <option name="presentableId" value="Default" />
       <updated>1635091744046</updated>
       <workItem from="1635091747227" duration="65302000" />
-      <workItem from="1635459537070" duration="5952000" />
+      <workItem from="1635459537070" duration="18724000" />
     </task>
+    <task id="LOCAL-00001" summary="commit">
+      <created>1635483448971</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1635483448971</updated>
+    </task>
+    <task id="LOCAL-00002" summary="commit">
+      <created>1635483927011</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1635483927011</updated>
+    </task>
+    <task id="LOCAL-00003" summary="commit">
+      <created>1635484111828</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1635484111828</updated>
+    </task>
+    <task id="LOCAL-00004" summary="commit">
+      <created>1635487487635</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1635487487635</updated>
+    </task>
+    <task id="LOCAL-00005" summary="commit">
+      <created>1635487505777</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1635487505777</updated>
+    </task>
+    <task id="LOCAL-00006" summary="commit">
+      <created>1635487848253</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1635487848253</updated>
+    </task>
+    <task id="LOCAL-00007" summary="commit">
+      <created>1635488033716</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1635488033716</updated>
+    </task>
+    <task id="LOCAL-00008" summary="commit">
+      <created>1635488053554</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1635488053554</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="308" y="0" key="CommitChangelistDialog2" timestamp="1635504252207">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1635504252207" />
     <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1635433624148">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
