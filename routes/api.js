@@ -3,6 +3,9 @@ const router = express.Router();
 // const auth = require("../middleware/auth");
 const hotelController = require("../controllers/HotelsController");
 const waiterController = require("../controllers/WaiterController");
+const key = 'RpsR1d1X1B4AAAAAAAAAAQJkKuFNRF2SQZj9wcvado75Dk3N3wfopY72zkkldfRz';
+const appkey = '0yy4ednciwl4ohk';
+const appSec = 'viyxtt30n9t6fbk';
 
 /*
 Hotels API
@@ -11,6 +14,7 @@ router.post('/createHotel',hotelController.createHotel);
 router.get('/getAllHotels',hotelController.getAllHotels);
 router.post('/delete/hotel',hotelController.deleteHotel);
 router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
+router.get('/getAllQrCodeImagesDetail',hotelController.getAllQrCodeImagesDetail);
 router.get('/getAllQrCodeImages',hotelController.getAllQrCodeImages);
 router.post('/getQrCodeImagesOfHotel',hotelController.getQrCodeImagesOfHotel);
 router.post('/createWaiter',waiterController.addWaiter);
