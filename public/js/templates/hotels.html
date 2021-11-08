@@ -11,9 +11,11 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Address</th>
+                <th>Phone No.</th>
                 <th>No. Of Tables</th>
-                <th>Created Date</th>
                 <th>Logo</th>
+                <th>Menue</th>
+                <th>Created Date</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -23,12 +25,14 @@
                 <td>{{hotel.name}}</td>
                 <td>{{hotel.email}}</td>
                 <td>{{hotel.address}}</td>
+                <td>{{hotel.phone}}</td>
                 <td>{{hotel.tables.length}}</td>
+                <td><img class="imagePreviewModal" src="{{hotel.logo}}" width="100" alt="logo"/></td>
+                <td><img class="imagePreviewModal" src="{{hotel.menue}}" width="100" alt="menue"/></td>
                 <td>{{dated(hotel.createdDate)}}</td>
-                <td><img class="imagePreviewModal" src="{{hotel.logo}}" width="100" alt="{{hotel.name}}"/></td>
                 <td>
                     <a ng-click="removeData(hotel._id)" ><i class="fa fa-trash"></i> </a><br/>
-<!--                    <a href="#hotels/{{hotel.id}}" ><i class="fa fa-pencil"></i> </a><br/>-->
+                    <a href="#hotel/{{hotel._id}}" ><i class="fa fa-pencil"></i> </a><br/>
                 </td>
             </tr>
             </tfoot>

@@ -1,0 +1,26 @@
+
+<div class="col-md-12">
+    <div class="ms-panel">
+        <div class="ms-panel-header">
+            <h6>{{heading}}</h6>
+        </div>
+        <div class="ms-panel-body">
+            <form ng-submit="save()" >
+                <div class="form-group">
+                    <label class="" for="hotel">Select Hotel: </label>
+                    <select class="form-control" ng-model="hotel.hotelId" id="hotel">
+                        <option value="">Select Hotel</option>
+                        <option ng-repeat="hotel in hotels" value="{{hotel._id}}">{{hotel.name}}</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Show Tables</button>
+                <button onclick="addTableInHotel()" class="btn btn-success">Add Table</button>
+                <!--                <button class="btn btn-default">Cancel</button>-->
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+

@@ -47,87 +47,357 @@ const hotelController = {
                     .json({msg: "Hotel with this Email already exists"});
             }
 
-             helper.uploadImage(request,'logo' , function(logo){
+             // helper.uploadImage(request,'logo' , function(logo){
+             //     helper.uploadImage(request,'menue' , function(menue){
+             //     });
+             // });
 
-                 helper.uploadImage(request,'menue' , function(menue){
+            let logo='';
+            let menue='';
+            if(request.files) {
+                var image = false;
+                var image2 = false;
+                var file = request.files;
+                for (var k in file) {
+                    if (file[k].fieldname == 'logo') {
+                        image = file[k];
+                    }
+                    if (file[k].fieldname == 'menue') {
+                        image2 = file[k];
+                    }
+                }
+                if (image) {
+                    let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
 
-                     let hotelObj;
-                     hotelObj = {
-                         name: body.name,
-                         phone: body.phone,
-                         email: body.email,
-                         address: body.address,
-                         logo:logo,
-                         menue:menue
-                     };
+                    fs.readFile(image.path, function read(err, data) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        let content = data;
+                        if (!err && image.filename != undefined && content) {
+                            let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+                                .then(function (resp) {
+                                    dbx.sharingCreateSharedLinkWithSettings({
+                                        path: resp.result.path_display,
+                                        "settings": {
+                                            "requested_visibility": "public",
+                                            "audience": "public",
+                                            "access": "viewer",
+                                        }
+                                    }).then((e) => {
+                                        // console.log(e.result);
+                                        console.log(e.result);
+                                        console.log(e.result.url);
+                                        logo = e.result.url;
+                                        logo = logo.replace("dl=0", "raw=1");
 
-                     let hotel = new HotelModel(hotelObj);
-                     hotel.save();
-                     response
-                         .status(200)
-                         .json({
-                             msg: "Hotel is successfully created."
-                         });
+                                        if (image2) {
+                                            let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
 
-                 });
+                                            fs.readFile(image2.path, function read(err, data) {
+                                                if (err) {
+                                                    console.log(err);
+                                                }
+                                                let content = data;
+                                                if (!err && image2.filename != undefined && content) {
+                                                    let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+                                                        .then(function (resp) {
+                                                            dbx.sharingCreateSharedLinkWithSettings({
+                                                                path: resp.result.path_display,
+                                                                "settings": {
+                                                                    "requested_visibility": "public",
+                                                                    "audience": "public",
+                                                                    "access": "viewer",
+                                                                }
+                                                            }).then((e) => {
+                                                                // console.log(e.result);
+                                                                console.log(e.result);
+                                                                console.log(e.result.url);
+                                                                menue = e.result.url;
+                                                                menue = menue.replace("dl=0", "raw=1");
 
-             });
 
-                    // fs.readFile(image.path, function read(err, data) {
-                    //     if (err) {
-                    //         console.log(err);
-                    //     }
-                    //     let content = data;
-                    //     // console.log("ceon",content);
-                    //
-                    //     if (!err && image.filename != undefined && content) {
-                    //         let file = dbx.filesUpload({ path: '/' + fileName, contents: content })
-                    //             .then(function (resp) {
-                    //                 // console.log(response.result);
-                    //                 dbx.sharingCreateSharedLinkWithSettings({
-                    //                     path: resp.result.path_display,
-                    //                     "settings": {
-                    //                         "requested_visibility": "public",
-                    //                         "audience": "public",
-                    //                         "access": "viewer",
-                    //                     }
-                    //                 }).then((e)=>{
-                    //                     // console.log(e.result);
-                    //                     console.log(e.result);
-                    //                     console.log(e.result.url);
-                    //                     logo = e.result.url;
-                    //                     logo = logo.replace("dl=0","raw=1");
-                    //                     let hotelObj;
-                    //                     hotelObj = {
-                    //                         name: body.name,
-                    //                         phone: body.phone,
-                    //                         email: body.email,
-                    //                         address: body.address,
-                    //                         logo:logo
-                    //                     };
-                    //
-                    //                     let hotel = new HotelModel(hotelObj);
-                    //                     hotel.save();
-                    //                     response
-                    //                         .status(200)
-                    //                         .json({
-                    //                             msg: "Hotel is successfully created."
-                    //                         });
-                    //
-                    //                 }).catch((err)=>{
-                    //                     console.log(err);
-                    //                     return resp.send("error").end()
-                    //                 })
-                    //             })
-                    //             .catch(function (error) {
-                    //                 console.error(error);
-                    //             });
-                    //          console.log(file);
-                    //     } else {
-                    //         console.log("error")
-                    //     }
-                    // });
+                                                                let hotelObj;
+                                                                hotelObj = {
+                                                                    name: body.name,
+                                                                    phone: body.phone,
+                                                                    email: body.email,
+                                                                    address: body.address,
+                                                                    logo: logo,
+                                                                    menue: menue
+                                                                };
 
+                                                                let hotel = new HotelModel(hotelObj);
+                                                                hotel.save();
+                                                                response
+                                                                    .status(200)
+                                                                    .json({
+                                                                        msg: "Hotel is successfully created."
+                                                                    });
+                                                            }).catch((err) => {
+                                                                console.log(err);
+                                                                return resp.send("error").end()
+                                                            })
+                                                        })
+                                                        .catch(function (error) {
+                                                            console.error(error);
+                                                        });
+                                                    console.log(file);
+                                                } else {
+                                                    console.log("error")
+                                                }
+                                            });
+                                        }
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        return resp.send("error").end()
+                                    })
+                                })
+                                .catch(function (error) {
+                                    console.error(error);
+                                });
+                            console.log(file);
+                        } else {
+                            console.log("error")
+                        }
+                    });
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+    },
+
+    updateHotel: async (request, response) => {
+
+        console.log("====== Hotel Update API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+        const id= request.params.id;
+        console.log(id);
+        try {
+            // check if there is any record with same hotel name
+            const hotelByName = await HotelModel.findOne({ _id: { $ne: id }, name: body.name });
+            if (hotelByName) {
+                return response
+                    .status(422)
+                    .json({msg: "Hotel with this Name already exists"});
+            }
+            const hotelByEmail = await HotelModel.findOne({ _id: { $ne: id }, email: body.email });
+            if (hotelByEmail) {
+                return response
+                    .status(422)
+                    .json({msg: "Hotel with this Email already exists"});
+            }
+
+
+            let logo='';
+            let menue='';
+            if(request.files) {
+                console.log("main if workds")
+                var image = false;
+                var image2 = false;
+                var file = request.files;
+                for (var k in file) {
+                    if (file[k].fieldname == 'logo') {
+                        image = file[k];
+                    }
+                    if (file[k].fieldname == 'menue') {
+                        image2 = file[k];
+                    }
+                }
+                if (image) {
+                    let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
+                    fs.readFile(image.path, function read(err, data) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        let content = data;
+                        if (!err && image.filename != undefined && content) {
+                            let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+                                .then(function (resp) {
+                                    dbx.sharingCreateSharedLinkWithSettings({
+                                        path: resp.result.path_display,
+                                        "settings": {
+                                            "requested_visibility": "public",
+                                            "audience": "public",
+                                            "access": "viewer",
+                                        }
+                                    }).then((e) => {
+                                        // console.log(e.result);
+                                        console.log(e.result);
+                                        console.log(e.result.url);
+                                        logo = e.result.url;
+                                        logo = logo.replace("dl=0", "raw=1");
+
+                                        if (image2) {
+                                            let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
+
+                                            fs.readFile(image2.path, function read(err, data) {
+                                                if (err) {
+                                                    console.log(err);
+                                                }
+                                                let content = data;
+                                                if (!err && image2.filename != undefined && content) {
+                                                    let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+                                                        .then(function (resp) {
+                                                            dbx.sharingCreateSharedLinkWithSettings({
+                                                                path: resp.result.path_display,
+                                                                "settings": {
+                                                                    "requested_visibility": "public",
+                                                                    "audience": "public",
+                                                                    "access": "viewer",
+                                                                }
+                                                            }).then((e) => {
+                                                                // console.log(e.result);
+                                                                console.log(e.result);
+                                                                console.log(e.result.url);
+                                                                menue = e.result.url;
+                                                                menue = menue.replace("dl=0", "raw=1");
+
+                                                                let hotelObj;
+                                                                hotelObj = {
+                                                                    name: body.name,
+                                                                    phone: body.phone,
+                                                                    email: body.email,
+                                                                    address: body.address,
+                                                                    logo: logo,
+                                                                    menue: menue
+                                                                };
+
+                                                                let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
+                                                                response
+                                                                    .status(200)
+                                                                    .json({
+                                                                        status:true,
+                                                                        msg: "Hotel is successfully updated."
+                                                                    });
+                                                            }).catch((err) => {
+                                                                console.log(err);
+                                                                return resp.send("error").end()
+                                                            })
+                                                        })
+                                                        .catch(function (error) {
+                                                            console.error(error);
+                                                        });
+                                                    console.log(file);
+                                                } else {
+                                                    console.log("error")
+                                                }
+                                            });
+                                        }
+                                        else{
+                                            let hotelObj;
+                                            hotelObj = {
+                                                name: body.name,
+                                                phone: body.phone,
+                                                email: body.email,
+                                                address: body.address,
+                                                logo: logo
+                                            };
+
+                                            let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
+                                            response
+                                                .status(200)
+                                                .json({
+                                                    status:true,
+                                                    msg: "Hotel is successfully updated."
+                                                });
+                                        }
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        return resp.send("error").end()
+                                    })
+                                })
+                                .catch(function (error) {
+                                    console.error(error);
+                                });
+                            console.log(file);
+                        } else {
+                            console.log("error")
+                        }
+
+                    });
+                }
+                else if(image2){
+                    let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
+                    fs.readFile(image2.path, function read(err, data) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            let content = data;
+                            if (!err && image2.filename != undefined && content) {
+                                let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+                                    .then(function (resp) {
+                                        dbx.sharingCreateSharedLinkWithSettings({
+                                            path: resp.result.path_display,
+                                            "settings": {
+                                                "requested_visibility": "public",
+                                                "audience": "public",
+                                                "access": "viewer",
+                                            }
+                                        }).then((e) => {
+                                            // console.log(e.result);
+                                            console.log(e.result);
+                                            console.log(e.result.url);
+                                            menue = e.result.url;
+                                            menue = menue.replace("dl=0", "raw=1");
+
+                                            let hotelObj;
+                                            hotelObj = {
+                                                name: body.name,
+                                                phone: body.phone,
+                                                email: body.email,
+                                                address: body.address,
+                                                menue: menue
+                                            };
+
+                                            let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
+                                            response
+                                                .status(200)
+                                                .json({
+                                                    status:true,
+                                                    msg: "Hotel is successfully updated."
+                                                });
+                                        }).catch((err) => {
+                                            console.log(err);
+                                            return resp.send("error").end()
+                                        })
+                                    })
+                                    .catch(function (error) {
+                                        console.error(error);
+                                    });
+                                console.log(file);
+                            } else {
+                                console.log("error")
+                            }
+                        });
+                }
+                else{
+                    console.log("else workss")
+                    let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
+                    response
+                        .status(200)
+                        .json({
+                            status:true,
+                            msg: "Hotel is successfully updated."
+                        });
+                }
+            }
+            else{
+                console.log("main else workss")
+                let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
+                response
+                    .status(200)
+                    .json({
+                        status:true,
+                        msg: "Hotel is successfully updated."
+                    });
+            }
         } catch (err) {
             console.log(err);
             response
@@ -149,6 +419,30 @@ const hotelController = {
                     status:true,
                     hotels,
                     msg: "Hotels found successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+    },
+
+    getHotelDetail: async (request, response) =>{
+
+        console.log("====== Hotel Get API =======");
+        console.log("Params");
+        console.log(request.params.id);
+
+        try {
+                // get all hotels
+            let hotel = await HotelModel.findOne({_id:request.params.id});
+            response
+                .status(200)
+                .json({
+                    status:true,
+                    hotel,
+                    msg: "Hotel found successfully."
                 });
         } catch (err) {
             console.log(err);
@@ -332,6 +626,84 @@ const hotelController = {
               let waitersArr = body.waiters;
               let parts = waitersArr.length;
               let tables= [];
+
+              // devide number into equal parts
+            const breakIntoParts = (num, parts) =>
+                [...Array(parts)].map((_,i) =>
+                    0|num/parts+(i < num%parts))
+
+            let noOfAssignedTables = (breakIntoParts(noOfTables, parts));
+            console.log(`equal Parts Array `+JSON.stringify(breakIntoParts(noOfTables, parts)));
+
+            for(let i=0;i<noOfAssignedTables.length ; i++){
+                let value = noOfAssignedTables[i];
+
+                for(let k=0;k<value ; k++) {
+
+                    let waiterId = waitersArr[i];
+
+                    let waiterDetail = await WaiterModel.findOne({_id:waiterId});
+                    let hotelDetail = await HotelModel.findOne({_id:hotelId});
+
+                    // generate QR Code for each table
+
+                    let qrCodeObj = {
+                        hotelName   : hotelDetail.name,
+                        hotelLogo :`${domainUrl}${hotelDetail.logo}`,
+                        waiterName  : waiterDetail.name,
+                        waiterPhone : waiterDetail.phone,
+                    };
+                    qrCodeObj = JSON.stringify(qrCodeObj);
+                    console.log(JSON.parse(qrCodeObj));
+
+                    let src = 'barCodes/'+`${Date.now()}.png`;
+                    await QRCode.toFile('./public/'+`${src}`,qrCodeObj, opts).then(qrImage => {
+                        // console.log("File",qrImage);
+                        // console.log(qrImage);
+
+                        let tableObj = { qrCode:qrCodeObj , waiterId :  waiterId , qrCodeImage: src };
+                        tables = [...tables, tableObj] ;
+
+                    }).catch(err => {
+                        console.error(err)
+                    });
+
+                }
+            }
+
+            console.log(tables);
+            let updatedHotelObj =  await HotelModel.findOneAndUpdate({_id: hotelId},
+                {   $push: { tables: tables } },  {new: true});
+
+            console.log("New Hotel Obj");
+            console.log(updatedHotelObj);
+
+            response
+                .status(200)
+                .json({
+                    status:true,
+                    updatedHotelObj,
+                    msg: "Qr Code Generated Successfully."
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    addTable : async (request,response ) => {
+
+        console.log("====== Add Table API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        console.log(request.body);
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try{
+              let hotelId= body.hotelIdl
 
               // devide number into equal parts
             const breakIntoParts = (num, parts) =>

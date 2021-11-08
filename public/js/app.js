@@ -30,10 +30,10 @@ app.config(["$stateProvider","$urlRouterProvider","$httpProvider",function(t,e)
             templateUrl:"/js/templates/add-hotel.html",
             controller:'add-hotel'
             })
-            .state("add-waiter",{
-                url:"/add-waiter",
-                templateUrl:"/js/templates/add-waiter.html",
-                controller:'add-waiter'
+            .state("add-table",{
+                url:"/add-table",
+                templateUrl:"/js/templates/add-table.html",
+                controller:'add-table'
             })
             .state("assignTablesToWaiters",{
             url:"/assignTablesToWaiters",
@@ -71,9 +71,6 @@ app.controller("hotels",function($scope,$http,$location,$localStorage){
                 method: "GET",
                 url: "/getAllHotels",
             }).success(function (result) {
-                console.log(result);
-                console.log(result.status);
-                console.log(result.status== true);
                 if (result.status == true) {
                     $scope.data=result.hotels;
 
@@ -303,7 +300,7 @@ app.controller("assignTablesToWaiters",function($scope,$http,$location,$localSto
 });
 app.controller("add-hotel",function($scope,$http,$location,$localStorage){
 
-    $scope.heading = 'Add new Hotel';
+    $scope.heading = 'Add New Hotel';
     $scope.hotel = {
         name:'',
         email:'',
@@ -311,7 +308,6 @@ app.controller("add-hotel",function($scope,$http,$location,$localStorage){
         phone:'',
         logo:'',
         menue:'',
-        tables:''
         }
 
     $scope.save=function(){
@@ -323,26 +319,95 @@ app.controller("add-hotel",function($scope,$http,$location,$localStorage){
             }
             fd.append(k, $scope.hotel[k]);
         }
+        var div = document.getElementById('waitSpinner');
+        div.style.visibility = 'visible';
         $http.post('/createHotel', fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })
             .success(function(result){
-                $location.path('hotels')
+                div.style.visibility = 'hidden';
+                $location.path('hotels');
                 window.toastr.success(result.msg)
             })
             .error(function(result){
+                div.style.visibility = 'hidden';
                 window.toastr.warning(result.msg)
             });
     }
 
 });
-app.controller("add-waiter",function($scope,$http,$location,$localStorage){
+app.controller("edit-hotel",function($scope,$http,$location,$localStorage,$stateParams){
 
-        $scope.heading = 'Add New Waiter'
-        $scope.dated = dateAndTimeFormat;
+    $scope.heading = 'Update Hotel';
+    $scope.hotel = {
+        name:'',
+        email:'',
+        address:'',
+        phone:'',
+        logo:'',
+        menue:''
+    }
+
+    $scope.getData = function(){
+
+        $http({
+            method: "GET",
+            url: "/hotel/"+$stateParams.id,
+        }).success(function (result) {
+            if (result.status == true) {
+                var data =result.hotel;
+                $scope.hotel.name=data.name;
+                $scope.hotel.email =data.email;
+                $scope.hotel.address=data.address;
+                $scope.hotel.phone = data.phone;
+                $scope.hotel.logo = data.logo;
+                $scope.hotel.menue = data.menue;
+                console.log($scope.hotel);
+            } else {
+                window.location.href = '/';
+            }
+        });
+    }
+    $scope.getData();
+
+    $scope.save=function(){
+        var fd = new FormData();
+        for(var k in $scope.hotel){
+            if(!$scope.hotel[k]){
+                window.toastr.warning("Please provide "+k.toUpperCase().replace('_',' '))
+                return false;
+            }
+            fd.append(k, $scope.hotel[k]);
+        }
+        var div = document.getElementById('waitSpinner');
+        div.style.visibility = 'visible';
+        $http.put('/updateHotel/'+$stateParams.id, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+            .success(function(result){
+                div.style.visibility = 'hidden';
+                $location.path( 'hotel');
+                window.toastr.success(result.msg)
+            })
+            .error(function(result){
+                div.style.visibility = 'hidden';
+                window.toastr.warning(result.msg)
+            });
+
+
+
+    }
+
+});
+app.controller("add-table",function($scope,$http,$location,$localStorage){
+
+        $scope.heading = 'Add Table';
+        $scope.hotel= {
+            hotelId:'',
+        }
         $scope.getData = function(){
-
             $http({
                 method: "GET",
                 url: "/getAllHotels",
@@ -356,55 +421,90 @@ app.controller("add-waiter",function($scope,$http,$location,$localStorage){
             })
 
         }
-
         $scope.getData();
+        $scope.addTableInHotel = function(){
+            console.log("$scope.hotel.hotelId");
+            console.log($scope.hotel.hotelId);
 
-    $scope.waiter= {
-        name:'',
-        age:'',
-        phone:'',
-        hotelId:'',
-    }
+            for(var k in $scope.hotel){
+                fd.append(k, $scope.hotel[k]);
+            }
 
-    $scope.save=function(){
-
-        var fd = new FormData();
-
-        if(!$scope.waiter.name){
-            window.toastr.warning("Please provide Waiter name")
-            return false;
-        }
-
-        if(!$scope.waiter.phone){
-            window.toastr.warning("Please provide Phone Number")
-            return false;
-        }
-
-        if(!$scope.waiter.hotelId){
-            window.toastr.warning("Please select Hotel")
-            return false;
-        }
-
-
-        for(var k in $scope.waiter){
-            fd.append(k, $scope.waiter[k]);
-        }
-
-        $http.post('/createWaiter', fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
-            .success(function(result){
-                $location.path('waiters');
-                window.toastr.success(result.msg)
+            $http.post('/addTable', fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
             })
-            .error(function(result){
-                window.toastr.warning(result.msg)
+                .success(function(result){
+                    // $location.path('waiters');
+                    window.toastr.success(result.msg)
+                })
+                .error(function(result){
+                    window.toastr.warning(result.msg)
+                });
+
+
+
+        }
+
+        $scope.showTables=function(){
+            console.log("$scope.hotel.hotelId");
+            console.log($scope.hotel.hotelId);
+
+            if(!$scope.hotel.hotelId){
+                window.toastr.warning("Please Select Hotel")
+                return false;
+            }
+
+            $http({
+                method: "GET",
+                url: "/getAllHotelTables/",
+            }).success(function (result) {
+                if (result.status == true) {
+                    $scope.tables=result.tables;
+                } else {
+                    window.location.href = '/';
+                }
             });
+        }
 
-
-
-    }
+    //     $scope.showTables=function(){
+    //
+    //     var fd = new FormData();
+    //     if(!$scope.waiter.name){
+    //         window.toastr.warning("Please provide Waiter name")
+    //         return false;
+    //     }
+    //
+    //     if(!$scope.waiter.phone){
+    //         window.toastr.warning("Please provide Phone Number")
+    //         return false;
+    //     }
+    //
+    //     if(!$scope.waiter.hotelId){
+    //         window.toastr.warning("Please select Hotel")
+    //         return false;
+    //     }
+    //
+    //
+    //     for(var k in $scope.waiter){
+    //         fd.append(k, $scope.waiter[k]);
+    //     }
+    //
+    //     $http.post('/createWaiter', fd, {
+    //         transformRequest: angular.identity,
+    //         headers: {'Content-Type': undefined}
+    //     })
+    //         .success(function(result){
+    //             $location.path('waiters');
+    //             window.toastr.success(result.msg)
+    //         })
+    //         .error(function(result){
+    //             window.toastr.warning(result.msg)
+    //         });
+    //
+    //
+    //
+    // }
 
 });
 

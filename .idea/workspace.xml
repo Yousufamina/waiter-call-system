@@ -2,136 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="commit">
-      <change afterPath="$PROJECT_DIR$/helpers/helper.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/dist/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Hotels.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Hotels.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/167dae8e85ba384c95bb3ca48e14a75b1635443047874.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/1a375d6529e478af70103673ce9e812e1635435475293.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/2abecfe5cdc08e01794b27c12a74ee941635436209319.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/7eef337e50693f89051f14b3694f59b21635454802261.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/a0812b29de97f032bcbeed67565d07491635436307394.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/c007d1eeac2cd3fd6d34e7ae7215f1c21635435959671.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/d1b3d0a8949ec2f9eb4a77ea6e7c77b61635435729774.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/logo1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/logo2.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/add-banners.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/templates/add-hotel.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/add-hotel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/add-match.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/add-sponsors.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/add-team.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/add-teams.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/banners.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/config.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/countries.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/feedback.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/fixture-form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/fixtures.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/leagues.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/matches.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/material-form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/materials.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/notification.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/product-form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/sendNotification.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/sponsors.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/teams.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/videos.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/08.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/10.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/11.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/12.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/14.9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/14.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/15.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/20.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/21.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/22.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/23.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/24.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/25.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/26.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/27.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/28.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/33.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/34.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/35.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/36.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/36_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/36_sel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/36a.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/36a_sel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/37.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/37_2sel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/37_sel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/38.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/38_sel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/56.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/70.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/71.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/73.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/74.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/75.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/77.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/78.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/80.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/82.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/90.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/95.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/b1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/b2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/b3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/b4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy-bannner.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy03.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy04.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/buy4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/cb.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/check.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/dogle_form.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/dogle_form1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/dot.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/download.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/flags.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/half91.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/iconadd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/icondel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/link.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/logo_sm.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/logo_white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/main-bg2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/pro2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/slider_text.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/van.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/visa.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script/img/hero-slider/work9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/includes/heads.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/includes/heads.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/add-waiter.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/add-table.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/hotels.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/hotels.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/admin/includes/sidebar.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/includes/sidebar.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/admin/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/index.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,7 +68,10 @@
       <option name="presentableId" value="Default" />
       <updated>1635091744046</updated>
       <workItem from="1635091747227" duration="65302000" />
-      <workItem from="1635459537070" duration="42564000" />
+      <workItem from="1635459537070" duration="44401000" />
+      <workItem from="1636353824324" duration="538000" />
+      <workItem from="1636364064765" duration="7156000" />
+      <workItem from="1636379402097" duration="7446000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1635483448971</created>
@@ -276,9 +158,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1635504252207" />
-    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1636309061613">
+    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1636386022408">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1636309061613" />
+    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1636386022408" />
   </component>
 </project>

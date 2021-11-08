@@ -16,6 +16,8 @@ Hotels API
 */
 router.post('/createHotel',hotelController.createHotel);
 router.get('/getAllHotels',hotelController.getAllHotels);
+router.get('/hotel/:id',hotelController.getHotelDetail);
+router.put('/updateHotel/:id',hotelController.updateHotel);
 router.post('/delete/hotel',hotelController.deleteHotel);
 router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
 router.get('/getAllQrCodeImagesDetail',hotelController.getAllQrCodeImagesDetail);
