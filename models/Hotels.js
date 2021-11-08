@@ -7,12 +7,6 @@ const HotelsSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        phone: {
-            type: String
-        },
-        logo:{
-            type:String
-        },
         email: {
             type: String,
             unique: true
@@ -20,13 +14,19 @@ const HotelsSchema = new mongoose.Schema({
         address: {
             type: String
         },
+        phone: {
+            type: String
+        },
+        logo:{
+            type:String
+        },
+        menue:{
+            type:String
+        },
         tables:[
             {
+                name:String,
                 qrCode: String,
-                waiterId: {
-                    type: Schema.Types.ObjectId,
-                    ref: "waiters",
-                },
                 qrCodeImage:String
             }
             ],

@@ -308,12 +308,14 @@ app.controller("add-hotel",function($scope,$http,$location,$localStorage){
         name:'',
         email:'',
         address:'',
-        logo:''
+        phone:'',
+        logo:'',
+        menue:'',
+        tables:''
         }
 
     $scope.save=function(){
         var fd = new FormData();
-        console.log("save called 1")
         for(var k in $scope.hotel){
             if(!$scope.hotel[k]){
                 window.toastr.warning("Please provide "+k.toUpperCase().replace('_',' '))

@@ -1,5 +1,6 @@
 const HotelModel = require("../models/Hotels");
 const WaiterModel = require("../models/Waiters");
+const helper = require("../helpers/helper");
 const CONSTANT = require("../config/constants");
 const domainUrl = CONSTANT.domainUrl;
 const { check, validationResult } = require("express-validator");
@@ -45,80 +46,88 @@ const hotelController = {
                     .status(422)
                     .json({msg: "Hotel with this Email already exists"});
             }
-            let logo ='';
-            if(request.files) {
-                var image = false;
-                var file = request.files;
-                for (var k in file) {
-                    if (file[k].fieldname == 'logo') {
-                        image = file[k];
-                        break;
-                    }
-                }
-                if (image) {
-                    let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
-                    logo = '/images/' + image.filename +fileName;
-                    console.log(image.path+fileName);
-                    console.log("logo");
-                    console.log(logo);
 
-                    fs.readFile(image.path, function read(err, data) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        let content = data;
-                        // console.log("ceon",content);
+             helper.uploadImage(request,'logo' , function(logo){
 
-                        if (!err && image.filename != undefined && content) {
-                            let file = dbx.filesUpload({ path: '/' + fileName, contents: content })
-                                .then(function (resp) {
-                                    // console.log(response.result);
-                                    dbx.sharingCreateSharedLinkWithSettings({
-                                        path: resp.result.path_display,
-                                        "settings": {
-                                            "requested_visibility": "public",
-                                            "audience": "public",
-                                            "access": "viewer",
-                                        }
-                                    }).then((e)=>{
-                                        // console.log(e.result);
-                                        console.log(e.result);
-                                        console.log(e.result.url);
-                                        logo = e.result.url;
-                                        logo = logo.replace("dl=0","raw=1");
-                                        let hotelObj;
-                                        hotelObj = {
-                                            name: body.name,
-                                            phone: body.phone,
-                                            email: body.email,
-                                            address: body.address,
-                                            logo:logo
-                                        };
+                 helper.uploadImage(request,'menue' , function(menue){
 
-                                        let hotel = new HotelModel(hotelObj);
-                                        hotel.save();
-                                        response
-                                            .status(200)
-                                            .json({
-                                                msg: "Hotel is successfully created."
-                                            });
+                     let hotelObj;
+                     hotelObj = {
+                         name: body.name,
+                         phone: body.phone,
+                         email: body.email,
+                         address: body.address,
+                         logo:logo,
+                         menue:menue
+                     };
 
-                                    }).catch((err)=>{
-                                        console.log(err);
-                                        return resp.send("error").end()
-                                    })
-                                })
-                                .catch(function (error) {
-                                    console.error(error);
-                                });
-                             console.log(file);
-                        } else {
-                            console.log("error")
-                        }
-                    });
+                     let hotel = new HotelModel(hotelObj);
+                     hotel.save();
+                     response
+                         .status(200)
+                         .json({
+                             msg: "Hotel is successfully created."
+                         });
 
-                }
-            }
+                 });
+
+             });
+
+                    // fs.readFile(image.path, function read(err, data) {
+                    //     if (err) {
+                    //         console.log(err);
+                    //     }
+                    //     let content = data;
+                    //     // console.log("ceon",content);
+                    //
+                    //     if (!err && image.filename != undefined && content) {
+                    //         let file = dbx.filesUpload({ path: '/' + fileName, contents: content })
+                    //             .then(function (resp) {
+                    //                 // console.log(response.result);
+                    //                 dbx.sharingCreateSharedLinkWithSettings({
+                    //                     path: resp.result.path_display,
+                    //                     "settings": {
+                    //                         "requested_visibility": "public",
+                    //                         "audience": "public",
+                    //                         "access": "viewer",
+                    //                     }
+                    //                 }).then((e)=>{
+                    //                     // console.log(e.result);
+                    //                     console.log(e.result);
+                    //                     console.log(e.result.url);
+                    //                     logo = e.result.url;
+                    //                     logo = logo.replace("dl=0","raw=1");
+                    //                     let hotelObj;
+                    //                     hotelObj = {
+                    //                         name: body.name,
+                    //                         phone: body.phone,
+                    //                         email: body.email,
+                    //                         address: body.address,
+                    //                         logo:logo
+                    //                     };
+                    //
+                    //                     let hotel = new HotelModel(hotelObj);
+                    //                     hotel.save();
+                    //                     response
+                    //                         .status(200)
+                    //                         .json({
+                    //                             msg: "Hotel is successfully created."
+                    //                         });
+                    //
+                    //                 }).catch((err)=>{
+                    //                     console.log(err);
+                    //                     return resp.send("error").end()
+                    //                 })
+                    //             })
+                    //             .catch(function (error) {
+                    //                 console.error(error);
+                    //             });
+                    //          console.log(file);
+                    //     } else {
+                    //         console.log("error")
+                    //     }
+                    // });
+
         } catch (err) {
             console.log(err);
             response
