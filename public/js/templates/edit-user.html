@@ -1,0 +1,33 @@
+
+<div class="col-md-12">
+    <div class="ms-panel">
+        <div class="ms-panel-header">
+            <h6>{{heading}}</h6>
+        </div>
+
+        <div class="ms-panel-body">
+            <form ng-submit="save()" >
+                <div class="form-group">
+                    <label class="" for="name">Name: </label>
+                    <input type="text" class="form-control"  ng-model="user.name" id="name" placeholder="Enter User Name">
+                </div>
+                <div class="form-group">
+                    <label class="" for="email">Email: </label>
+                    <input type="text" class="form-control"  ng-model="user.email" id="email" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                    <label class="" for="hotel">Select Hotel: </label>
+                    <select class="form-control" ng-model="user.hotelId" id="hotel">
+                        <option value="">Select Hotel</option>
+                        <option ng-repeat="hotel in hotels" value="{{hotel._id}}">{{hotel.name}}</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+                <!--                <button class="btn btn-default">Cancel</button>-->
+
+            </form>
+        </div>
+    </div>
+
+</div>
+

@@ -25,6 +25,11 @@ app.config(["$stateProvider","$urlRouterProvider","$httpProvider",function(t,e)
             templateUrl:"/js/templates/add-hotel.html",
             controller:'edit-hotel'
             })
+            .state("edit-user",{
+            url:"/user/{id}",
+            templateUrl:"/js/templates/edit-user.html",
+            controller:'edit-user'
+            })
             .state("add-hotel",{
             url:"/add-hotel",
             templateUrl:"/js/templates/add-hotel.html",
@@ -501,11 +506,74 @@ app.controller("edit-hotel",function($scope,$http,$location,$localStorage,$state
         })
             .success(function(result){
                 div.style.visibility = 'hidden';
-                $location.path( 'hotel');
+                $location.path( 'hotels');
                 window.toastr.success(result.msg)
             })
             .error(function(result){
                 div.style.visibility = 'hidden';
+                window.toastr.warning(result.msg)
+            });
+    }
+
+});
+app.controller("edit-user",function($scope,$http,$location,$localStorage,$stateParams){
+
+    $scope.heading = 'Update User';
+    $scope.user = {
+        name:'',
+        email:'',
+        hotelId:''
+    }
+
+    $scope.getData = function(){
+        $http({
+            method: "GET",
+            url: "/user/"+$stateParams.id,
+        }).success(function (result) {
+            if (result.status == true) {
+                var data =result.user;
+                $scope.user.name=data.name;
+                $scope.user.email =data.email;
+                $scope.user.hotelId = data.hotelId;
+            } else {
+                window.location.href = '/';
+            }
+        });
+
+        $http({
+            method: "GET",
+            url: "/getAllHotels",
+        }).success(function (result) {
+            if (result.status == true) {
+                $scope.hotels=result.hotels;
+
+            } else {
+                window.location.href = '/';
+            }
+        });
+    }
+
+    $scope.getData();
+
+    $scope.save=function(){
+        var fd = new FormData();
+        for(var k in $scope.user){
+            if(!$scope.user[k]){
+                window.toastr.warning("Please provide "+k.toUpperCase().replace('_',' '))
+                return false;
+            }
+            fd.append(k, $scope.user[k]);
+        }
+
+        $http.put('/updateUser/'+$stateParams.id, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+            .success(function(result){
+                $location.path( 'users');
+                window.toastr.success(result.msg)
+            })
+            .error(function(result){
                 window.toastr.warning(result.msg)
             });
     }

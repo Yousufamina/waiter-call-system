@@ -21,12 +21,12 @@
                 <td>{{$index+1}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
-                <td>{{user.HotelName}}</td>
-                <td>{{user.type}}</td>
+                <td>{{user.hotelId.name}}</td>
+                <td>Admin</td>
                 <td>{{dated(user.createdDate)}}</td>
                 <td>
-                    <a ng-click="removeData(user._id)" ><i class="fa fa-trash"></i> </a><br/>
-                    <a href="#hotel/{{user._id}}" ><i class="fa fa-pencil"></i> </a><br/>
+                    <a ng-click="removeData(user._id)" ><i class="fa fa-trash"></i> </a>
+                    <a href="#user/{{user._id}}" ><i class="fa fa-pencil"></i> </a>
                 </td>
             </tr>
             </tbody>

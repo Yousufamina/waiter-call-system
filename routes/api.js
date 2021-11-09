@@ -22,27 +22,22 @@ router.get('/getAllHotels',hotelController.getAllHotels);
 router.get('/hotel/:id',hotelController.getHotelDetail);
 router.put('/updateHotel/:id',hotelController.updateHotel);
 router.post('/delete/hotel',hotelController.deleteHotel);
-router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
-router.get('/getAllQrCodeImagesDetail',hotelController.getAllQrCodeImagesDetail);
-router.get('/getAllQrCodeImages',hotelController.getAllQrCodeImages);
-router.post('/getQrCodeImagesOfHotel',hotelController.getQrCodeImagesOfHotel);
-router.post('/createWaiter',waiterController.addWaiter);
-router.post('/getWaitersByHotelId',waiterController.getWaitersByHotelId);
-router.get('/getWaitersByHotel',waiterController.getWaitersByHotel);
-router.get('/getAllWaiters',waiterController.getAllWaiters);
+
+// router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
+// router.get('/getAllQrCodeImagesDetail',hotelController.getAllQrCodeImagesDetail);
+// router.get('/getAllQrCodeImages',hotelController.getAllQrCodeImages);
+// router.post('/getQrCodeImagesOfHotel',hotelController.getQrCodeImagesOfHotel);
+// router.post('/createWaiter',waiterController.addWaiter);
+// router.post('/getWaitersByHotelId',waiterController.getWaitersByHotelId);
+// router.get('/getWaitersByHotel',waiterController.getWaitersByHotel);
+// router.get('/getAllWaiters',waiterController.getAllWaiters);
+
 router.get('/getAllUsers',adminController.getAllUsers);
 router.post('/addUser',adminController.addUser);
-router.get('/getAllTypes',adminController.getUserType);
-// router.get('/getallHotelTables',hotelController.getallHotelTables);
-// router.post('/searchPatient' ,auth,patientController.searchPatient);
-// router.post('/searchPatientByLandingPage' ,patientController.searchPatientByLandingPage);
-// router.get('/removePatient/:id',auth ,patientController.removePatient);
-// router.post('/updatePatientWithTested' ,auth ,patientController.updatePatientWithTested);
-// router.get('/getAllNewestUntestedPatients',auth ,patientController.getAllNewestUntestedPatients);
-// router.get('/getAllNewestTestedPatients',auth ,patientController.getAllNewestTestedPatients);
-// router.get('/getAllOldestUntestedPatients',auth ,patientController.getAllOldestUntestedPatients);
-// router.get('/getAllOldestTestedPatients',auth ,patientController.getAllOldestTestedPatients);
-// router.post('/updateRapidTestPatientResults',auth ,patientController.updateRapidTestPatientResults);
+router.put('/updateUser/:id',adminController.updateUser);
+router.get('/user/:id',adminController.getUserDetail);
+router.post('/delete/user',adminController.deleteUser);
 
+router.get('/getAllTypes',adminController.getUserType);
 
 module.exports = router;
