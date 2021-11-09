@@ -2,15 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="commit">
+      <change afterPath="$PROJECT_DIR$/models/NumberGenerator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/Type.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/templates/add-user.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/templates/users.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/adminController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Hotels.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Hotels.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/User.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/add-hotel.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/add-hotel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/add-waiter.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/add-table.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/add-table.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/add-table.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/templates/hotels.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/hotels.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/admin/includes/sidebar.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/includes/sidebar.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/index.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,9 +25,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -41,19 +46,19 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/models" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\models" />
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system" />
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\routes" />
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\controllers" />
-      <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public" />
-      <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public\barCodes" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Amina\WebstormProjects\waiter-call-system\public" />
     </key>
   </component>
@@ -71,7 +76,7 @@
       <workItem from="1635459537070" duration="44401000" />
       <workItem from="1636353824324" duration="538000" />
       <workItem from="1636364064765" duration="7156000" />
-      <workItem from="1636379402097" duration="7446000" />
+      <workItem from="1636379402097" duration="24255000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1635483448971</created>

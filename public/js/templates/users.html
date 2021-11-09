@@ -1,6 +1,6 @@
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title">Hotels <a href="#/add-hotel">Add New Hotel</a></h3>
+        <h3 class="box-title">Users <a href="#/add-user">Add New User</a></h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -10,29 +10,23 @@
                 <th>Sr#</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Address</th>
-                <th>Phone No.</th>
-                <th>No. Of Tables</th>
-                <th>Logo</th>
-                <th>Menue</th>
+                <th>Hotel Name</th>
+                <th>Type</th>
                 <th>Created Date</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr id="{{hotel.id}}" ng-repeat="hotel in data" >
+            <tr id="{{user._id}}" ng-repeat="user in data" >
                 <td>{{$index+1}}</td>
-                <td>{{hotel.name}}</td>
-                <td>{{hotel.email}}</td>
-                <td>{{hotel.address}}</td>
-                <td>{{hotel.phone}}</td>
-                <td>{{hotel.tables.length}}</td>
-                <td><img class="imagePreviewModal" src="{{hotel.logo}}" width="100" alt="logo"/></td>
-                <td><img class="imagePreviewModal" src="{{hotel.menue}}" width="100" alt="menue"/></td>
-                <td>{{dated(hotel.createdDate)}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.HotelName}}</td>
+                <td>{{user.type}}</td>
+                <td>{{dated(user.createdDate)}}</td>
                 <td>
-                    <a ng-click="removeData(hotel._id)" ><i class="fa fa-trash"></i> </a><br/>
-                    <a href="#hotel/{{hotel._id}}" ><i class="fa fa-pencil"></i> </a><br/>
+                    <a ng-click="removeData(user._id)" ><i class="fa fa-trash"></i> </a><br/>
+                    <a href="#hotel/{{user._id}}" ><i class="fa fa-pencil"></i> </a><br/>
                 </td>
             </tr>
             </tbody>

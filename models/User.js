@@ -16,6 +16,16 @@ const UsersSchema = new mongoose.Schema({
             required: true,
             unique: true
         },
+        type:{
+            type: Schema.Types.ObjectId,
+            ref: "type",
+            required: true
+        },
+        hotelId: {
+            type: Schema.Types.ObjectId,
+            ref: "hotels",
+            required: true
+        },
         createdDate: {
             type: Date,
             default: Date.now,

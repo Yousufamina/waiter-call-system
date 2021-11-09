@@ -10,10 +10,10 @@ app.config(["$stateProvider","$urlRouterProvider","$httpProvider",function(t,e)
             templateUrl:"/js/templates/hotels.html",
             controller:'hotels'
             })
-            .state("qrCodes",{
-                url:"/qrCodes",
-                templateUrl:"/js/templates/qrCodes.html",
-                controller:'qrCodes'
+            .state("users",{
+                url:"/users",
+                templateUrl:"/js/templates/users.html",
+                controller:'users'
             })
             .state("waiters",{
             url:"/waiters",
@@ -29,6 +29,11 @@ app.config(["$stateProvider","$urlRouterProvider","$httpProvider",function(t,e)
             url:"/add-hotel",
             templateUrl:"/js/templates/add-hotel.html",
             controller:'add-hotel'
+            })
+            .state("add-user",{
+            url:"/add-user",
+            templateUrl:"/js/templates/add-user.html",
+            controller:'add-user'
             })
             .state("add-table",{
                 url:"/add-table",
@@ -106,6 +111,57 @@ app.controller("hotels",function($scope,$http,$location,$localStorage){
 
                 }
                 else {
+                    $("#confirmation").modal("hide")
+
+                }
+            })
+        }
+
+    }
+
+
+});
+app.controller("users",function($scope,$http,$location,$localStorage){
+
+    $scope.dated = dateAndTimeFormat;
+    $scope.getData = function(){
+            $http({
+                method: "GET",
+                url: "/getAllUsers",
+            }).success(function (result) {
+                if (result.status == true) {
+                    $scope.data=result.users;
+                } else {
+                    window.location.href = '/';
+                }
+            })
+        }
+
+    $scope.getData();
+    $scope.removingId = '';
+    $scope.removeData = function(id){
+        $scope.removingId = id;
+        $("#confirmation").modal("show")
+    }
+
+    $scope.removeConfirmed  = function(){
+        if($scope.removingId!="") {
+
+            var fd = new FormData();
+                fd.append('id',$scope.removingId);
+
+            $http.post('/delete/user', fd,{
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).success(function(data){
+                if (data.status) {
+                    $("#"+$scope.removingId).remove();
+                    $("#confirmation").modal("hide");
+                    window.toastr.success(data.msg);
+                    $scope.getData();
+                }
+                else {
+                    window.toastr.warning(data.msg);
                     $("#confirmation").modal("hide")
 
                 }
@@ -337,6 +393,63 @@ app.controller("add-hotel",function($scope,$http,$location,$localStorage){
     }
 
 });
+app.controller("add-user",function($scope,$http,$location,$localStorage){
+
+    $scope.heading = 'Add New User';
+    $scope.user = {
+        name:'',
+        email:'',
+        password:'',
+        hotelId:'',
+        }
+    $scope.getData = function(){
+        $http({
+            method: "GET",
+            url: "/getAllHotels",
+        }).success(function (result) {
+            if (result.status == true) {
+                $scope.hotels=result.hotels;
+
+            } else {
+                window.location.href = '/';
+            }
+        });
+        $http({
+            method: "GET",
+            url: "/getAllTypes",
+        }).success(function (result) {
+            if (result.status == true) {
+                $scope.types=result.types;
+
+            } else {
+                window.location.href = '/';
+            }
+        });
+    }
+    $scope.getData();
+    $scope.save=function(){
+        var fd = new FormData();
+        for(var k in $scope.user){
+            if(!$scope.user[k]){
+                window.toastr.warning("Please provide "+k.toUpperCase().replace('_',' '))
+                return false;
+            }
+            fd.append(k, $scope.user[k]);
+        }
+        $http.post('/addUser', fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+            .success(function(result){
+                $location.path('users');
+                window.toastr.success(result.msg)
+            })
+            .error(function(result){
+                window.toastr.warning(result.msg)
+            });
+    }
+
+});
 app.controller("edit-hotel",function($scope,$http,$location,$localStorage,$stateParams){
 
     $scope.heading = 'Update Hotel';
@@ -395,15 +508,33 @@ app.controller("edit-hotel",function($scope,$http,$location,$localStorage,$state
                 div.style.visibility = 'hidden';
                 window.toastr.warning(result.msg)
             });
-
-
-
     }
 
 });
 app.controller("add-table",function($scope,$http,$location,$localStorage){
 
         $scope.heading = 'Add Table';
+        $scope.tables = [];
+        $scope.showTables=function(){
+        console.log("$scope.hotel.hotelId");
+        console.log($scope.hotel.hotelId);
+
+        if(!$scope.hotel.hotelId){
+            window.toastr.warning("Please Select Hotel")
+            return false;
+        }
+
+        $http({
+            method: "GET",
+            url: "/hotel/"+$scope.hotel.hotelId,
+        }).success(function (result) {
+            if (result.status == true) {
+                $scope.tables=result.hotel.tables;
+            } else {
+                window.location.href = '/';
+            }
+        });
+    }
         $scope.hotel= {
             hotelId:'',
         }
@@ -422,10 +553,17 @@ app.controller("add-table",function($scope,$http,$location,$localStorage){
 
         }
         $scope.getData();
+
         $scope.addTableInHotel = function(){
             console.log("$scope.hotel.hotelId");
             console.log($scope.hotel.hotelId);
 
+            if(!$scope.hotel.hotelId){
+                window.toastr.warning("Please Select Hotel")
+                return false;
+            }
+
+            var fd = new FormData();
             for(var k in $scope.hotel){
                 fd.append(k, $scope.hotel[k]);
             }
@@ -435,37 +573,44 @@ app.controller("add-table",function($scope,$http,$location,$localStorage){
                 headers: {'Content-Type': undefined}
             })
                 .success(function(result){
-                    // $location.path('waiters');
-                    window.toastr.success(result.msg)
+                    window.toastr.success(result.msg);
+                    $scope.showTables();
                 })
                 .error(function(result){
                     window.toastr.warning(result.msg)
                 });
-
-
-
         }
 
-        $scope.showTables=function(){
-            console.log("$scope.hotel.hotelId");
-            console.log($scope.hotel.hotelId);
+        $scope.table = {};
+        $scope.update = function(table){
+            console.log(table);
+            $scope.table._id = table._id;
+            $scope.table.name = table.name;
+            $("#update").modal("show")
+        }
 
-            if(!$scope.hotel.hotelId){
-                window.toastr.warning("Please Select Hotel")
-                return false;
+        $scope.updateTableName = function(){
+        $http({
+            url: '/updateTableName',
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            data: $scope.table
+        }).success(function (data) {
+            if (data.status) {
+                window.toastr.success(data.msg);
+                $scope.showTables();
+                $("#update").modal("hide")
             }
+            else {
+                window.toastr.warning(data.message)
 
-            $http({
-                method: "GET",
-                url: "/getAllHotelTables/",
-            }).success(function (result) {
-                if (result.status == true) {
-                    $scope.tables=result.tables;
-                } else {
-                    window.location.href = '/';
-                }
-            });
-        }
+            }
+        })
+
+
+    }
+
+
 
     //     $scope.showTables=function(){
     //

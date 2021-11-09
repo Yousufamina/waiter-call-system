@@ -5,7 +5,7 @@
             <h6>{{heading}}</h6>
         </div>
         <div class="ms-panel-body">
-            <form ng-submit="save()" >
+            <form ng-submit="addTableInHotel()" >
                 <div class="form-group">
                     <label class="" for="hotel">Select Hotel: </label>
                     <select class="form-control" ng-model="hotel.hotelId" id="hotel">
@@ -13,14 +13,88 @@
                         <option ng-repeat="hotel in hotels" value="{{hotel._id}}">{{hotel.name}}</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-success">Show Tables</button>
-                <button onclick="addTableInHotel()" class="btn btn-success">Add Table</button>
-                <!--                <button class="btn btn-default">Cancel</button>-->
-
+                <button type="submit" class="btn btn-success">Add Table</button>
             </form>
+
+            <button ng-click="showTables()" class="btn btn-primary" style="float:right;">Show Tables</button>
+
+            <br/>
+            <br/>
+            <br/>
+            <div class="box-body" >
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Table Name</th>
+                        <th>QR Code</th>
+                        <th>QR Code Image</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="tables.length" id="{{table._id}}" ng-repeat="table in tables" >
+                        <td>{{$index+1}}</td>
+                        <td>{{table.name}}</td>
+                        <td>{{table.qrCode}}</td>
+                        <td><img class="imagePreviewModal" src="{{table.qrCodeImage}}" width="100" alt="logo"/></td>
+                        <td>
+                            <a ng-click="update(table)"><i class="fa fa-pencil"></i></a><br/>
+                        </td>
+                    </tr>
+                    <tr ng-if="tables.length==0">
+                        <td></td>
+                        <td></td>
+                        <td>No Table added</td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
 
         </div>
     </div>
 
 </div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="update" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateMatch">Update Table Name</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="name">
+                        Enter Table Name
+                    </label>
+                    <input type="text" ng-model="table.name" id="name" class="form-control"/>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="updateTableName()" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(function(){
+        var h =  $('.wrapper').height()
+        h = h-100;
+        $('.content-wrapper').css("height",h)
+    },500)
+
+
+</script>
+
 

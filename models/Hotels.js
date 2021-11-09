@@ -27,7 +27,8 @@ const HotelsSchema = new mongoose.Schema({
             {
                 name:String,
                 qrCode: String,
-                qrCodeImage:String
+                qrCodeImage:String,
+                status:String
             }
             ],
         createdDate: {

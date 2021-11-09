@@ -2,6 +2,7 @@ const HotelModel = require("../models/Hotels");
 const WaiterModel = require("../models/Waiters");
 const helper = require("../helpers/helper");
 const CONSTANT = require("../config/constants");
+const NumberGeneratorModel = require("../models/NumberGenerator");
 const domainUrl = CONSTANT.domainUrl;
 const { check, validationResult } = require("express-validator");
 const QRCode = require('qrcode')
@@ -27,7 +28,6 @@ const hotelController = {
     createHotel: async (request, response) => {
 
         console.log("====== Hotel Create API =======");
-        console.log(request.body);
         console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
@@ -115,7 +115,6 @@ const hotelController = {
                                                                 console.log(e.result.url);
                                                                 menue = e.result.url;
                                                                 menue = menue.replace("dl=0", "raw=1");
-
 
                                                                 let hotelObj;
                                                                 hotelObj = {
@@ -703,65 +702,143 @@ const hotelController = {
         const body = JSON.parse(JSON.stringify(request.body));
 
         try{
-              let hotelId= body.hotelIdl
+            let hotelId= body.hotelId;
+            let hotelDetail = await HotelModel.findOne({_id:hotelId});
+            let tables = hotelDetail.tables;
 
-              // devide number into equal parts
-            const breakIntoParts = (num, parts) =>
-                [...Array(parts)].map((_,i) =>
-                    0|num/parts+(i < num%parts))
+            // get uuid auto generated
+            let numberDoc = await NumberGeneratorModel.findOneAndUpdate(
+                { name: "uuid" },
+                { $inc: { value: 1 } },
+                { new: true }
+            );
+            let value = numberDoc.value;
+            let qrCode = (value + "").padStart(4, "0");
+            let src = 'barCodes/'+`${Date.now()}.png`;
+            console.log("tables.length");
+            console.log(tables.length);
+            if(tables.length){
+                console.log("tables already added");
+                // update table
+                let len = tables.length+1;
+                let tableName = 'Table '+len;
+                await QRCode.toFile('./public/'+`${src}`,qrCode, opts).then(qrImage => {
+                    // console.log("File",qrImage);
+                    console.log("qrCode generated");
+                }).catch(err => {
+                    console.error(err)
+                });
 
-            let noOfAssignedTables = (breakIntoParts(noOfTables, parts));
-            console.log(`equal Parts Array `+JSON.stringify(breakIntoParts(noOfTables, parts)));
+                let table = {name: tableName,qrCode: qrCode , qrCodeImage: src, status:'InActive' };
+                let updated = await HotelModel.findOneAndUpdate({_id: hotelId},
+                    {   $push: { tables: [table] } },  {new: true});
+                console.log("updated OBJ");
+                console.log(updated);
 
-            for(let i=0;i<noOfAssignedTables.length ; i++){
-                let value = noOfAssignedTables[i];
+            }
+            else{
+                console.log(" first table added");
 
-                for(let k=0;k<value ; k++) {
+                // insert first table
+                await QRCode.toFile('./public/'+`${src}`,qrCode, opts).then(qrImage => {
+                    // console.log("File",qrImage);
+                    console.log("qrCode Generated");
+                }).catch(err => {
+                    console.error(err)
+                });
 
-                    let waiterId = waitersArr[i];
-
-                    let waiterDetail = await WaiterModel.findOne({_id:waiterId});
-                    let hotelDetail = await HotelModel.findOne({_id:hotelId});
-
-                    // generate QR Code for each table
-
-                    let qrCodeObj = {
-                        hotelName   : hotelDetail.name,
-                        hotelLogo :`${domainUrl}${hotelDetail.logo}`,
-                        waiterName  : waiterDetail.name,
-                        waiterPhone : waiterDetail.phone,
-                    };
-                    qrCodeObj = JSON.stringify(qrCodeObj);
-                    console.log(JSON.parse(qrCodeObj));
-
-                    let src = 'barCodes/'+`${Date.now()}.png`;
-                    await QRCode.toFile('./public/'+`${src}`,qrCodeObj, opts).then(qrImage => {
-                        // console.log("File",qrImage);
-                        // console.log(qrImage);
-
-                        let tableObj = { qrCode:qrCodeObj , waiterId :  waiterId , qrCodeImage: src };
-                        tables = [...tables, tableObj] ;
-
-                    }).catch(err => {
-                        console.error(err)
-                    });
-
-                }
+                let table = {name: 'Table 1',qrCode: qrCode , qrCodeImage: src, status:'InActive' };
+                let updated = await  HotelModel.findOneAndUpdate({_id: hotelId},
+                    {   $push: { tables: table } },  {new: true});
+                console.log("updated OBJ");
+                console.log(updated);
             }
 
-            console.log(tables);
-            let updatedHotelObj =  await HotelModel.findOneAndUpdate({_id: hotelId},
-                {   $push: { tables: tables } },  {new: true});
-
-            console.log("New Hotel Obj");
-            console.log(updatedHotelObj);
-
+            // devide number into equal parts
+            // const breakIntoParts = (num, parts) =>
+            //     [...Array(parts)].map((_,i) =>
+            //         0|num/parts+(i < num%parts))
+            //
+            // let noOfAssignedTables = (breakIntoParts(noOfTables, parts));
+            // console.log(`equal Parts Array `+JSON.stringify(breakIntoParts(noOfTables, parts)));
+            //
+            // for(let i=0;i<noOfAssignedTables.length ; i++){
+            //     let value = noOfAssignedTables[i];
+            //
+            //     for(let k=0;k<value ; k++) {
+            //
+            //         let waiterId = waitersArr[i];
+            //
+            //         let waiterDetail = await WaiterModel.findOne({_id:waiterId});
+            //         let hotelDetail = await HotelModel.findOne({_id:hotelId});
+            //
+            //         // generate QR Code for each table
+            //
+            //         let qrCodeObj = {
+            //             hotelName   : hotelDetail.name,
+            //             hotelLogo :`${domainUrl}${hotelDetail.logo}`,
+            //             waiterName  : waiterDetail.name,
+            //             wait erPhone : waiterDetail.phone,
+            //         };
+            //         qrCodeObj = JSON.stringify(qrCodeObj);
+            //         console.log(JSON.parse(qrCodeObj));
+            //
+            //         let src = 'barCodes/'+`${Date.now()}.png`;
+            //         await QRCode.toFile('./public/'+`${src}`,qrCodeObj, opts).then(qrImage => {
+            //             // console.log("File",qrImage);
+            //             // console.log(qrImage);
+            //
+            //             let tableObj = { qrCode:qrCodeObj , waiterId :  waiterId , qrCodeImage: src };
+            //             tables = [...tables, tableObj] ;
+            //
+            //         }).catch(err => {
+            //             console.error(err)
+            //         });
+            //
+            //     }
+            // }
+            //
+            // console.log(tables);
+            // let updatedHotelObj =  await HotelModel.findOneAndUpdate({_id: hotelId},
+            //     {   $push: { tables: tables } },  {new: true});
+            console.log("Table added successfully");
             response
                 .status(200)
                 .json({
                     status:true,
-                    updatedHotelObj,
-                    msg: "Qr Code Generated Successfully."
+                    msg: "Table added successfully"
+                });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    updateTableName : async (request,response ) => {
+
+        console.log("====== Update Table Name API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try{
+            let id= body._id;
+            let name= body.name;
+
+            let updated = await  HotelModel.findOneAndUpdate({"tables._id": id},
+                {   $set: { "tables.$.name" : name } },  {new: true});
+
+            console.log("updated OBJ");
+            console.log(updated);
+            console.log("Table name updated successfully");
+            response
+                .status(200)
+                .json({
+                    status:true,
+                    msg: "Table name updated successfully"
                 });
         } catch (err) {
             console.log(err);
