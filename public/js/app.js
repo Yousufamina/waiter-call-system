@@ -636,15 +636,19 @@ app.controller("add-table",function($scope,$http,$location,$localStorage){
                 fd.append(k, $scope.hotel[k]);
             }
 
+            var div = document.getElementById('waitSpinner');
+            div.style.visibility = 'visible';
             $http.post('/addTable', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
                 .success(function(result){
+                    div.style.visibility = 'hidden';
                     window.toastr.success(result.msg);
                     $scope.showTables();
                 })
                 .error(function(result){
+                    div.style.visibility = 'hidden';
                     window.toastr.warning(result.msg)
                 });
         }

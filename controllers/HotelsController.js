@@ -748,16 +748,20 @@ const hotelController = {
 
                                     let table = {name: tableName,qrCode: qrCode , qrCodeImage: src, status:'InActive' };
                                     let updated = HotelModel.findOneAndUpdate({_id: hotelId},
-                                        {   $push: { tables: [table] } },  {new: true});
-                                    // console.log("updated OBJ");
-                                    // console.log(updated);
+                                        {   $push: { tables: [table] } },  function(err, doc){
+                                            if(err){
+                                                console.log("Something wrong when updating data!");
+                                            }
+                                            else{
+                                                console.log("Table added successfully");
+                                                response
+                                                    .status(200)
+                                                    .json({
+                                                        status:true,
+                                                        msg: "Table added successfully"
+                                                    });
 
-                                    console.log("Table added successfully");
-                                    response
-                                        .status(200)
-                                        .json({
-                                            status:true,
-                                            msg: "Table added successfully"
+                                            }
                                         });
 
                                 }).catch((err) => {
