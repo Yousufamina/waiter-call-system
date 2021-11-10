@@ -714,6 +714,7 @@ const hotelController = {
             );
             let value = numberDoc.value;
             let qrCode = (value + "").padStart(4, "0");
+            let qrCodeUrl  = CONSTANT.domainUrl+"connect/"+qrCode;
             let img = 'barCodes/'+`${Date.now()}.png`;
             let src = '';
             let fileName =  `${Date.now()}.png`;
@@ -723,7 +724,7 @@ const hotelController = {
                 // update table
                 let len = tables.length+1;
                 let tableName = 'Table '+len;
-                await QRCode.toFile('./public/'+`${img}`,qrCode, opts).then(qrImage => {
+                await QRCode.toFile('./public/'+`${img}`,qrCodeUrl, opts).then(qrImage => {
                     // console.log("File",qrImage);
 
                     fs.readFile('./public/'+`${img}`, function read(err, data) {
@@ -784,7 +785,7 @@ const hotelController = {
             else{
                 console.log(" first table added");
                 // insert first table
-                await QRCode.toFile('./public/'+`${img}`,qrCode, opts).then(qrImage => {
+                await QRCode.toFile('./public/'+`${img}`,qrCodeUrl, opts).then(qrImage => {
 
                     fs.readFile('./public/'+`${img}`, function read(err, data) {
                         if (err) {
@@ -885,11 +886,18 @@ const hotelController = {
 
         console.log("====== connect  API =======");
         console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        console.log("=== Params: ===" + (request.params.id));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
         try{
-            let code = body.qrCode;
+            let code='';
+            if(body.code){
+                code = body.qrCode;
+            }
+            else{
+                code = request.params.id;
+            }
             let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
             console.log("hotel");
             console.log(hotel);
@@ -903,8 +911,8 @@ const hotelController = {
                     status: "Table"
                 };
                 let service = new CallServiceModel(obj);
-                service.save();
-
+                await service.save();
+                console.log("called save func");
                 response.render('dashboard',{code:code, logo:hotel.logo , hotelName:hotel.name});
             }
             else{
@@ -975,19 +983,25 @@ const hotelController = {
             let user = request.session.user;
             console.log("admin user request");
             console.log(user);
-            if(user.hotelId){
-                let calls = await CallServiceModel.find({hotelId: user.hotelId,status:{$ne:'Ended'}});
-                response
-                    .status(200)
-                    .json({
-                        status:true,
-                        calls:calls,
-                        msg: "calls get successfully."
-                    });
+            if(user){
+                if(user.hotelId){
+                    let calls = await CallServiceModel.find({hotelId: user.hotelId,status:{$ne:'Ended'}});
+                    response
+                        .status(200)
+                        .json({
+                            status:true,
+                            calls:calls,
+                            msg: "calls get successfully."
+                        });
+                }
+                else if(user.type == '6189f042f8bae7b5d035a19f'){
+                    delete request.session.user;
+                    response.render("admin/login", {status: true, message: ""})
+                }
             }
-            else if(user.type == '6189f042f8bae7b5d035a19f'){
+            else{
                 delete request.session.user;
-                response.render("admin/login", {status: true, message: ""})
+                response.render("admin/login", {status: true, message: ""});
             }
         } catch (err) {
             console.log(err);

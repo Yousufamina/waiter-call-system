@@ -41,7 +41,7 @@
 
 <div class="container-fluid bg-2 text-center">
     <h3>Connect</h3>
-    <form  action="/connect" id="form">
+    <form method="post" action="/connect" id="form">
         <div class="input-group input-group-lg" style="display: inline-table; width: 60%;">
             <span class="input-group-addon">Connect</span>
             <input id="msg" type="text" class="form-control" name="qrCode" placeholder="Enter Code Here">
@@ -54,7 +54,7 @@
 
 <script>
 
-    $('#form').submit(function(e){
+    $('#form').submit(function(){
           var url = $(this).closest('form').attr('action');
         $.ajax({
             url: url,
@@ -64,7 +64,6 @@
                 alert("You Enter Incorrect Code");
                 window.location.href = "/";
             }
-
         });
     });
 

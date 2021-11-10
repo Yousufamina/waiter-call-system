@@ -23,6 +23,7 @@ router.get('/hotel/:id',hotelController.getHotelDetail);
 router.put('/updateHotel/:id',hotelController.updateHotel);
 router.post('/delete/hotel',hotelController.deleteHotel);
 router.post('/connect',hotelController.connect);
+router.get('/connect/:id',hotelController.connect);
 router.post('/callWaiter/:id',hotelController.callService);
 router.get('/getAllServiceCalls',hotelController.getAllServiceCalls);
 router.post('/endCall',hotelController.endCall);
