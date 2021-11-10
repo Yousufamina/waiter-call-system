@@ -714,27 +714,67 @@ const hotelController = {
             );
             let value = numberDoc.value;
             let qrCode = (value + "").padStart(4, "0");
-            let src = 'barCodes/'+`${Date.now()}.png`;
-            console.log("tables.length");
-            console.log(tables.length);
+            let img = 'barCodes/'+`${Date.now()}.png`;
+            let src = '';
+            let fileName =  `${Date.now()}.png`;
+
             if(tables.length){
                 console.log("tables already added");
                 // update table
                 let len = tables.length+1;
                 let tableName = 'Table '+len;
-                await QRCode.toFile('./public/'+`${src}`,qrCode, opts).then(qrImage => {
+                await QRCode.toFile('./public/'+`${img}`,qrCode, opts).then(qrImage => {
                     // console.log("File",qrImage);
+
+                    fs.readFile('./public/'+`${img}`, function read(err, data) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        let content = data;
+                        let file =  dbx.filesUpload({path: '/' + fileName, contents: content})
+                            .then(function (resp) {
+                                dbx.sharingCreateSharedLinkWithSettings({
+                                    path: resp.result.path_display,
+                                    "settings": {
+                                        "requested_visibility": "public",
+                                        "audience": "public",
+                                        "access": "viewer",
+                                    }
+                                }).then((e) => {
+                                    console.log(e.result);
+                                    console.log(e.result.url);
+                                    src = e.result.url;
+                                    src = src.replace("dl=0", "raw=1");
+
+                                    let table = {name: tableName,qrCode: qrCode , qrCodeImage: src, status:'InActive' };
+                                    let updated = HotelModel.findOneAndUpdate({_id: hotelId},
+                                        {   $push: { tables: [table] } },  {new: true});
+                                    // console.log("updated OBJ");
+                                    // console.log(updated);
+
+                                    console.log("Table added successfully");
+                                    response
+                                        .status(200)
+                                        .json({
+                                            status:true,
+                                            msg: "Table added successfully"
+                                        });
+
+                                }).catch((err) => {
+                                    console.log(err);
+                                    return resp.send("error").end()
+                                })
+                            })
+                            .catch(function (error) {
+                                console.error(error);
+                            });
+                        console.log(file);
+                    });
 
                     console.log("qrCode generated");
                 }).catch(err => {
                     console.error(err)
                 });
-
-                let table = {name: tableName,qrCode: qrCode , qrCodeImage: src, status:'InActive' };
-                let updated = await HotelModel.findOneAndUpdate({_id: hotelId},
-                    {   $push: { tables: [table] } },  {new: true});
-                console.log("updated OBJ");
-                console.log(updated);
 
             }
             else{
@@ -755,60 +795,6 @@ const hotelController = {
                 console.log(updated);
             }
 
-            // devide number into equal parts
-            // const breakIntoParts = (num, parts) =>
-            //     [...Array(parts)].map((_,i) =>
-            //         0|num/parts+(i < num%parts))
-            //
-            // let noOfAssignedTables = (breakIntoParts(noOfTables, parts));
-            // console.log(`equal Parts Array `+JSON.stringify(breakIntoParts(noOfTables, parts)));
-            //
-            // for(let i=0;i<noOfAssignedTables.length ; i++){
-            //     let value = noOfAssignedTables[i];
-            //
-            //     for(let k=0;k<value ; k++) {
-            //
-            //         let waiterId = waitersArr[i];
-            //
-            //         let waiterDetail = await WaiterModel.findOne({_id:waiterId});
-            //         let hotelDetail = await HotelModel.findOne({_id:hotelId});
-            //
-            //         // generate QR Code for each table
-            //
-            //         let qrCodeObj = {
-            //             hotelName   : hotelDetail.name,
-            //             hotelLogo :`${domainUrl}${hotelDetail.logo}`,
-            //             waiterName  : waiterDetail.name,
-            //             wait erPhone : waiterDetail.phone,
-            //         };
-            //         qrCodeObj = JSON.stringify(qrCodeObj);
-            //         console.log(JSON.parse(qrCodeObj));
-            //
-            //         let src = 'barCodes/'+`${Date.now()}.png`;
-            //         await QRCode.toFile('./public/'+`${src}`,qrCodeObj, opts).then(qrImage => {
-            //             // console.log("File",qrImage);
-            //             // console.log(qrImage);
-            //
-            //             let tableObj = { qrCode:qrCodeObj , waiterId :  waiterId , qrCodeImage: src };
-            //             tables = [...tables, tableObj] ;
-            //
-            //         }).catch(err => {
-            //             console.error(err)
-            //         });
-            //
-            //     }
-            // }
-            //
-            // console.log(tables);
-            // let updatedHotelObj =  await HotelModel.findOneAndUpdate({_id: hotelId},
-            //     {   $push: { tables: tables } },  {new: true});
-            console.log("Table added successfully");
-            response
-                .status(200)
-                .json({
-                    status:true,
-                    msg: "Table added successfully"
-                });
         } catch (err) {
             console.log(err);
             response
