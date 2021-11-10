@@ -1,34 +1,31 @@
 <div class="box">
-    <div class="ms-panel">
-        <div class="ms-panel-header new"><h6>Users</h6>
-            <button type="button" class="btn btn-outline-primary"> <a href="#/add-user">Add New User</a> </button>
+
+    <div class="ms-panel-header">
+        <div class="d-flex justify-content-between">
+            <div class="ms-header-text"><h6>Service Calls</h6></div>
         </div>
     </div>
+
     <!-- /.box-header -->
     <div class="box-body">
         <table id="example1" class="table table-bordered table-striped">
             <thead>
             <tr >
                 <th>Sr#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Hotel Name</th>
-                <th>Type</th>
-                <th>Created Date</th>
+                <th>Table Name</th>
+                <th>Status</th>
+                <th>Date</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr id="{{user._id}}" ng-repeat="user in data" >
+            <tr id="{{call._id}}" ng-repeat="call in data" >
                 <td>{{$index+1}}</td>
-                <td>{{user.name}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.hotelId.name}}</td>
-                <td>Admin</td>
-                <td>{{dated(user.createdDate)}}</td>
+                <td>{{call.tableName}}</td>
+                <td>{{call.status}}</td>
+                <td>{{dated(call.createdDate)}}</td>
                 <td>
-                    <a ng-click="removeData(user._id)" ><i class="fa fa-trash"></i> </a>
-                    <a href="#user/{{user._id}}" ><i class="fa fa-pencil"></i> </a>
+                    <a ng-click="removeData(call._id)" ><i class="fa fa-trash"></i> </a><br/>
                 </td>
             </tr>
             </tbody>
@@ -56,12 +53,11 @@
         </div>
     </div>
 </div>
+
 <script>
     setTimeout(function(){
         var h =  $('.wrapper').height()
         h = h-100;
         $('.content-wrapper').css("height",h)
     },500)
-
-
 </script>

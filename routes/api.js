@@ -22,6 +22,10 @@ router.get('/getAllHotels',hotelController.getAllHotels);
 router.get('/hotel/:id',hotelController.getHotelDetail);
 router.put('/updateHotel/:id',hotelController.updateHotel);
 router.post('/delete/hotel',hotelController.deleteHotel);
+router.post('/connect',hotelController.connect);
+router.post('/callWaiter/:id',hotelController.callService);
+router.get('/getAllServiceCalls',hotelController.getAllServiceCalls);
+router.post('/endCall',hotelController.endCall);
 
 // router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
 // router.get('/getAllQrCodeImagesDetail',hotelController.getAllQrCodeImagesDetail);
@@ -39,5 +43,6 @@ router.get('/user/:id',adminController.getUserDetail);
 router.post('/delete/user',adminController.deleteUser);
 
 router.get('/getAllTypes',adminController.getUserType);
+router.get('/logout',adminController.logout);
 
 module.exports = router;

@@ -8,7 +8,12 @@ const adminController = {
     index: async (request, response) => {
         if (request.session.user) {
             let user = request.session.user;
-            response.render('admin/index', {user: user})
+            if(user.type == '6189f042f8bae7b5d035a19f'){
+                response.render('admin/index', {user: user})
+            }
+            else{
+                response.render('admin/user_index', {user: user})
+            }
         } else {
             response.redirect('/admin/login')
         }
@@ -227,6 +232,17 @@ const adminController = {
                 .json({msg: err});
         }
     },
+
+    logout: async (request, response) => {
+        console.log("================== LOGOUT API ====================")
+        console.log("================== "+new Date()+" ====================")
+        var user = request.session.user;
+
+        delete request.session.user;
+
+        response.redirect('/admin/login')
+
+    }
 
 
 }

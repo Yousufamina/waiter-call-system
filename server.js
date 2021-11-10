@@ -46,7 +46,10 @@ app.use('/admin', admin);
 
 
 app.get("/", (req, res) => {
-    res.send("Server is up and running!");
+    res.render('main');
+});
+app.get("/connect", (req, res) => {
+    res.render('main');
 });
 
 

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Theme Made By www.w3schools.com - No Copyright -->
+    <title>Bootstrap Theme Simply Me</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+        }
+        .bg-2 {
+            background-color: #474e5d; /* Dark Blue */
+            color: #ffffff;
+        }
+        .bg-3 {
+            background-color: #fff; /* White */
+            color: #555555;
+        }
+        .container-fluid1 {
+            padding-top: 70px;
+            padding-bottom: 20px;
+        }
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 210px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid1 bg-1 text-center">
+    <h3>No Waiter</h3>
+    <img src="https://oclgroup.org/wp-content/uploads/2021/04/oclshuttle-logo-1.png" class="img-circle" alt="Bird" width="200" height="67">
+
+</div>
+
+<div class="container-fluid bg-2 text-center">
+    <h3>Connect</h3>
+    <form method="post" action="/connect" id="form">
+        <div class="input-group input-group-lg" style="display: inline-table; width: 60%;">
+            <span class="input-group-addon">Connect</span>
+            <input id="msg" type="text" class="form-control" name="qrCode" placeholder="Enter Code Here">
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+
+<script>
+
+    $('#form').submit(function(e){
+          var url = $(this).closest('form').attr('action');
+        $.ajax({
+            url: url,
+            type: 'post',
+            data:$('#form').serialize(),
+            error:function(){
+                alert("You Enter Incorrect Code");
+                window.location.href = "/";
+            }
+
+        });
+    });
+
+</script>

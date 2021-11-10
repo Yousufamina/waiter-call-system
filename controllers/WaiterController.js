@@ -105,7 +105,7 @@ const waiterController = {
         try {
             // get all waiters of hotel
             let waiters = await WaiterModel.find().populate('hotelId').exec();
-console.log(waiters);
+                console.log(waiters);
             response
                 .status(200)
                 .json({

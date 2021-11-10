@@ -1,5 +1,6 @@
 const HotelModel = require("../models/Hotels");
 const WaiterModel = require("../models/Waiters");
+const CallServiceModel = require("../models/CallService");
 const helper = require("../helpers/helper");
 const CONSTANT = require("../config/constants");
 const NumberGeneratorModel = require("../models/NumberGenerator");
@@ -10,7 +11,6 @@ const fs = require('fs');
 
 const { Dropbox } = require('dropbox'); // eslint-disable-line import/no-unresolved
 var dbx = new Dropbox({ accessToken: "RpsR1d1X1B4AAAAAAAAAAQJkKuFNRF2SQZj9wcvado75Dk3N3wfopY72zkkldfRz" });
-
 
 const opts = {
     errorCorrectionLevel: 'H',
@@ -724,6 +724,7 @@ const hotelController = {
                 let tableName = 'Table '+len;
                 await QRCode.toFile('./public/'+`${src}`,qrCode, opts).then(qrImage => {
                     // console.log("File",qrImage);
+
                     console.log("qrCode generated");
                 }).catch(err => {
                     console.error(err)
@@ -840,6 +841,147 @@ const hotelController = {
                     status:true,
                     msg: "Table name updated successfully"
                 });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    connect : async (request,response ) => {
+
+        console.log("====== connect  API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try{
+            let code = body.qrCode;
+            let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
+            console.log("hotel");
+            console.log(hotel);
+            if(hotel.length){
+                hotel = hotel[0];
+                let tableId = hotel.tables._id;
+                let obj = {
+                    hotelId: hotel._id,
+                    tableId : tableId,
+                    tableName : hotel.tables.name,
+                    status: "Join"
+                };
+                let service = new CallServiceModel(obj);
+                service.save();
+
+                response.render('dashboard',{code:code, logo:hotel.logo , hotelName:hotel.name});
+            }
+            else{
+                console.log("Incorrect code")  ;
+                response
+                    .status(500)
+                    .json({
+                        msg: "Incorrect code."
+                    });
+            }
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    callService : async (request,response ) => {
+
+        console.log("====== call Waiter Service  API =======");
+
+        console.log(request.params.id);
+        let code = request.params.id;
+        try{
+            let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
+            console.log(hotel);
+            if(hotel.length){
+                hotel = hotel[0];
+                let obj = {
+                    hotelId: hotel._id,
+                    tableId : hotel.tables._id,
+                    tableName : hotel.tables.name,
+                    status: "Service"
+                };
+                let service = new CallServiceModel(obj);
+                service.save();
+                response
+                    .status(200)
+                    .json({
+                        msg: "Call Waiter successfully called."
+                    });
+            }
+            else{
+              console.log("Incorrect code")  ;
+                response
+                    .status(500)
+                    .json({
+                        msg: "Incorrect code."
+                    });
+            }
+
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    getAllServiceCalls : async (request,response ) => {
+
+        console.log("====== get All Service Calls  API =======");
+
+        try{
+            let user = request.session.user;
+            console.log("admin user request");
+            console.log(user);
+            if(user.hotelId){
+                let calls = await CallServiceModel.find({hotelId: user.hotelId,status:{$ne:'Ended'}});
+                response
+                    .status(200)
+                    .json({
+                        status:true,
+                        calls:calls,
+                        msg: "calls get successfully."
+                    });
+            }
+            else if(user.type == '6189f042f8bae7b5d035a19f'){
+                delete request.session.user;
+                response.render("admin/login", {status: true, message: ""})
+            }
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    endCall : async (request,response ) => {
+
+        console.log("====== endCall  API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try{
+            let call = await CallServiceModel.deleteOne({_id:body.id});
+            response
+                    .status(200)
+                    .json({
+                        status:true,
+                        msg: "Call deleted successfully."
+                    });
         } catch (err) {
             console.log(err);
             response

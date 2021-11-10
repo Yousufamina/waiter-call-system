@@ -514,8 +514,8 @@ a{
     font-size: 14px;
 }
 a:hover, a:active, a:focus {
-    color: #bc2634;
-    text-decoration: none;
+    /*color: #bc2634;*/
+    /*text-decoration: none;*/
 }
 code{
     padding: 5px;
@@ -1494,12 +1494,11 @@ a.ms-confirm-trigger:hover{
 
 /* Dropdowns */
 .dropdown-menu{
-    display: block;
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
-    visibility: hidden;
-    top: 0;
-    opacity: 0;
+    /*display: block;*/
+    /*-webkit-transition: 0.3s;*/
+    /*transition: 0.3s;*/
+    /*top: 0;*/
+    /*opacity: 0;*/
     -webkit-box-shadow: 0 1px 24px rgba(0,0,0,0.1);
     -moz-box-shadow: 0 1px 24px rgba(0,0,0,0.1);
     box-shadow: 0 1px 24px rgba(0,0,0,0.1);

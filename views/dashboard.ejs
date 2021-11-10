@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Theme Made By www.w3schools.com - No Copyright -->
+    <title>Bootstrap Theme Simply Me</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+        }
+        .bg-2 {
+            background-color: #474e5d; /* Dark Blue */
+            color: #ffffff;
+        }
+        .container-fluid1 {
+            padding-top: 70px;
+            padding-bottom: 20px;
+        }
+        .container-fluid {
+            padding-top: 130px;
+            padding-bottom: 210px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid1 bg-1 text-center">
+    <img src="<%=logo%>" class="img-circle" alt="Bird" width="200" height="67">
+    <h3><%=hotelName%></h3>
+
+</div>
+
+<div class="container-fluid bg-2 text-center">
+
+    <form id="form" action="/callWaiter/<%=code%>" >
+        <button type="submit" class="btn btn-primary" style="width: 30%; font-size: 24px;">Call Waiter</button>
+    </form>
+</div>
+
+</body>
+</html>
+<script>
+
+    $('#form').submit(function(e){
+        e.preventDefault();
+        var url = $(this).closest('form').attr('action');
+            $.ajax({
+            url: url,
+            type: 'post',
+            data:$('#form').serialize(),
+            success:function(){
+                alert("Your call has been established");
+                // Whatever you want to do after the form is successfully submitted
+            }
+        });
+    });
+
+</script>
