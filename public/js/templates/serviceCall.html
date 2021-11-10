@@ -19,15 +19,30 @@
             </tr>
             </thead>
             <tbody>
-            <tr id="{{call._id}}" ng-repeat="call in data" >
+
+            <tr id="{{call._id}}" ng-if="data.length" ng-repeat="call in data" >
                 <td>{{$index+1}}</td>
                 <td>{{call.tableName}}</td>
-                <td>{{call.status}}</td>
+                <td ng-if="call.status == 'Table'">
+                    <span class="badge badge-pill badge-success">{{call.status}}</span>
+                </td>
+                <td ng-if="call.status == 'Service'">
+                    <span class="badge badge-pill badge-primary">{{call.status}}</span>
+                </td>
                 <td>{{dated(call.createdDate)}}</td>
                 <td>
                     <a ng-click="removeData(call._id)" ><i class="fa fa-trash"></i> </a><br/>
                 </td>
             </tr>
+            <tr ng-if="data.length==0">
+                <td></td>
+                <td></td>
+                <td>No Call Found</td>
+                <td></td>
+                <td></td>
+
+            </tr>
+
             </tbody>
         </table>
     </div>

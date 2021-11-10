@@ -2,24 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="commit">
-      <change afterPath="$PROJECT_DIR$/models/CallService.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/app_user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/templates/serviceCall.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/admin/includes/user_scripts.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/admin/includes/user_sidebar.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/admin/user_index.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/dashboard.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/main.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/WaiterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/WaiterController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/adminController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/dist/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/hotels.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/hotels.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/templates/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/users.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/includes/headers.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/includes/headers.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/serviceCall.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/serviceCall.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +65,7 @@
       <workItem from="1635459537070" duration="44401000" />
       <workItem from="1636353824324" duration="538000" />
       <workItem from="1636364064765" duration="7156000" />
-      <workItem from="1636379402097" duration="57361000" />
+      <workItem from="1636379402097" duration="58109000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1635483448971</created>
@@ -171,9 +156,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="308" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1635504252207" />
-    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1636386022408">
+    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1636551064955">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1636386022408" />
+    <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1636551064955" />
   </component>
 </project>

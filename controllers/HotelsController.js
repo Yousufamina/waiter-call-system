@@ -869,7 +869,7 @@ const hotelController = {
                     hotelId: hotel._id,
                     tableId : tableId,
                     tableName : hotel.tables.name,
-                    status: "Join"
+                    status: "Table"
                 };
                 let service = new CallServiceModel(obj);
                 service.save();
@@ -975,7 +975,10 @@ const hotelController = {
         const body = JSON.parse(JSON.stringify(request.body));
 
         try{
-            let call = await CallServiceModel.deleteOne({_id:body.id});
+
+            // let call = await CallServiceModel.deleteOne({_id:body.id});
+            let call = await CallServiceModel.findOneAndUpdate({ _id:body.id }, { $set: {status:"Ended"} }, { new: true });
+
             response
                     .status(200)
                     .json({
