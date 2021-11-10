@@ -892,7 +892,7 @@ const hotelController = {
 
         try{
             let code='';
-            if(body.code){
+            if(body.qrCode){
                 code = body.qrCode;
             }
             else{
@@ -913,7 +913,7 @@ const hotelController = {
                 let service = new CallServiceModel(obj);
                 await service.save();
                 console.log("called save func");
-                response.render('dashboard',{code:code, logo:hotel.logo , hotelName:hotel.name});
+                response.render('dashboard',{code:code, logo:hotel.logo ,menue:hotel.menue, hotelName:hotel.name});
             }
             else{
                 console.log("Incorrect code")  ;

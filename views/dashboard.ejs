@@ -22,8 +22,8 @@
             padding-bottom: 20px;
         }
         .container-fluid {
-            padding-top: 100px;
-            padding-bottom: 190px;
+            padding-top: 70px;
+            padding-bottom: 150px;
         }
     </style>
 </head>
@@ -31,15 +31,31 @@
 
 <div class="container-fluid1 bg-1 text-center">
     <img src="<%=logo%>" class="img-circle" alt="Bird" width="200" height="67">
-    <h3><%=hotelName%></h3>
-
+    <h3>  </h3>
 </div>
 
 <div class="container-fluid bg-2 text-center">
-
     <form id="form" action="/callWaiter/<%=code%>" >
         <button type="submit" class="btn btn-primary" style="width: 40%; font-size: 24px;">Call Waiter</button>
     </form>
+    </br>
+    </br>
+    <button class="btn btn-primary imagePreviewModal" value="<%=menue%>" style="width: 40%; font-size: 24px;">show Menue</button>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="imagePreviewModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">Image Preview</div>
+            <div class="modal-body">
+                <img style="width: 100%;" id="imagePreviewSrc" src=""/>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
@@ -59,5 +75,13 @@
             }
         });
     });
+
+
+    $(document).on("click",'.imagePreviewModal',function(){
+        if($(this).attr('value') && $(this).attr('value')!='' && $(this).attr('value').indexOf('upload/')){
+            $("#imagePreviewSrc").attr('src',$(this).attr('value'))
+            $("#imagePreviewModal").modal('show')
+        }
+    })
 
 </script>
