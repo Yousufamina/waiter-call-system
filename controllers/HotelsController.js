@@ -783,20 +783,61 @@ const hotelController = {
             }
             else{
                 console.log(" first table added");
-
                 // insert first table
-                await QRCode.toFile('./public/'+`${src}`,qrCode, opts).then(qrImage => {
-                    // console.log("File",qrImage);
-                    console.log("qrCode Generated");
+                await QRCode.toFile('./public/'+`${img}`,qrCode, opts).then(qrImage => {
+
+                    fs.readFile('./public/'+`${img}`, function read(err, data) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        let content = data;
+                        let file =  dbx.filesUpload({path: '/' + fileName, contents: content})
+                            .then(function (resp) {
+                                dbx.sharingCreateSharedLinkWithSettings({
+                                    path: resp.result.path_display,
+                                    "settings": {
+                                        "requested_visibility": "public",
+                                        "audience": "public",
+                                        "access": "viewer",
+                                    }
+                                }).then((e) => {
+                                    console.log(e.result);
+                                    console.log(e.result.url);
+                                    src = e.result.url;
+                                    src = src.replace("dl=0", "raw=1");
+
+                                    let table = {name: 'Table 1',qrCode: qrCode , qrCodeImage: src, status:'InActive' };
+                                    let updated = HotelModel.findOneAndUpdate({_id: hotelId},
+                                        {   $push: { tables: table } },  function(err, doc){
+                                            if(err){
+                                                console.log("Something wrong when updating data!");
+                                            }
+                                            else{
+                                                console.log("Table added successfully");
+                                                response
+                                                    .status(200)
+                                                    .json({
+                                                        status:true,
+                                                        msg: "Table added successfully"
+                                                    });
+                                            }
+                                        });
+
+                                }).catch((err) => {
+                                    console.log(err);
+                                    return resp.send("error").end()
+                                })
+                            })
+                            .catch(function (error) {
+                                console.error(error);
+                            });
+                        console.log(file);
+                    });
+
+
                 }).catch(err => {
                     console.error(err)
                 });
-
-                let table = {name: 'Table 1',qrCode: qrCode , qrCodeImage: src, status:'InActive' };
-                let updated = await  HotelModel.findOneAndUpdate({_id: hotelId},
-                    {   $push: { tables: table } },  {new: true});
-                console.log("updated OBJ");
-                console.log(updated);
             }
 
         } catch (err) {

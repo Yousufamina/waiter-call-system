@@ -28,7 +28,9 @@ app.controller("serviceCall",function($scope,$http,$location,$localStorage){
             }
         })
     }
-
+    setTimeout(function(){
+        $scope.getData();
+    },200);
     $scope.getData();
     $scope.removingId = '';
     $scope.removeData = function(id){

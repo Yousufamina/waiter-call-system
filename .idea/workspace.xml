@@ -4,7 +4,7 @@
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app_user.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app_user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +65,7 @@
       <workItem from="1635459537070" duration="44401000" />
       <workItem from="1636353824324" duration="538000" />
       <workItem from="1636364064765" duration="7156000" />
-      <workItem from="1636379402097" duration="61733000" />
+      <workItem from="1636379402097" duration="63448000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1635483448971</created>
