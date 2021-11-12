@@ -894,13 +894,14 @@ const hotelController = {
             let code='';
             if(body.qrCode){
                 code = body.qrCode;
+                console.log("POST API Called");
             }
             else{
                 code = request.params.id;
+                console.log("GET API Called");
             }
             let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
-            console.log("hotel");
-            console.log(hotel);
+            console.log("hotel found");
             if(hotel.length){
                 hotel = hotel[0];
                 let tableId = hotel.tables._id;
@@ -913,15 +914,17 @@ const hotelController = {
                 let service = new CallServiceModel(obj);
                 await service.save();
                 console.log("called save func");
-                response.render('dashboard',{code:code, logo:hotel.logo ,menue:hotel.menue, hotelName:hotel.name});
+                response.render('dashboard',{msg:false , code:code, logo:hotel.logo ,menue:hotel.menue, hotelName:hotel.name});
             }
             else{
                 console.log("Incorrect code")  ;
-                response
-                    .status(500)
-                    .json({
-                        msg: "Incorrect code."
-                    });
+                response.render('main',{msg: 'You Enter Incorrect Code'});
+
+                // response
+                //     .status(500)
+                //     .json({
+                //         msg: "You Enter Incorrect Code."
+                //     });
             }
         } catch (err) {
             console.log(err);

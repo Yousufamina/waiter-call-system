@@ -46,10 +46,10 @@ app.use('/admin', admin);
 
 
 app.get("/", (req, res) => {
-    res.render('main');
+    res.render('main' , { msg: false});
 });
 app.get("/connect", (req, res) => {
-    res.render('main');
+    res.render('main',{ msg: false});
 });
 
 

@@ -32,8 +32,16 @@
     </style>
 </head>
 <body>
+<% if(msg) {%>
+<div class="alert alert-warning alert-dismissible fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong> <%= msg %>
+</div>
+<% } %>
 
-<div class="container-fluid1 bg-1 text-center">
+
+
+    <div class="container-fluid1 bg-1 text-center">
     <h3>No Waiter</h3>
     <img src="https://oclgroup.org/wp-content/uploads/2021/04/oclshuttle-logo-1.png" class="img-circle" alt="Bird" width="200" height="67">
 
@@ -53,17 +61,17 @@
 
 <script>
 
-    $('#form').submit(function(){
-          var url = $(this).closest('form').attr('action');
-        $.ajax({
-            url: url,
-            type: 'post',
-            data:$('#form').serialize(),
-            error:function(){
-                alert("You Enter Incorrect Code");
-                window.location.href = "/";
-            }
-        });
-    });
+    // $('#form').submit(function(){
+    //       var url = $(this).closest('form').attr('action');
+    //     $.ajax({
+    //         url: url,
+    //         type: 'post',
+    //         data:$('#form').serialize(),
+    //         error:function(){
+    //             alert("You Enter Incorrect Code");
+    //             window.location.href = "/";
+    //         }
+    //     });
+    // });
 
 </script>
