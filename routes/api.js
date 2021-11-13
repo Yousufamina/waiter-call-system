@@ -26,7 +26,9 @@ router.post('/connect',hotelController.connect);
 router.get('/connect/:id',hotelController.connect);
 router.post('/callWaiter/:id',hotelController.callService);
 router.get('/getAllServiceCalls',hotelController.getAllServiceCalls);
-router.post('/endCall',hotelController.endCall);
+router.post('/closeCall',hotelController.closeCall);
+router.post('/completeCall',hotelController.completeCall);
+router.post('/clearTable',hotelController.clearTable);
 
 // router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
 // router.get('/getAllQrCodeImagesDetail',hotelController.getAllQrCodeImagesDetail);

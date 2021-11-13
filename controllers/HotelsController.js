@@ -900,31 +900,38 @@ const hotelController = {
                 code = request.params.id;
                 console.log("GET API Called");
             }
+
             let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
             console.log("hotel found");
             if(hotel.length){
                 hotel = hotel[0];
                 let tableId = hotel.tables._id;
-                let obj = {
-                    hotelId: hotel._id,
-                    tableId : tableId,
-                    tableName : hotel.tables.name,
-                    status: "Table"
-                };
-                let service = new CallServiceModel(obj);
-                await service.save();
-                console.log("called save func");
-                response.render('dashboard',{msg:false , code:code, logo:hotel.logo ,menue:hotel.menue, hotelName:hotel.name});
+
+                // check if table is already reserved
+                let table = await CallServiceModel.findOne({tableId:tableId, status:"Joined Table"});
+                console.log("service table");
+                console.log(table)
+                if(table){
+                     // table is reserved already
+                     response.render('main',{msg: 'This table is already reserved'});
+                 }
+                 else{
+                     let obj = {
+                         hotelId: hotel._id,
+                         tableId : tableId,
+                         tableCode : hotel.tables.qrCode,
+                         tableName : hotel.tables.name,
+                         status: "Joined Table"
+                     };
+                     let service = new CallServiceModel(obj);
+                     await service.save();
+                     console.log("called save func");
+                     response.render('dashboard',{msg:false , code:code, logo:hotel.logo ,menue:hotel.menue, hotelName:hotel.name});
+                 }
             }
             else{
                 console.log("Incorrect code")  ;
                 response.render('main',{msg: 'You Enter Incorrect Code'});
-
-                // response
-                //     .status(500)
-                //     .json({
-                //         msg: "You Enter Incorrect Code."
-                //     });
             }
         } catch (err) {
             console.log(err);
@@ -949,8 +956,9 @@ const hotelController = {
                 let obj = {
                     hotelId: hotel._id,
                     tableId : hotel.tables._id,
+                    tableCode : hotel.tables.qrCode,
                     tableName : hotel.tables.name,
-                    status: "Service"
+                    status: "Called For Service"
                 };
                 let service = new CallServiceModel(obj);
                 service.save();
@@ -988,7 +996,7 @@ const hotelController = {
             console.log(user);
             if(user){
                 if(user.hotelId){
-                    let calls = await CallServiceModel.find({hotelId: user.hotelId,status:{$ne:'Ended'}});
+                    let calls = await CallServiceModel.find({hotelId: user.hotelId,status:{$nin:['Ended' , 'Clear']}});
                     response
                         .status(200)
                         .json({
@@ -1015,7 +1023,7 @@ const hotelController = {
 
     },
 
-    endCall : async (request,response ) => {
+    closeCall : async (request,response ) => {
 
         console.log("====== endCall  API =======");
         console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
@@ -1024,14 +1032,65 @@ const hotelController = {
 
         try{
 
-            // let call = await CallServiceModel.deleteOne({_id:body.id});
             let call = await CallServiceModel.findOneAndUpdate({ _id:body.id }, { $set: {status:"Ended"} }, { new: true });
 
             response
                     .status(200)
                     .json({
                         status:true,
-                        msg: "Call deleted successfully."
+                        msg: "Call has closed successfully"
+                    });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    completeCall : async (request,response ) => {
+
+        console.log("====== complete Call  API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try{
+
+            let call = await CallServiceModel.findOneAndUpdate({ _id:body.id }, { $set: {status:"Completed"} }, { new: true });
+
+            response
+                    .status(200)
+                    .json({
+                        status:true,
+                        msg: "Call for service has completed successfully"
+                    });
+        } catch (err) {
+            console.log(err);
+            response
+                .status(500)
+                .json({msg: err});
+        }
+
+    },
+
+    clearTable : async (request,response ) => {
+
+        console.log("====== clear Table  API =======");
+        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+
+        const body = JSON.parse(JSON.stringify(request.body));
+
+        try{
+
+            let call = await CallServiceModel.findOneAndUpdate({ _id:body.id }, { $set: {status:"Clear"} }, { new: true });
+
+            response
+                    .status(200)
+                    .json({
+                        status:true,
+                        msg: "Table has cleared successfully"
                     });
         } catch (err) {
             console.log(err);

@@ -11,6 +11,10 @@ const CallServiceSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+        tableCode: {
+            type: String,
+            required: true
+        },
         hotelId: {
             type: Schema.Types.ObjectId,
             ref: "hotels"
