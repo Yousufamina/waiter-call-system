@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const auth = require("../middleware/auth");
 const hotelController = require("../controllers/HotelsController");
-const waiterController = require("../controllers/WaiterController");
 const adminController = require("../controllers/adminController");
 // const key = 'RpsR1d1X1B4AAAAAAAAAAQJkKuFNRF2SQZj9wcvado75Dk3N3wfopY72zkkldfRz';
 // const appkey = '0yy4ednciwl4ohk';
@@ -29,14 +27,6 @@ router.post('/closeCall',hotelController.closeCall);
 router.post('/completeCall',hotelController.completeCall);
 router.post('/clearTable',hotelController.clearTable);
 
-// router.post('/generateQrCodeForTables',hotelController.assignWaiterToTables);
-// router.get('/getAllQrCodeImagesDetail',hotelController.getAllQrCodeImagesDetail);
-// router.get('/getAllQrCodeImages',hotelController.getAllQrCodeImages);
-// router.post('/getQrCodeImagesOfHotel',hotelController.getQrCodeImagesOfHotel);
-// router.post('/createWaiter',waiterController.addWaiter);
-// router.post('/getWaitersByHotelId',waiterController.getWaitersByHotelId);
-// router.get('/getWaitersByHotel',waiterController.getWaitersByHotel);
-// router.get('/getAllWaiters',waiterController.getAllWaiters);
 
 router.get('/getAllUsers',adminController.getAllUsers);
 router.post('/addUser',adminController.addUser);

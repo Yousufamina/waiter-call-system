@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="commit">
       <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Waiters.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/WaiterController.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +67,7 @@
       <workItem from="1636364064765" duration="7156000" />
       <workItem from="1636379402097" duration="88486000" />
       <workItem from="1636977365116" duration="1185000" />
-      <workItem from="1637124325860" duration="6233000" />
+      <workItem from="1637124325860" duration="6540000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1635483448971</created>

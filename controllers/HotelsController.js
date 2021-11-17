@@ -1,5 +1,4 @@
 const HotelModel = require("../models/Hotels");
-const WaiterModel = require("../models/Waiters");
 const CallServiceModel = require("../models/CallService");
 const helper = require("../helpers/helper");
 const CONSTANT = require("../config/constants");
