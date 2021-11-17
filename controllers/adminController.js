@@ -1,5 +1,6 @@
 
 const UserModel = require("../models/User");
+const HotelModel = require("../models/Hotels");
 const TypeModel = require("../models/Type");
 const bcrypt = require("bcryptjs");
 

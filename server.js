@@ -14,7 +14,7 @@ connectDB();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(session({ secret : '1234567890QWERTY' }));
 app.use(multer({dest:path.join(__dirname, 'public/images/')}).any());
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// error handler
+// // error handler
 /* eslint no-unused-vars: 0 */
 app.use((err, req, res, next) => {
     // set locals, only providing error in development
@@ -51,6 +51,7 @@ app.get("/", (req, res) => {
 app.get("/connect", (req, res) => {
     res.render('main',{ msg: false});
 });
+
 
 
 app.listen(port, () => {

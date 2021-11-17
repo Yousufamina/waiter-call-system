@@ -3,7 +3,28 @@
   <component name="ChangeListManager">
     <list default="true" id="4f65e703-d616-4cdf-9586-989d95dfca26" name="Default Changelist" comment="commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/dashboard.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/dashboard.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/HotelsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/HotelsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/adminController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462016815.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462018139.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462408370.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462409163.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462597806.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462598787.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462732395.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635462733391.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635463389368.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635463390715.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635463391408.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635463392424.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/barCodes/1635463393254.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/add-hotel.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/add-hotel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/assignTablesToWaiters.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/hotels.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/templates/hotels.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/templates/waiters.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/admin/includes/footer.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/includes/footer.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +85,9 @@
       <workItem from="1635459537070" duration="44401000" />
       <workItem from="1636353824324" duration="538000" />
       <workItem from="1636364064765" duration="7156000" />
-      <workItem from="1636379402097" duration="87188000" />
+      <workItem from="1636379402097" duration="88486000" />
+      <workItem from="1636977365116" duration="1185000" />
+      <workItem from="1637124325860" duration="5260000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1635483448971</created>

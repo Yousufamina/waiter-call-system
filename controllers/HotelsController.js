@@ -47,121 +47,142 @@ const hotelController = {
                     .json({msg: "Hotel with this Email already exists"});
             }
 
-             // helper.uploadImage(request,'logo' , function(logo){
-             //     helper.uploadImage(request,'menue' , function(menue){
-             //     });
-             // });
+             helper.uploadImage(request,'logo' , function(logo){
+                 helper.uploadImage(request,'menue' , function(menue){
 
-            let logo='';
-            let menue='';
-            if(request.files) {
-                var image = false;
-                var image2 = false;
-                var file = request.files;
-                for (var k in file) {
-                    if (file[k].fieldname == 'logo') {
-                        image = file[k];
-                    }
-                    if (file[k].fieldname == 'menue') {
-                        image2 = file[k];
-                    }
-                }
-                if (image) {
-                    let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
+                     let hotelObj;
+                     hotelObj = {
+                         name: body.name,
+                         phone: body.phone,
+                         email: body.email,
+                         address: body.address,
+                         logo: logo,
+                         menue: menue
+                     };
 
-                    fs.readFile(image.path, function read(err, data) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        let content = data;
-                        if (!err && image.filename != undefined && content) {
-                            let file = dbx.filesUpload({path: '/' + fileName, contents: content})
-                                .then(function (resp) {
-                                    dbx.sharingCreateSharedLinkWithSettings({
-                                        path: resp.result.path_display,
-                                        "settings": {
-                                            "requested_visibility": "public",
-                                            "audience": "public",
-                                            "access": "viewer",
-                                        }
-                                    }).then((e) => {
-                                        // console.log(e.result);
-                                        console.log(e.result);
-                                        console.log(e.result.url);
-                                        logo = e.result.url;
-                                        logo = logo.replace("dl=0", "raw=1");
+                     let hotel = new HotelModel(hotelObj);
+                     hotel.save();
+                     response
+                         .status(200)
+                         .json({
+                             msg: "Hotel is successfully created."
+                         });
 
-                                        if (image2) {
-                                            let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
 
-                                            fs.readFile(image2.path, function read(err, data) {
-                                                if (err) {
-                                                    console.log(err);
-                                                }
-                                                let content = data;
-                                                if (!err && image2.filename != undefined && content) {
-                                                    let file = dbx.filesUpload({path: '/' + fileName, contents: content})
-                                                        .then(function (resp) {
-                                                            dbx.sharingCreateSharedLinkWithSettings({
-                                                                path: resp.result.path_display,
-                                                                "settings": {
-                                                                    "requested_visibility": "public",
-                                                                    "audience": "public",
-                                                                    "access": "viewer",
-                                                                }
-                                                            }).then((e) => {
-                                                                // console.log(e.result);
-                                                                console.log(e.result);
-                                                                console.log(e.result.url);
-                                                                menue = e.result.url;
-                                                                menue = menue.replace("dl=0", "raw=1");
+                 });
+             });
+              // for dropbox
 
-                                                                let hotelObj;
-                                                                hotelObj = {
-                                                                    name: body.name,
-                                                                    phone: body.phone,
-                                                                    email: body.email,
-                                                                    address: body.address,
-                                                                    logo: logo,
-                                                                    menue: menue
-                                                                };
-
-                                                                let hotel = new HotelModel(hotelObj);
-                                                                hotel.save();
-                                                                response
-                                                                    .status(200)
-                                                                    .json({
-                                                                        msg: "Hotel is successfully created."
-                                                                    });
-                                                            }).catch((err) => {
-                                                                console.log(err);
-                                                                return resp.send("error").end()
-                                                            })
-                                                        })
-                                                        .catch(function (error) {
-                                                            console.error(error);
-                                                        });
-                                                    console.log(file);
-                                                } else {
-                                                    console.log("error")
-                                                }
-                                            });
-                                        }
-                                    }).catch((err) => {
-                                        console.log(err);
-                                        return resp.send("error").end()
-                                    })
-                                })
-                                .catch(function (error) {
-                                    console.error(error);
-                                });
-                            console.log(file);
-                        } else {
-                            console.log("error")
-                        }
-                    });
-                }
-            }
+            // let logo='';
+            // let menue='';
+            // if(request.files) {
+            //     var image = false;
+            //     var image2 = false;
+            //     var file = request.files;
+            //     for (var k in file) {
+            //         if (file[k].fieldname == 'logo') {
+            //             image = file[k];
+            //         }
+            //         if (file[k].fieldname == 'menue') {
+            //             image2 = file[k];
+            //         }
+            //     }
+            //     if (image) {
+            //         let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
+            //
+            //         fs.readFile(image.path, function read(err, data) {
+            //             if (err) {
+            //                 console.log(err);
+            //             }
+            //             let content = data;
+            //             if (!err && image.filename != undefined && content) {
+            //                 let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+            //                     .then(function (resp) {
+            //                         dbx.sharingCreateSharedLinkWithSettings({
+            //                             path: resp.result.path_display,
+            //                             "settings": {
+            //                                 "requested_visibility": "public",
+            //                                 "audience": "public",
+            //                                 "access": "viewer",
+            //                             }
+            //                         }).then((e) => {
+            //                             // console.log(e.result);
+            //                             console.log(e.result);
+            //                             console.log(e.result.url);
+            //                             logo = e.result.url;
+            //                             logo = logo.replace("dl=0", "raw=1");
+            //
+            //                             if (image2) {
+            //                                 let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
+            //
+            //                                 fs.readFile(image2.path, function read(err, data) {
+            //                                     if (err) {
+            //                                         console.log(err);
+            //                                     }
+            //                                     let content = data;
+            //                                     if (!err && image2.filename != undefined && content) {
+            //                                         let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+            //                                             .then(function (resp) {
+            //                                                 dbx.sharingCreateSharedLinkWithSettings({
+            //                                                     path: resp.result.path_display,
+            //                                                     "settings": {
+            //                                                         "requested_visibility": "public",
+            //                                                         "audience": "public",
+            //                                                         "access": "viewer",
+            //                                                     }
+            //                                                 }).then((e) => {
+            //                                                     // console.log(e.result);
+            //                                                     console.log(e.result);
+            //                                                     console.log(e.result.url);
+            //                                                     menue = e.result.url;
+            //                                                     menue = menue.replace("dl=0", "raw=1");
+            //
+            //                                                     let hotelObj;
+            //                                                     hotelObj = {
+            //                                                         name: body.name,
+            //                                                         phone: body.phone,
+            //                                                         email: body.email,
+            //                                                         address: body.address,
+            //                                                         logo: logo,
+            //                                                         menue: menue
+            //                                                     };
+            //
+            //                                                     let hotel = new HotelModel(hotelObj);
+            //                                                     hotel.save();
+            //                                                     response
+            //                                                         .status(200)
+            //                                                         .json({
+            //                                                             msg: "Hotel is successfully created."
+            //                                                         });
+            //                                                 }).catch((err) => {
+            //                                                     console.log(err);
+            //                                                     return resp.send("error").end()
+            //                                                 })
+            //                                             })
+            //                                             .catch(function (error) {
+            //                                                 console.error(error);
+            //                                             });
+            //                                         console.log(file);
+            //                                     } else {
+            //                                         console.log("error")
+            //                                     }
+            //                                 });
+            //                             }
+            //                         }).catch((err) => {
+            //                             console.log(err);
+            //                             return resp.send("error").end()
+            //                         })
+            //                     })
+            //                     .catch(function (error) {
+            //                         console.error(error);
+            //                     });
+            //                 console.log(file);
+            //             } else {
+            //                 console.log("error")
+            //             }
+            //         });
+            //     }
+            // }
         } catch (err) {
             console.log(err);
             response
@@ -194,209 +215,245 @@ const hotelController = {
             }
 
 
-            let logo='';
-            let menue='';
-            if(request.files) {
-                console.log("main if workds")
-                var image = false;
-                var image2 = false;
-                var file = request.files;
-                for (var k in file) {
-                    if (file[k].fieldname == 'logo') {
-                        image = file[k];
+                  // for drop box
+            // let logo='';
+            // let menue='';
+            // if(request.files) {
+            //     console.log("main if workds")
+            //     var image = false;
+            //     var image2 = false;
+            //     var file = request.files;
+            //     for (var k in file) {
+            //         if (file[k].fieldname == 'logo') {
+            //             image = file[k];
+            //         }
+            //         if (file[k].fieldname == 'menue') {
+            //             image2 = file[k];
+            //         }
+            //     }
+            //     if (image) {
+            //         let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
+            //         fs.readFile(image.path, function read(err, data) {
+            //             if (err) {
+            //                 console.log(err);
+            //             }
+            //             let content = data;
+            //             if (!err && image.filename != undefined && content) {
+            //                 let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+            //                     .then(function (resp) {
+            //                         dbx.sharingCreateSharedLinkWithSettings({
+            //                             path: resp.result.path_display,
+            //                             "settings": {
+            //                                 "requested_visibility": "public",
+            //                                 "audience": "public",
+            //                                 "access": "viewer",
+            //                             }
+            //                         }).then((e) => {
+            //                             // console.log(e.result);
+            //                             console.log(e.result);
+            //                             console.log(e.result.url);
+            //                             logo = e.result.url;
+            //                             logo = logo.replace("dl=0", "raw=1");
+            //
+            //                             if (image2) {
+            //                                 let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
+            //
+            //                                 fs.readFile(image2.path, function read(err, data) {
+            //                                     if (err) {
+            //                                         console.log(err);
+            //                                     }
+            //                                     let content = data;
+            //                                     if (!err && image2.filename != undefined && content) {
+            //                                         let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+            //                                             .then(function (resp) {
+            //                                                 dbx.sharingCreateSharedLinkWithSettings({
+            //                                                     path: resp.result.path_display,
+            //                                                     "settings": {
+            //                                                         "requested_visibility": "public",
+            //                                                         "audience": "public",
+            //                                                         "access": "viewer",
+            //                                                     }
+            //                                                 }).then((e) => {
+            //                                                     // console.log(e.result);
+            //                                                     console.log(e.result);
+            //                                                     console.log(e.result.url);
+            //                                                     menue = e.result.url;
+            //                                                     menue = menue.replace("dl=0", "raw=1");
+            //
+            //                                                     let hotelObj;
+            //                                                     hotelObj = {
+            //                                                         name: body.name,
+            //                                                         phone: body.phone,
+            //                                                         email: body.email,
+            //                                                         address: body.address,
+            //                                                         logo: logo,
+            //                                                         menue: menue
+            //                                                     };
+            //
+            //                                                     let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
+            //                                                     response
+            //                                                         .status(200)
+            //                                                         .json({
+            //                                                             status:true,
+            //                                                             msg: "Hotel is successfully updated."
+            //                                                         });
+            //                                                 }).catch((err) => {
+            //                                                     console.log(err);
+            //                                                     return resp.send("error").end()
+            //                                                 })
+            //                                             })
+            //                                             .catch(function (error) {
+            //                                                 console.error(error);
+            //                                             });
+            //                                         console.log(file);
+            //                                     } else {
+            //                                         console.log("error")
+            //                                     }
+            //                                 });
+            //                             }
+            //                             else{
+            //                                 let hotelObj;
+            //                                 hotelObj = {
+            //                                     name: body.name,
+            //                                     phone: body.phone,
+            //                                     email: body.email,
+            //                                     address: body.address,
+            //                                     logo: logo
+            //                                 };
+            //
+            //                                 let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
+            //                                 response
+            //                                     .status(200)
+            //                                     .json({
+            //                                         status:true,
+            //                                         msg: "Hotel is successfully updated."
+            //                                     });
+            //                             }
+            //                         }).catch((err) => {
+            //                             console.log(err);
+            //                             return resp.send("error").end()
+            //                         })
+            //                     })
+            //                     .catch(function (error) {
+            //                         console.error(error);
+            //                     });
+            //                 console.log(file);
+            //             } else {
+            //                 console.log("error")
+            //             }
+            //
+            //         });
+            //     }
+            //     else if(image2){
+            //         let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
+            //         fs.readFile(image2.path, function read(err, data) {
+            //                 if (err) {
+            //                     console.log(err);
+            //                 }
+            //                 let content = data;
+            //                 if (!err && image2.filename != undefined && content) {
+            //                     let file = dbx.filesUpload({path: '/' + fileName, contents: content})
+            //                         .then(function (resp) {
+            //                             dbx.sharingCreateSharedLinkWithSettings({
+            //                                 path: resp.result.path_display,
+            //                                 "settings": {
+            //                                     "requested_visibility": "public",
+            //                                     "audience": "public",
+            //                                     "access": "viewer",
+            //                                 }
+            //                             }).then((e) => {
+            //                                 // console.log(e.result);
+            //                                 console.log(e.result);
+            //                                 console.log(e.result.url);
+            //                                 menue = e.result.url;
+            //                                 menue = menue.replace("dl=0", "raw=1");
+            //
+            //                                 let hotelObj;
+            //                                 hotelObj = {
+            //                                     name: body.name,
+            //                                     phone: body.phone,
+            //                                     email: body.email,
+            //                                     address: body.address,
+            //                                     menue: menue
+            //                                 };
+            //
+            //                                 let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
+            //                                 response
+            //                                     .status(200)
+            //                                     .json({
+            //                                         status:true,
+            //                                         msg: "Hotel is successfully updated."
+            //                                     });
+            //                             }).catch((err) => {
+            //                                 console.log(err);
+            //                                 return resp.send("error").end()
+            //                             })
+            //                         })
+            //                         .catch(function (error) {
+            //                             console.error(error);
+            //                         });
+            //                     console.log(file);
+            //                 } else {
+            //                     console.log("error")
+            //                 }
+            //             });
+            //     }
+            //     else{
+            //         console.log("else workss")
+            //         let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
+            //         response
+            //             .status(200)
+            //             .json({
+            //                 status:true,
+            //                 msg: "Hotel is successfully updated."
+            //             });
+            //     }
+            // }
+            // else{
+            //     console.log("main else workss")
+            //     let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
+            //     response
+            //         .status(200)
+            //         .json({
+            //             status:true,
+            //             msg: "Hotel is successfully updated."
+            //         });
+            // }
+
+            // check both images
+            helper.uploadImage(request,'logo' , function(logo){
+                helper.uploadImage(request,'menue' , function(menue){
+
+                    let hotelObj;
+                    hotelObj = {
+                        name: body.name,
+                        phone: body.phone,
+                        email: body.email,
+                        address: body.address
+                    };
+                    if(logo){
+                        console.log("logo found");
+                        console.log(logo);
+                        hotelObj.logo = logo;
                     }
-                    if (file[k].fieldname == 'menue') {
-                        image2 = file[k];
+                    if(menue){
+                        hotelObj.menue = menue;
                     }
-                }
-                if (image) {
-                    let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
-                    fs.readFile(image.path, function read(err, data) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        let content = data;
-                        if (!err && image.filename != undefined && content) {
-                            let file = dbx.filesUpload({path: '/' + fileName, contents: content})
-                                .then(function (resp) {
-                                    dbx.sharingCreateSharedLinkWithSettings({
-                                        path: resp.result.path_display,
-                                        "settings": {
-                                            "requested_visibility": "public",
-                                            "audience": "public",
-                                            "access": "viewer",
-                                        }
-                                    }).then((e) => {
-                                        // console.log(e.result);
-                                        console.log(e.result);
-                                        console.log(e.result.url);
-                                        logo = e.result.url;
-                                        logo = logo.replace("dl=0", "raw=1");
 
-                                        if (image2) {
-                                            let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
-
-                                            fs.readFile(image2.path, function read(err, data) {
-                                                if (err) {
-                                                    console.log(err);
-                                                }
-                                                let content = data;
-                                                if (!err && image2.filename != undefined && content) {
-                                                    let file = dbx.filesUpload({path: '/' + fileName, contents: content})
-                                                        .then(function (resp) {
-                                                            dbx.sharingCreateSharedLinkWithSettings({
-                                                                path: resp.result.path_display,
-                                                                "settings": {
-                                                                    "requested_visibility": "public",
-                                                                    "audience": "public",
-                                                                    "access": "viewer",
-                                                                }
-                                                            }).then((e) => {
-                                                                // console.log(e.result);
-                                                                console.log(e.result);
-                                                                console.log(e.result.url);
-                                                                menue = e.result.url;
-                                                                menue = menue.replace("dl=0", "raw=1");
-
-                                                                let hotelObj;
-                                                                hotelObj = {
-                                                                    name: body.name,
-                                                                    phone: body.phone,
-                                                                    email: body.email,
-                                                                    address: body.address,
-                                                                    logo: logo,
-                                                                    menue: menue
-                                                                };
-
-                                                                let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
-                                                                response
-                                                                    .status(200)
-                                                                    .json({
-                                                                        status:true,
-                                                                        msg: "Hotel is successfully updated."
-                                                                    });
-                                                            }).catch((err) => {
-                                                                console.log(err);
-                                                                return resp.send("error").end()
-                                                            })
-                                                        })
-                                                        .catch(function (error) {
-                                                            console.error(error);
-                                                        });
-                                                    console.log(file);
-                                                } else {
-                                                    console.log("error")
-                                                }
-                                            });
-                                        }
-                                        else{
-                                            let hotelObj;
-                                            hotelObj = {
-                                                name: body.name,
-                                                phone: body.phone,
-                                                email: body.email,
-                                                address: body.address,
-                                                logo: logo
-                                            };
-
-                                            let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
-                                            response
-                                                .status(200)
-                                                .json({
-                                                    status:true,
-                                                    msg: "Hotel is successfully updated."
-                                                });
-                                        }
-                                    }).catch((err) => {
-                                        console.log(err);
-                                        return resp.send("error").end()
-                                    })
-                                })
-                                .catch(function (error) {
-                                    console.error(error);
-                                });
-                            console.log(file);
-                        } else {
-                            console.log("error")
-                        }
-
+                    let hotel = HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true }).then(() => {
+                        response
+                            .status(200)
+                            .json({
+                                status:true,
+                                msg: "Hotel is successfully updated."
+                            });
                     });
-                }
-                else if(image2){
-                    let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
-                    fs.readFile(image2.path, function read(err, data) {
-                            if (err) {
-                                console.log(err);
-                            }
-                            let content = data;
-                            if (!err && image2.filename != undefined && content) {
-                                let file = dbx.filesUpload({path: '/' + fileName, contents: content})
-                                    .then(function (resp) {
-                                        dbx.sharingCreateSharedLinkWithSettings({
-                                            path: resp.result.path_display,
-                                            "settings": {
-                                                "requested_visibility": "public",
-                                                "audience": "public",
-                                                "access": "viewer",
-                                            }
-                                        }).then((e) => {
-                                            // console.log(e.result);
-                                            console.log(e.result);
-                                            console.log(e.result.url);
-                                            menue = e.result.url;
-                                            menue = menue.replace("dl=0", "raw=1");
 
-                                            let hotelObj;
-                                            hotelObj = {
-                                                name: body.name,
-                                                phone: body.phone,
-                                                email: body.email,
-                                                address: body.address,
-                                                menue: menue
-                                            };
 
-                                            let hotel =  HotelModel.findOneAndUpdate({ _id:id }, { $set: hotelObj }, { new: true });
-                                            response
-                                                .status(200)
-                                                .json({
-                                                    status:true,
-                                                    msg: "Hotel is successfully updated."
-                                                });
-                                        }).catch((err) => {
-                                            console.log(err);
-                                            return resp.send("error").end()
-                                        })
-                                    })
-                                    .catch(function (error) {
-                                        console.error(error);
-                                    });
-                                console.log(file);
-                            } else {
-                                console.log("error")
-                            }
-                        });
-                }
-                else{
-                    console.log("else workss")
-                    let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
-                    response
-                        .status(200)
-                        .json({
-                            status:true,
-                            msg: "Hotel is successfully updated."
-                        });
-                }
-            }
-            else{
-                console.log("main else workss")
-                let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
-                response
-                    .status(200)
-                    .json({
-                        status:true,
-                        msg: "Hotel is successfully updated."
-                    });
-            }
+
+                });
+            });
+
         } catch (err) {
             console.log(err);
             response
@@ -725,56 +782,56 @@ const hotelController = {
                 let len = tables.length+1;
                 let tableName = 'Table '+len;
                 await QRCode.toFile('./public/'+`${img}`,qrCodeUrl, opts).then(qrImage => {
-                    // console.log("File",qrImage);
 
-                    fs.readFile('./public/'+`${img}`, function read(err, data) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        let content = data;
-                        let file =  dbx.filesUpload({path: '/' + fileName, contents: content})
-                            .then(function (resp) {
-                                dbx.sharingCreateSharedLinkWithSettings({
-                                    path: resp.result.path_display,
-                                    "settings": {
-                                        "requested_visibility": "public",
-                                        "audience": "public",
-                                        "access": "viewer",
-                                    }
-                                }).then((e) => {
-                                    console.log(e.result);
-                                    console.log(e.result.url);
-                                    src = e.result.url;
-                                    src = src.replace("dl=0", "raw=1");
+                    let table = {name: tableName,qrCode: qrCode , qrCodeImage: img, status:'InActive' };
+                    let updated = HotelModel.findOneAndUpdate({_id: hotelId},
+                        {   $push: { tables: [table] } },  function(err, doc){
+                            if(err){
+                                console.log("Something wrong when updating data!");
+                            }
+                            else{
+                                console.log("Table added successfully");
+                                response
+                                    .status(200)
+                                    .json({
+                                        status:true,
+                                        msg: "Table added successfully"
+                                    });
 
-                                    let table = {name: tableName,qrCode: qrCode , qrCodeImage: src, status:'InActive' };
-                                    let updated = HotelModel.findOneAndUpdate({_id: hotelId},
-                                        {   $push: { tables: [table] } },  function(err, doc){
-                                            if(err){
-                                                console.log("Something wrong when updating data!");
-                                            }
-                                            else{
-                                                console.log("Table added successfully");
-                                                response
-                                                    .status(200)
-                                                    .json({
-                                                        status:true,
-                                                        msg: "Table added successfully"
-                                                    });
+                            }
+                        });
 
-                                            }
-                                        });
 
-                                }).catch((err) => {
-                                    console.log(err);
-                                    return resp.send("error").end()
-                                })
-                            })
-                            .catch(function (error) {
-                                console.error(error);
-                            });
-                        console.log(file);
-                    });
+                    // fs.readFile('./public/'+`${img}`, function read(err, data) {
+                    //     if (err) {
+                    //         console.log(err);
+                    //     }
+                    //     let content = data;
+                    //     let file =  dbx.filesUpload({path: '/' + fileName, contents: content})
+                    //         .then(function (resp) {
+                    //             dbx.sharingCreateSharedLinkWithSettings({
+                    //                 path: resp.result.path_display,
+                    //                 "settings": {
+                    //                     "requested_visibility": "public",
+                    //                     "audience": "public",
+                    //                     "access": "viewer",
+                    //                 }
+                    //             }).then((e) => {
+                    //                 console.log(e.result);
+                    //                 console.log(e.result.url);
+                    //                 src = e.result.url;
+                    //                 src = src.replace("dl=0", "raw=1");
+                    //
+                    //             }).catch((err) => {
+                    //                 console.log(err);
+                    //                 return resp.send("error").end()
+                    //             })
+                    //         })
+                    //         .catch(function (error) {
+                    //             console.error(error);
+                    //         });
+                    //     console.log(file);
+                    // });
 
                     console.log("qrCode generated");
                 }).catch(err => {

@@ -15,11 +15,6 @@ app.config(["$stateProvider","$urlRouterProvider","$httpProvider",function(t,e)
                 templateUrl:"/js/templates/users.html",
                 controller:'users'
             })
-            .state("waiters",{
-            url:"/waiters",
-            templateUrl:"/js/templates/waiters.html",
-            controller:'waiters'
-            })
             .state("edit-hotel",{
             url:"/hotel/{id}",
             templateUrl:"/js/templates/add-hotel.html",
@@ -191,61 +186,6 @@ app.controller("qrCodes",function($scope,$http,$location,$localStorage){
                 console.log(result.status== true);
                 if (result.status == true) {
                     $scope.data=result.newHotelArr;
-
-                } else {
-                    window.location.href = '/';
-                }
-            })
-
-        }
-
-    $scope.getData();
-    $scope.removingId = '';
-    $scope.removeData = function(id){
-        $scope.removingId = id;
-        $("#confirmation").modal("show")
-    }
-
-    $scope.removeConfirmed  = function(){
-        if($scope.removingId!="") {
-
-            var fd = new FormData();
-                fd.append('id',$scope.removingId);
-
-            $http.post('/delete/hotel', fd,{
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            }).success(function(data){
-                if (data.status) {
-                    $("#"+$scope.removingId).remove();
-                    $("#confirmation").modal("hide");
-                    window.toastr.success(data.msg);
-                    $scope.getData();
-
-                }
-                else {
-                    $("#confirmation").modal("hide")
-
-                }
-            })
-        }
-
-    }
-
-
-});
-app.controller("waiters",function($scope,$http,$location,$localStorage){
-
-        $scope.dated = dateAndTimeFormat;
-        $scope.getData = function(){
-
-            $http({
-                method: "GET",
-                url: "/getAllWaiters",
-            }).success(function (result) {
-                console.log(result.status== true);
-                if (result.status == true) {
-                    $scope.data=result.waiters;
 
                 } else {
                     window.location.href = '/';
@@ -748,7 +688,7 @@ function dateAndTimeFormat(date){
     }
 
 //	date.setDate(date.getDate()+adds)
-    return date.getFullYear()+"-"+month+"-"+day+" "+hrs+":"+min;
+    return date.getFullYear()+"-"+month+"-"+day;
 //	return Math.ceil(date.getTime()/1000)
 }
 function dateFormat(date){
