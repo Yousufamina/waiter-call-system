@@ -309,6 +309,9 @@ app.controller("add-hotel",function($scope,$http,$location,$localStorage){
         phone:'',
         logo:'',
         menue:'',
+        staffName:'',
+        staffLocation:'',
+        staffPhone:'',
         }
 
     $scope.save=function(){
@@ -404,7 +407,10 @@ app.controller("edit-hotel",function($scope,$http,$location,$localStorage,$state
         address:'',
         phone:'',
         logo:'',
-        menue:''
+        menue:'',
+        staffName:'',
+        staffLocation:'',
+        staffPhone:''
     }
 
     $scope.getData = function(){
@@ -421,6 +427,9 @@ app.controller("edit-hotel",function($scope,$http,$location,$localStorage,$state
                 $scope.hotel.phone = data.phone;
                 $scope.hotel.logo = data.logo;
                 $scope.hotel.menue = data.menue;
+                $scope.hotel.staffName = data.staffName;
+                $scope.hotel.staffLocation = data.staffLocation;
+                $scope.hotel.staffPhone = data.staffPhone;
                 console.log($scope.hotel);
             } else {
                 window.location.href = '/';
@@ -677,19 +686,21 @@ function dateAndTimeFormat(date){
         day = '0'+day;
     }
 
-    var hrs = date.getHours()
+    var hours = date.getHours();
 
-    if(hrs<10){
-        hrs = '0'+hrs;
-    }
+    var newformat = hours >= 12 ? 'PM' : 'AM';
+
+    // Find current hour in AM-PM Format
+    hours = hours % 12;
+
+    // To display "0" as "12"
+    hours = hours ? hours : 12;
+
     var min = date.getMinutes()
     if(min<10){
         min = '0'+min;
     }
-
-//	date.setDate(date.getDate()+adds)
-    return date.getFullYear()+"-"+month+"-"+day;
-//	return Math.ceil(date.getTime()/1000)
+    return date.getFullYear()+"-"+month+"-"+day +"" + hours+":"+min +' ' + newformat;; ;
 }
 function dateFormat(date){
     date = new Date(date)

@@ -5,7 +5,7 @@
             <h6>{{heading}}</h6>
         </div>
         <div class="ms-panel-body">
-            <form ng-submit="addTableInHotel()" >
+            <form ng-submit="addTableInHotel()">
                 <div class="form-group">
                     <label class="" for="hotel">Select Hotel: </label>
                     <select class="form-control" ng-model="hotel.hotelId" id="hotel">
@@ -21,8 +21,8 @@
             <br/>
             <br/>
             <br/>
-            <div class="box-body" >
-                <table id="example1" class="table table-bordered table-striped">
+            <div class="table-responsive" >
+                <table id="example1" class="table table-hover table-striped">
                     <thead>
                     <tr>
                         <th>Sr#</th>
@@ -43,12 +43,11 @@
                         </td>
                     </tr>
                     <tr ng-if="tables.length==0">
-                        <td></td>
-                        <td></td>
                         <td>No Table added</td>
                         <td></td>
                         <td></td>
-
+                        <td></td>
+                        <td></td>
                     </tr>
                     </tbody>
                 </table>

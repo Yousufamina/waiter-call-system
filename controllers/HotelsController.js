@@ -7,6 +7,15 @@ const domainUrl = CONSTANT.domainUrl;
 const { check, validationResult } = require("express-validator");
 const QRCode = require('qrcode')
 const fs = require('fs');
+const log4js = require('log4js');
+
+log4js.configure({
+    appenders: { everything: { type: 'file', filename: 'logs.log' } },
+    categories: { default: { appenders: ['everything'], level: 'ALL' } }
+});
+
+const logger = log4js.getLogger();
+
 
 // const { Dropbox } = require('dropbox'); // eslint-disable-line import/no-unresolved
 // var dbx = new Dropbox({ accessToken: "RpsR1d1X1B4AAAAAAAAAAQJkKuFNRF2SQZj9wcvado75Dk3N3wfopY72zkkldfRz" });
@@ -26,8 +35,8 @@ const hotelController = {
 
     createHotel: async (request, response) => {
 
-        console.log("====== Hotel Create API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== Hotel Create API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -45,7 +54,13 @@ const hotelController = {
                     .status(422)
                     .json({msg: "Hotel with this Email already exists"});
             }
-
+            let numberDoc = await NumberGeneratorModel.findOneAndUpdate(
+            { name: "code" },
+            { $inc: { value: 1 } },
+            { new: true }
+             );
+            let value = numberDoc.value;
+            let code = (value + "").padStart(4, "0");
              helper.uploadImage(request,'logo' , function(logo){
                  helper.uploadImage(request,'menue' , function(menue){
 
@@ -55,6 +70,10 @@ const hotelController = {
                          phone: body.phone,
                          email: body.email,
                          address: body.address,
+                         staffName : body.staffName,
+                         staffPhone : body.staffPhone,
+                         staffLocation : body.staffLocation,
+                         code:code,
                          logo: logo,
                          menue: menue
                      };
@@ -66,7 +85,6 @@ const hotelController = {
                          .json({
                              msg: "Hotel is successfully created."
                          });
-
 
                  });
              });
@@ -91,7 +109,7 @@ const hotelController = {
             //
             //         fs.readFile(image.path, function read(err, data) {
             //             if (err) {
-            //                 console.log(err);
+            //                 logger.debug(err);
             //             }
             //             let content = data;
             //             if (!err && image.filename != undefined && content) {
@@ -105,9 +123,9 @@ const hotelController = {
             //                                 "access": "viewer",
             //                             }
             //                         }).then((e) => {
-            //                             // console.log(e.result);
-            //                             console.log(e.result);
-            //                             console.log(e.result.url);
+            //                             // logger.debug(e.result);
+            //                             logger.debug(e.result);
+            //                             logger.debug(e.result.url);
             //                             logo = e.result.url;
             //                             logo = logo.replace("dl=0", "raw=1");
             //
@@ -116,7 +134,7 @@ const hotelController = {
             //
             //                                 fs.readFile(image2.path, function read(err, data) {
             //                                     if (err) {
-            //                                         console.log(err);
+            //                                         logger.debug(err);
             //                                     }
             //                                     let content = data;
             //                                     if (!err && image2.filename != undefined && content) {
@@ -130,9 +148,9 @@ const hotelController = {
             //                                                         "access": "viewer",
             //                                                     }
             //                                                 }).then((e) => {
-            //                                                     // console.log(e.result);
-            //                                                     console.log(e.result);
-            //                                                     console.log(e.result.url);
+            //                                                     // logger.debug(e.result);
+            //                                                     logger.debug(e.result);
+            //                                                     logger.debug(e.result.url);
             //                                                     menue = e.result.url;
             //                                                     menue = menue.replace("dl=0", "raw=1");
             //
@@ -154,36 +172,36 @@ const hotelController = {
             //                                                             msg: "Hotel is successfully created."
             //                                                         });
             //                                                 }).catch((err) => {
-            //                                                     console.log(err);
+            //                                                     logger.debug(err);
             //                                                     return resp.send("error").end()
             //                                                 })
             //                                             })
             //                                             .catch(function (error) {
             //                                                 console.error(error);
             //                                             });
-            //                                         console.log(file);
+            //                                         logger.debug(file);
             //                                     } else {
-            //                                         console.log("error")
+            //                                         logger.debug("error")
             //                                     }
             //                                 });
             //                             }
             //                         }).catch((err) => {
-            //                             console.log(err);
+            //                             logger.debug(err);
             //                             return resp.send("error").end()
             //                         })
             //                     })
             //                     .catch(function (error) {
             //                         console.error(error);
             //                     });
-            //                 console.log(file);
+            //                 logger.debug(file);
             //             } else {
-            //                 console.log("error")
+            //                 logger.debug("error")
             //             }
             //         });
             //     }
             // }
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -192,12 +210,12 @@ const hotelController = {
 
     updateHotel: async (request, response) => {
 
-        console.log("====== Hotel Update API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== Hotel Update API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
         const id= request.params.id;
-        console.log(id);
+        logger.debug(id);
         try {
             // check if there is any record with same hotel name
             const hotelByName = await HotelModel.findOne({ _id: { $ne: id }, name: body.name });
@@ -218,7 +236,7 @@ const hotelController = {
             // let logo='';
             // let menue='';
             // if(request.files) {
-            //     console.log("main if workds")
+            //     logger.debug("main if workds")
             //     var image = false;
             //     var image2 = false;
             //     var file = request.files;
@@ -234,7 +252,7 @@ const hotelController = {
             //         let fileName = new Date().getTime() + "." + image.originalname.split('.').pop();
             //         fs.readFile(image.path, function read(err, data) {
             //             if (err) {
-            //                 console.log(err);
+            //                 logger.debug(err);
             //             }
             //             let content = data;
             //             if (!err && image.filename != undefined && content) {
@@ -248,9 +266,9 @@ const hotelController = {
             //                                 "access": "viewer",
             //                             }
             //                         }).then((e) => {
-            //                             // console.log(e.result);
-            //                             console.log(e.result);
-            //                             console.log(e.result.url);
+            //                             // logger.debug(e.result);
+            //                             logger.debug(e.result);
+            //                             logger.debug(e.result.url);
             //                             logo = e.result.url;
             //                             logo = logo.replace("dl=0", "raw=1");
             //
@@ -259,7 +277,7 @@ const hotelController = {
             //
             //                                 fs.readFile(image2.path, function read(err, data) {
             //                                     if (err) {
-            //                                         console.log(err);
+            //                                         logger.debug(err);
             //                                     }
             //                                     let content = data;
             //                                     if (!err && image2.filename != undefined && content) {
@@ -273,9 +291,9 @@ const hotelController = {
             //                                                         "access": "viewer",
             //                                                     }
             //                                                 }).then((e) => {
-            //                                                     // console.log(e.result);
-            //                                                     console.log(e.result);
-            //                                                     console.log(e.result.url);
+            //                                                     // logger.debug(e.result);
+            //                                                     logger.debug(e.result);
+            //                                                     logger.debug(e.result.url);
             //                                                     menue = e.result.url;
             //                                                     menue = menue.replace("dl=0", "raw=1");
             //
@@ -297,16 +315,16 @@ const hotelController = {
             //                                                             msg: "Hotel is successfully updated."
             //                                                         });
             //                                                 }).catch((err) => {
-            //                                                     console.log(err);
+            //                                                     logger.debug(err);
             //                                                     return resp.send("error").end()
             //                                                 })
             //                                             })
             //                                             .catch(function (error) {
             //                                                 console.error(error);
             //                                             });
-            //                                         console.log(file);
+            //                                         logger.debug(file);
             //                                     } else {
-            //                                         console.log("error")
+            //                                         logger.debug("error")
             //                                     }
             //                                 });
             //                             }
@@ -329,16 +347,16 @@ const hotelController = {
             //                                     });
             //                             }
             //                         }).catch((err) => {
-            //                             console.log(err);
+            //                             logger.debug(err);
             //                             return resp.send("error").end()
             //                         })
             //                     })
             //                     .catch(function (error) {
             //                         console.error(error);
             //                     });
-            //                 console.log(file);
+            //                 logger.debug(file);
             //             } else {
-            //                 console.log("error")
+            //                 logger.debug("error")
             //             }
             //
             //         });
@@ -347,7 +365,7 @@ const hotelController = {
             //         let fileName = new Date().getTime() + "." + image2.originalname.split('.').pop();
             //         fs.readFile(image2.path, function read(err, data) {
             //                 if (err) {
-            //                     console.log(err);
+            //                     logger.debug(err);
             //                 }
             //                 let content = data;
             //                 if (!err && image2.filename != undefined && content) {
@@ -361,9 +379,9 @@ const hotelController = {
             //                                     "access": "viewer",
             //                                 }
             //                             }).then((e) => {
-            //                                 // console.log(e.result);
-            //                                 console.log(e.result);
-            //                                 console.log(e.result.url);
+            //                                 // logger.debug(e.result);
+            //                                 logger.debug(e.result);
+            //                                 logger.debug(e.result.url);
             //                                 menue = e.result.url;
             //                                 menue = menue.replace("dl=0", "raw=1");
             //
@@ -384,21 +402,21 @@ const hotelController = {
             //                                         msg: "Hotel is successfully updated."
             //                                     });
             //                             }).catch((err) => {
-            //                                 console.log(err);
+            //                                 logger.debug(err);
             //                                 return resp.send("error").end()
             //                             })
             //                         })
             //                         .catch(function (error) {
             //                             console.error(error);
             //                         });
-            //                     console.log(file);
+            //                     logger.debug(file);
             //                 } else {
-            //                     console.log("error")
+            //                     logger.debug("error")
             //                 }
             //             });
             //     }
             //     else{
-            //         console.log("else workss")
+            //         logger.debug("else workss")
             //         let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
             //         response
             //             .status(200)
@@ -409,7 +427,7 @@ const hotelController = {
             //     }
             // }
             // else{
-            //     console.log("main else workss")
+            //     logger.debug("main else workss")
             //     let hotel =  await  HotelModel.findOneAndUpdate({ _id:id }, { $set: body }, { new: true });
             //     response
             //         .status(200)
@@ -428,12 +446,15 @@ const hotelController = {
                         name: body.name,
                         phone: body.phone,
                         email: body.email,
-                        address: body.address
+                        address: body.address,
+                        staffName : body.staffName,
+                        staffPhone : body.staffPhone,
+                        staffLocation : body.staffLocation,
                     };
                     if(logo){
-                        console.log("logo found");
-                        console.log(logo);
-                        hotelObj.logo = logo;
+                        logger.debug("logo found");
+                        logger.debug(logo);
+                         hotelObj.logo = logo;
                     }
                     if(menue){
                         hotelObj.menue = menue;
@@ -454,7 +475,7 @@ const hotelController = {
             });
 
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -463,7 +484,7 @@ const hotelController = {
 
     getAllHotels: async (request, response) =>{
 
-        console.log("====== Hotel Get All API =======");
+        logger.debug("====== Hotel Get All API =======");
 
         try {
                 // get all hotels
@@ -476,7 +497,7 @@ const hotelController = {
                     msg: "Hotels found successfully."
                 });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -485,9 +506,9 @@ const hotelController = {
 
     getHotelDetail: async (request, response) =>{
 
-        console.log("====== Hotel Get API =======");
-        console.log("Params");
-        console.log(request.params.id);
+        logger.debug("====== Hotel Get API =======");
+        logger.debug("Params");
+        logger.debug(request.params.id);
 
         try {
                 // get all hotels
@@ -500,7 +521,7 @@ const hotelController = {
                     msg: "Hotel found successfully."
                 });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -509,14 +530,13 @@ const hotelController = {
 
     deleteHotel: async (request, response) =>{
 
-        console.log("====== Hotel Delete API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== Hotel Delete API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
         try {
                 // get all hotels
             let hotel = await HotelModel.deleteOne({_id:body.id});
-            let waiter = await WaiterModel.deleteMany({hotelId:body.id});
             response
                 .status(200)
                 .json({
@@ -524,7 +544,7 @@ const hotelController = {
                     msg: "Hotel delete successfully."
                 });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -533,8 +553,8 @@ const hotelController = {
 
     getAllQrCodeImagesDetail: async (request, response) =>{
 
-        console.log("====== QrCode Get All Detail API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== QrCode Get All Detail API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         try {
                 // get all hotels
@@ -569,7 +589,7 @@ const hotelController = {
                     msg: "Qr Codes found successfully."
                 });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -578,8 +598,8 @@ const hotelController = {
 
     getAllQrCodeImages: async (request, response) =>{
 
-        console.log("====== QrCode Get All API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== QrCode Get All API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -608,7 +628,7 @@ const hotelController = {
                     msg: "Qr Codes found successfully."
                 });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -617,8 +637,8 @@ const hotelController = {
 
     getQrCodeImagesOfHotel: async (request, response) =>{
 
-        console.log("====== Get QrCode Of Hotel API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== Get QrCode Of Hotel API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -659,7 +679,7 @@ const hotelController = {
                     });
             }
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -668,9 +688,9 @@ const hotelController = {
 
     assignWaiterToTables : async (request,response ) => {
 
-        console.log("====== Generate QR Code To Tables =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
-        console.log(request.body);
+        logger.debug("====== Generate QR Code To Tables =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug(request.body);
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -688,7 +708,7 @@ const hotelController = {
                     0|num/parts+(i < num%parts))
 
             let noOfAssignedTables = (breakIntoParts(noOfTables, parts));
-            console.log(`equal Parts Array `+JSON.stringify(breakIntoParts(noOfTables, parts)));
+            logger.debug(`equal Parts Array `+JSON.stringify(breakIntoParts(noOfTables, parts)));
 
             for(let i=0;i<noOfAssignedTables.length ; i++){
                 let value = noOfAssignedTables[i];
@@ -709,12 +729,12 @@ const hotelController = {
                         waiterPhone : waiterDetail.phone,
                     };
                     qrCodeObj = JSON.stringify(qrCodeObj);
-                    console.log(JSON.parse(qrCodeObj));
+                    logger.debug(JSON.parse(qrCodeObj));
 
                     let src = 'barCodes/'+`${Date.now()}.png`;
                     await QRCode.toFile('./public/'+`${src}`,qrCodeObj, opts).then(qrImage => {
-                        // console.log("File",qrImage);
-                        // console.log(qrImage);
+                        // logger.debug("File",qrImage);
+                        // logger.debug(qrImage);
 
                         let tableObj = { qrCode:qrCodeObj , waiterId :  waiterId , qrCodeImage: src };
                         tables = [...tables, tableObj] ;
@@ -726,12 +746,12 @@ const hotelController = {
                 }
             }
 
-            console.log(tables);
+            logger.debug(tables);
             let updatedHotelObj =  await HotelModel.findOneAndUpdate({_id: hotelId},
                 {   $push: { tables: tables } },  {new: true});
 
-            console.log("New Hotel Obj");
-            console.log(updatedHotelObj);
+            logger.debug("New Hotel Obj");
+            logger.debug(updatedHotelObj);
 
             response
                 .status(200)
@@ -741,7 +761,7 @@ const hotelController = {
                     msg: "Qr Code Generated Successfully."
                 });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -751,9 +771,9 @@ const hotelController = {
 
     addTable : async (request,response ) => {
 
-        console.log("====== Add Table API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
-        console.log(request.body);
+        logger.debug("====== Add Table API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug(request.body);
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -769,14 +789,14 @@ const hotelController = {
                 { new: true }
             );
             let value = numberDoc.value;
-            let qrCode = (value + "").padStart(4, "0");
-            let qrCodeUrl  = CONSTANT.domainUrl+"connect/"+qrCode;
+            let qrCode = (value + "").padStart(5, "0");
+            let qrCodeUrl  = CONSTANT.domainUrl+"connect?code="+qrCode;
             let img = 'barCodes/'+`${Date.now()}.png`;
             let src = '';
             let fileName =  `${Date.now()}.png`;
 
             if(tables.length){
-                console.log("tables already added");
+                logger.debug("tables already added");
                 // update table
                 let len = tables.length+1;
                 let tableName = 'Table '+len;
@@ -786,10 +806,10 @@ const hotelController = {
                     let updated = HotelModel.findOneAndUpdate({_id: hotelId},
                         {   $push: { tables: [table] } },  function(err, doc){
                             if(err){
-                                console.log("Something wrong when updating data!");
+                                logger.debug("Something wrong when updating data!");
                             }
                             else{
-                                console.log("Table added successfully");
+                                logger.debug("Table added successfully");
                                 response
                                     .status(200)
                                     .json({
@@ -803,7 +823,7 @@ const hotelController = {
 
                     // fs.readFile('./public/'+`${img}`, function read(err, data) {
                     //     if (err) {
-                    //         console.log(err);
+                    //         logger.debug(err);
                     //     }
                     //     let content = data;
                     //     let file =  dbx.filesUpload({path: '/' + fileName, contents: content})
@@ -816,30 +836,30 @@ const hotelController = {
                     //                     "access": "viewer",
                     //                 }
                     //             }).then((e) => {
-                    //                 console.log(e.result);
-                    //                 console.log(e.result.url);
+                    //                 logger.debug(e.result);
+                    //                 logger.debug(e.result.url);
                     //                 src = e.result.url;
                     //                 src = src.replace("dl=0", "raw=1");
                     //
                     //             }).catch((err) => {
-                    //                 console.log(err);
+                    //                 logger.debug(err);
                     //                 return resp.send("error").end()
                     //             })
                     //         })
                     //         .catch(function (error) {
                     //             console.error(error);
                     //         });
-                    //     console.log(file);
+                    //     logger.debug(file);
                     // });
 
-                    console.log("qrCode generated");
+                    logger.debug("qrCode generated");
                 }).catch(err => {
                     console.error(err)
                 });
 
             }
             else{
-                console.log(" first table added");
+                logger.debug(" first table added");
                 // insert first table
                 await QRCode.toFile('./public/'+`${img}`,qrCodeUrl, opts).then(qrImage => {
 
@@ -847,10 +867,10 @@ const hotelController = {
                     let updated = HotelModel.findOneAndUpdate({_id: hotelId},
                         {   $push: { tables: table } },  function(err, doc){
                             if(err){
-                                console.log("Something wrong when updating data!");
+                                logger.debug("Something wrong when updating data!");
                             }
                             else{
-                                console.log("Table added successfully");
+                                logger.debug("Table added successfully");
                                 response
                                     .status(200)
                                     .json({
@@ -863,7 +883,7 @@ const hotelController = {
                                // dropbox code
                     // fs.readFile('./public/'+`${img}`, function read(err, data) {
                     //     if (err) {
-                    //         console.log(err);
+                    //         logger.debug(err);
                     //     }
                     //     let content = data;
                     //     let file =  dbx.filesUpload({path: '/' + fileName, contents: content})
@@ -876,8 +896,8 @@ const hotelController = {
                     //                     "access": "viewer",
                     //                 }
                     //             }).then((e) => {
-                    //                 console.log(e.result);
-                    //                 console.log(e.result.url);
+                    //                 logger.debug(e.result);
+                    //                 logger.debug(e.result.url);
                     //                 src = e.result.url;
                     //                 src = src.replace("dl=0", "raw=1");
                     //
@@ -885,10 +905,10 @@ const hotelController = {
                     //                 let updated = HotelModel.findOneAndUpdate({_id: hotelId},
                     //                     {   $push: { tables: table } },  function(err, doc){
                     //                         if(err){
-                    //                             console.log("Something wrong when updating data!");
+                    //                             logger.debug("Something wrong when updating data!");
                     //                         }
                     //                         else{
-                    //                             console.log("Table added successfully");
+                    //                             logger.debug("Table added successfully");
                     //                             response
                     //                                 .status(200)
                     //                                 .json({
@@ -899,14 +919,14 @@ const hotelController = {
                     //                     });
                     //
                     //             }).catch((err) => {
-                    //                 console.log(err);
+                    //                 logger.debug(err);
                     //                 return resp.send("error").end()
                     //             })
                     //         })
                     //         .catch(function (error) {
                     //             console.error(error);
                     //         });
-                    //     console.log(file);
+                    //     logger.debug(file);
                     // });
 
 
@@ -916,7 +936,7 @@ const hotelController = {
             }
 
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -926,8 +946,8 @@ const hotelController = {
 
     updateTableName : async (request,response ) => {
 
-        console.log("====== Update Table Name API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== Update Table Name API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -938,9 +958,9 @@ const hotelController = {
             let updated = await  HotelModel.findOneAndUpdate({"tables._id": id},
                 {   $set: { "tables.$.name" : name } },  {new: true});
 
-            console.log("updated OBJ");
-            console.log(updated);
-            console.log("Table name updated successfully");
+            logger.debug("updated OBJ");
+            logger.debug(updated);
+            logger.debug("Table name updated successfully");
             response
                 .status(200)
                 .json({
@@ -948,7 +968,7 @@ const hotelController = {
                     msg: "Table name updated successfully"
                 });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -958,57 +978,66 @@ const hotelController = {
 
     connect : async (request,response ) => {
 
-        console.log("====== connect  API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
-        console.log("=== Params: ===" + (request.params.id));
+        logger.debug("====== connect  API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("=== Params: ===" + (request.params.id));
 
         const body = JSON.parse(JSON.stringify(request.body));
-
+        logger.debug(body.qrCode == true);
+        // logger.debug(body.qrCode == false);
         try{
             let code='';
             if(body.qrCode){
                 code = body.qrCode;
-                console.log("POST API Called");
+                logger.debug("POST API Called");
             }
             else{
                 code = request.params.id;
-                console.log("GET API Called");
+                logger.debug("GET API Called");
             }
+            if(code){
 
-            let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
-            console.log("hotel found");
-            if(hotel.length){
-                hotel = hotel[0];
-                let tableId = hotel.tables._id;
+                let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
+                logger.debug("hotel found");
+                if(hotel.length){
+                    hotel = hotel[0];
+                    let tableId = hotel.tables._id;
 
-                // check if table is already reserved
-                let table = await CallServiceModel.findOne({tableId:tableId, status:"Joined Table"});
-                console.log("service table");
-                console.log(table)
-                if(table){
-                     // table is reserved already
-                     response.render('main',{msg: 'This table is already reserved'});
-                 }
-                 else{
-                     let obj = {
-                         hotelId: hotel._id,
-                         tableId : tableId,
-                         tableCode : hotel.tables.qrCode,
-                         tableName : hotel.tables.name,
-                         status: "Joined Table"
-                     };
-                     let service = new CallServiceModel(obj);
-                     await service.save();
-                     console.log("called save func");
-                     response.render('dashboard',{msg:false , code:code, logo:hotel.logo ,menue:hotel.menue, hotelName:hotel.name});
-                 }
+                    // check if table is already reserved
+                    let table = await CallServiceModel.findOne({tableId:tableId, status:"Joined Table"});
+                    logger.debug("service table");
+                    logger.debug(table)
+                    if(table){
+                        // table is reserved already
+                        response.render('main',{msg: 'This table is already reserved'});
+                    }
+                    else{
+                        let obj = {
+                            hotelId: hotel._id,
+                            tableId : tableId,
+                            tableCode : hotel.tables.qrCode,
+                            tableName : hotel.tables.name,
+                            status: "Joined Table"
+                        };
+                        let service = new CallServiceModel(obj);
+                        await service.save();
+                        logger.debug("called save func");
+                        response.render('dashboard',{msg:false , code:code, logo:hotel.logo ,menue:hotel.menue, hotelName:hotel.name});
+                    }
+                }
+                else{
+                    logger.debug("Incorrect code")  ;
+                    response.render('main',{msg: 'You Enter Incorrect Code'});
+                }
             }
             else{
-                console.log("Incorrect code")  ;
-                response.render('main',{msg: 'You Enter Incorrect Code'});
+                logger.debug("Please Enter code")  ;
+                response.render('main',{msg: 'Please Enter Code'});
+
             }
+
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -1018,13 +1047,13 @@ const hotelController = {
 
     callService : async (request,response ) => {
 
-        console.log("====== call Waiter Service  API =======");
+        logger.debug("====== call Waiter Service  API =======");
 
-        console.log(request.params.id);
+        logger.debug(request.params.id);
         let code = request.params.id;
         try{
             let hotel  = await HotelModel.aggregate([{$unwind: "$tables"}, {$match:{"tables.qrCode" :code}}]);
-            console.log(hotel);
+            logger.debug(hotel);
             if(hotel.length){
                 hotel = hotel[0];
                 let obj = {
@@ -1043,7 +1072,7 @@ const hotelController = {
                     });
             }
             else{
-              console.log("Incorrect code")  ;
+              logger.debug("Incorrect code")  ;
                 response
                     .status(500)
                     .json({
@@ -1052,7 +1081,7 @@ const hotelController = {
             }
 
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -1062,12 +1091,12 @@ const hotelController = {
 
     getAllServiceCalls : async (request,response ) => {
 
-        console.log("====== get All Service Calls  API =======");
+        logger.debug("====== get All Service Calls  API =======");
 
         try{
             let user = request.session.user;
-            console.log("admin user request");
-            console.log(user);
+            logger.debug("admin user request");
+            logger.debug(user);
             if(user){
                 if(user.hotelId){
                     let calls = await CallServiceModel.find({hotelId: user.hotelId,status:{$nin:['Ended' , 'Clear']}});
@@ -1089,7 +1118,7 @@ const hotelController = {
                 response.render("admin/login", {status: true, message: ""});
             }
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -1099,8 +1128,8 @@ const hotelController = {
 
     closeCall : async (request,response ) => {
 
-        console.log("====== endCall  API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== endCall  API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -1115,7 +1144,7 @@ const hotelController = {
                         msg: "Call has closed successfully"
                     });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -1125,8 +1154,8 @@ const hotelController = {
 
     completeCall : async (request,response ) => {
 
-        console.log("====== complete Call  API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== complete Call  API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -1141,7 +1170,7 @@ const hotelController = {
                         msg: "Call for service has completed successfully"
                     });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});
@@ -1151,8 +1180,8 @@ const hotelController = {
 
     clearTable : async (request,response ) => {
 
-        console.log("====== clear Table  API =======");
-        console.log("=== Body Params: ===" + (JSON.stringify(request.body)));
+        logger.debug("====== clear Table  API =======");
+        logger.debug("=== Body Params: ===" + (JSON.stringify(request.body)));
 
         const body = JSON.parse(JSON.stringify(request.body));
 
@@ -1167,7 +1196,7 @@ const hotelController = {
                         msg: "Table has cleared successfully"
                     });
         } catch (err) {
-            console.log(err);
+            logger.debug(err);
             response
                 .status(500)
                 .json({msg: err});

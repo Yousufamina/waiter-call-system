@@ -52,7 +52,63 @@ const adminController = {
                 .json({errors: {msg: err}});
         }
     },
+    changePassword: async (req, res) => {
+        console.log("====== Get Change Password Page API =======");
+         if(req.params.id  == '451F4B2863FE5D3E1F3A6D497EC240B621B2E41E8F2B8193'){
+             res.render('changePassword',{status:true,message:""});
+         }
+         else{
+             res.redirect('/admin/login');
+         }
+    },
+    updatePassword: async (req,res) =>{
 
+        console.log("================== Update Password ====================")
+        console.log("================== "+new Date()+" ====================")
+        console.log("BODY ="+JSON.stringify(req.body))
+        const body = JSON.parse(JSON.stringify(req.body));
+
+         try {
+             if(body.password && body.currentPassword && body.confirmPassword) {
+
+                 let user = await UserModel.findOne({type:'6189f042f8bae7b5d035a19f'});
+                 if (user) {
+                     const isMatch = await bcrypt.compare(body.currentPassword, user.password);
+                     if (isMatch) {
+                          // update Password
+                          if(body.password == body.confirmPassword) {
+
+                              const salt = await bcrypt.genSalt(10);
+                              const updatedPassword = await bcrypt.hash(body.password, salt);
+
+                              let updatedObj =  await UserModel.findOneAndUpdate({_id: user._id},
+                                  {   $set:  {password:updatedPassword} },  {new: true});
+
+                              console.log("New updatedObj");
+                              console.log(updatedObj);
+                              console.log("Password updated successfully");
+                              res.render("changePassword",{'status':true,resCode:200,message:"Password updated successfully"});
+                          }
+                          else{
+                              console.log("New Password and Confirm Password does not match");
+                              res.render("changePassword",{status:false,resCode:400,'message':'New Password and Confirm Password does not match'});
+                          }
+                     } else {
+                         console.log("Incorrect Current password");
+                         res.render("changePassword",{status:false,resCode:400,'message':'Incorrect Current password'});
+                     }
+                 } else {
+                     res.render("changePassword",{status:false,resCode:400,'message':'Wrong User'});
+                 }
+             }
+             else{
+                 res.render("changePassword",{status:false,resCode:400,'message':'Incomplete information'});
+             }
+        }catch (err) {
+            console.log(err);
+             res.render("changePassword",{status:false,resCode:400,'message':err});
+        }
+        },
     getUserType: async (request, response) => {
 
         console.log("====== Type Get All API =======");
@@ -74,7 +130,6 @@ const adminController = {
                 .json({msg: err});
         }
     },
-
     getAllUsers: async (request, response) => {
 
         console.log("====== Users Get All API =======");
@@ -97,7 +152,6 @@ const adminController = {
                 .json({msg: err});
         }
     },
-
     addUser: async (request, response) => {
 
         console.log("====== Users Add API =======");
@@ -140,7 +194,6 @@ const adminController = {
         }
 
     },
-
     updateUser: async (request, response) => {
 
         console.log("====== Users Update API =======");
@@ -186,7 +239,6 @@ const adminController = {
         }
 
     },
-
     deleteUser: async (request, response) =>{
 
         console.log("====== User Delete API =======");
@@ -209,7 +261,6 @@ const adminController = {
                 .json({msg: err});
         }
     },
-
     getUserDetail: async (request, response) =>{
 
         console.log("====== User Get API =======");
@@ -233,7 +284,6 @@ const adminController = {
                 .json({msg: err});
         }
     },
-
     logout: async (request, response) => {
         console.log("================== LOGOUT API ====================")
         console.log("================== "+new Date()+" ====================")
@@ -241,11 +291,9 @@ const adminController = {
 
         delete request.session.user;
 
-        response.redirect('/admin/login')
+        response.redirect('/admin')
 
     }
-
-
 }
 
 module.exports = adminController;

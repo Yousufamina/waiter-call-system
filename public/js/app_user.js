@@ -165,7 +165,7 @@ function TimeFormat(date){
         min = '0'+min;
     }
 
-    return hours+":"+min +' ' + newformat;;
+    return hours+":"+min +' ' + newformat;
 }
 // function dateFormat(date){
 //     date = new Date(date)

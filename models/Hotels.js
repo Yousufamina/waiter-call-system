@@ -17,6 +17,18 @@ const HotelsSchema = new mongoose.Schema({
         phone: {
             type: String
         },
+        staffName: {
+                type: String
+            },
+        staffPhone: {
+                type: String
+            },
+        staffLocation: {
+                type: String
+            },
+        code: {
+            type: String
+        },
         logo:{
             type:String
         },

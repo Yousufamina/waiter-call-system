@@ -1,6 +1,6 @@
 const CONSTANT = {
-  "mongoURI": "mongodb+srv://dbUser:dbUser@cluster0.arvjl.mongodb.net/waitercallsystem?retryWrites=true&w=majority",
-  "domainUrl": "https://waiter-call-system.herokuapp.com/"
+  "mongoURI": "mongodb+srv://dbUser:Happy100@cluster0.4ldo8.mongodb.net/waitercallsystem?retryWrites=true&w=majority",
+  "domainUrl": "https://qrwaitercaller.site/"
 };
 
 module.exports = CONSTANT;

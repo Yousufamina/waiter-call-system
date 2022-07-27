@@ -10,6 +10,9 @@ const middleware = require("../middleware/middleware");
 router.get('/login', adminController.login);
 router.get('/',middleware.admin ,adminController.index);
 router.post('/login',adminController.loginPost);
+router.get('/changePassword/:id',adminController.changePassword);
+router.post('/changePassword/:id',adminController.updatePassword);
+
 
 
 module.exports = router;

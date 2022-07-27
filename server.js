@@ -8,8 +8,10 @@ const multer =  require("multer");
 const port = process.env.PORT || 4000;
 const app = express();
 
+
 const connectDB = require("./config/db");
 connectDB();
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -49,10 +51,20 @@ app.get("/", (req, res) => {
     res.render('main' , { msg: false});
 });
 app.get("/connect", (req, res) => {
-    res.render('main',{ msg: false});
+    if(req.query.code){
+        console.log("query param called");
+    }
+    res.render('main',{ msg: false, code:req.query.code});
+ });
+
+app.get("*", function(req, res){
+    res.redirect("/connect");
 });
 
 
+// app.get('/log', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/logs.log'));
+// });
 
 app.listen(port, () => {
     console.log("SERVER Listening at port : " + port);
